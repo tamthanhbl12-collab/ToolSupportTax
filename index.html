@@ -1,0 +1,712 @@
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Công Cụ Tính Thuế Mô Hình Kinh Doanh 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:   #0f1e3c;
+  --blue:   #1a3a6b;
+  --accent: #c8a84b;
+  --acc2:   #e8c96a;
+  --red:    #c0392b;
+  --green:  #1a7a4a;
+  --orange: #c67c1a;
+  --purple: #6c3483;
+  --teal:   #0e7490;
+  --gray:   #8a95a3;
+  --light:  #f0f3f9;
+  --white:  #ffffff;
+  --border: #dce3ef;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Be Vietnam Pro', sans-serif; background: var(--light); color: var(--navy); min-height: 100vh; }
+
+/* TOPBAR */
+.topbar {
+background: linear-gradient(135deg, var(–navy), var(–blue));
+padding: 0 20px; min-height: 54px;
+display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+position: sticky; top: 0; z-index: 100;
+box-shadow: 0 2px 14px rgba(15,30,60,.22);
+}
+.topbar-left { display: flex; align-items: center; gap: 11px; padding: 8px 0; }
+.brand-icon { width: 36px; height: 36px; background: var(–accent); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 19px; flex-shrink: 0; }
+.brand-text h1 { font-size: .95rem; font-weight: 800; color: #fff; }
+.brand-text p  { font-size: .63rem; color: rgba(255,255,255,.5); }
+.topbar-right { display: flex; align-items: center; gap: 8px; padding: 8px 0; }
+
+/* BUTTONS */
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 15px; border-radius: 8px; border: none; cursor: pointer; font-family: inherit; font-size: .8rem; font-weight: 600; transition: all .15s; white-space: nowrap; }
+.btn-gold    { background: var(–accent); color: var(–navy); }
+.btn-gold:hover    { background: var(–acc2); }
+.btn-ghost   { background: rgba(255,255,255,.12); color: #fff; border: 1.5px solid rgba(255,255,255,.25); }
+.btn-ghost:hover   { background: rgba(255,255,255,.2); }
+.btn-light   { background: var(–white); color: var(–navy); border: 1.5px solid var(–border); }
+.btn-light:hover   { background: #eef2fa; }
+.btn-primary { background: var(–blue); color: #fff; }
+.btn-primary:hover { background: #1a4a8a; }
+.btn-sm { padding: 5px 11px; font-size: .74rem; }
+
+/* LAYOUT */
+.app-body { display: flex; align-items: flex-start; }
+.sidebar {
+width: 200px; flex-shrink: 0; background: var(–navy);
+min-height: calc(100vh - 54px); position: sticky; top: 54px;
+}
+.sb-section { padding: 12px 8px 6px; }
+.sb-label { font-size: .58rem; font-weight: 700; letter-spacing: .1em; color: rgba(255,255,255,.3); text-transform: uppercase; padding: 0 8px; margin-bottom: 4px; }
+.nav-item { display: flex; align-items: center; gap: 8px; padding: 9px 10px; border-radius: 8px; cursor: pointer; font-size: .79rem; font-weight: 500; color: rgba(255,255,255,.65); transition: all .15s; user-select: none; }
+.nav-item:hover  { background: rgba(255,255,255,.08); color: #fff; }
+.nav-item.active { background: rgba(200,168,75,.2); color: var(–acc2); font-weight: 700; }
+.ni-ico { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+.sb-divider { height: 1px; background: rgba(255,255,255,.08); margin: 5px 12px; }
+
+.main { flex: 1; min-width: 0; padding: 20px; }
+
+/* PAGES */
+.page { display: none; }
+.page.active { display: block; }
+
+/* SECTION HEADERS */
+.section-title { font-size: 1rem; font-weight: 800; color: var(–navy); margin-bottom: 4px; }
+.section-sub   { font-size: .75rem; color: var(–gray); margin-bottom: 18px; }
+
+/* MODEL CARDS */
+.model-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 22px; }
+.model-card {
+background: var(–white); border-radius: 12px; padding: 16px;
+border: 2px solid var(–border); cursor: pointer; transition: all .18s;
+text-align: center;
+}
+.model-card:hover { border-color: var(–accent); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(15,30,60,.1); }
+.model-card.selected { border-color: var(–accent); background: #fffbf0; box-shadow: 0 4px 16px rgba(200,168,75,.2); }
+.model-card .mc-ico  { font-size: 32px; margin-bottom: 8px; }
+.model-card .mc-name { font-size: .88rem; font-weight: 700; color: var(–navy); }
+.model-card .mc-desc { font-size: .7rem; color: var(–gray); margin-top: 4px; line-height: 1.4; }
+.model-card .mc-badge { display: inline-block; margin-top: 8px; font-size: .65rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+.badge-hkd { background: #d4f0e3; color: #1a7a4a; }
+.badge-tnhh1 { background: #dbeafe; color: #1a3a6b; }
+.badge-tnhh2 { background: #ede9fe; color: #6c3483; }
+.badge-ctcp { background: #fef3d8; color: #c67c1a; }
+
+/* FORM */
+.form-card { background: var(–white); border-radius: 12px; padding: 20px; box-shadow: 0 2px 10px rgba(15,30,60,.07); margin-bottom: 18px; }
+.form-card h3 { font-size: .82rem; font-weight: 800; color: var(–blue); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 14px; display: flex; align-items: center; gap: 7px; }
+.form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group.full { grid-column: 1/-1; }
+label.fl { font-size: .7rem; font-weight: 700; color: var(–navy); text-transform: uppercase; letter-spacing: .04em; }
+label.fl small { font-size: .63rem; color: var(–gray); text-transform: none; font-weight: 400; margin-left: 4px; }
+.fi, .fs { width: 100%; padding: 9px 11px; border: 1.5px solid var(–border); border-radius: 8px; font-family: inherit; font-size: .84rem; color: var(–navy); background: var(–light); }
+.fi:focus, .fs:focus { outline: none; border-color: var(–blue); background: #fff; }
+.fi-currency { position: relative; }
+.fi-currency input { padding-right: 48px; }
+.fi-currency .unit { position: absolute; right: 11px; top: 50%; transform: translateY(-50%); font-size: .73rem; font-weight: 700; color: var(–gray); pointer-events: none; }
+.range-wrap { display: flex; align-items: center; gap: 10px; }
+.range-wrap input[type=range] { flex: 1; accent-color: var(–accent); }
+.range-val { font-size: .82rem; font-weight: 700; color: var(–navy); min-width: 80px; text-align: right; }
+
+/* RESULTS */
+.results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.res-card { background: var(–white); border-radius: 12px; padding: 14px 16px; box-shadow: 0 2px 10px rgba(15,30,60,.07); border-top: 4px solid var(–accent); }
+.res-card.green { border-color: var(–green); }
+.res-card.red   { border-color: var(–red); }
+.res-card.blue  { border-color: var(–blue); }
+.res-card.orange{ border-color: var(–orange); }
+.res-card.purple{ border-color: var(–purple); }
+.res-label { font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(–gray); margin-bottom: 5px; }
+.res-value { font-size: 1.3rem; font-weight: 800; color: var(–navy); line-height: 1.1; }
+.res-sub   { font-size: .7rem; color: var(–gray); margin-top: 3px; }
+
+/* BREAKDOWN TABLE */
+.breakdown { background: var(–white); border-radius: 12px; box-shadow: 0 2px 10px rgba(15,30,60,.07); overflow: hidden; margin-bottom: 18px; }
+.breakdown-header { background: linear-gradient(90deg, var(–navy), var(–blue)); color: #fff; padding: 13px 16px; font-size: .82rem; font-weight: 700; display: flex; align-items: center; justify-content: space-between; }
+table.bt { width: 100%; border-collapse: collapse; }
+table.bt th { background: var(–light); padding: 9px 13px; text-align: left; font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(–gray); }
+table.bt td { padding: 10px 13px; font-size: .82rem; border-bottom: 1px solid var(–border); }
+table.bt tr:last-child td { border-bottom: none; }
+table.bt tbody tr:hover td { background: #f5f8ff; }
+.td-label { font-weight: 600; }
+.td-law   { font-size: .7rem; color: var(–blue); }
+.td-amount { font-weight: 700; text-align: right; }
+.td-amount.total { font-size: 1rem; color: var(–red); }
+.td-note  { font-size: .72rem; color: var(–gray); }
+
+/* COMPARE PAGE */
+.compare-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+.cmp-col { background: var(–white); border-radius: 12px; padding: 14px; box-shadow: 0 2px 10px rgba(15,30,60,.07); text-align: center; }
+.cmp-col.best { border: 2px solid var(–green); background: #f0faf5; }
+.cmp-title { font-size: .8rem; font-weight: 800; margin-bottom: 10px; }
+.cmp-ico   { font-size: 26px; margin-bottom: 6px; }
+.cmp-tax   { font-size: 1.15rem; font-weight: 800; color: var(–red); }
+.cmp-rate  { font-size: .7rem; color: var(–gray); }
+.cmp-profit{ font-size: .95rem; font-weight: 700; color: var(–green); }
+.best-label{ display: inline-block; background: var(–green); color: #fff; font-size: .65rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-top: 6px; }
+
+/* ADVICE BOX */
+.advice-box { background: linear-gradient(135deg, #0f1e3c, #1a3a6b); color: #fff; border-radius: 12px; padding: 20px; margin-bottom: 18px; }
+.advice-box h3 { font-size: .88rem; font-weight: 800; margin-bottom: 12px; color: var(–acc2); }
+.advice-item { display: flex; gap: 10px; margin-bottom: 10px; font-size: .82rem; line-height: 1.5; }
+.advice-item:last-child { margin-bottom: 0; }
+.advice-ico { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.advice-text strong { color: var(–acc2); }
+
+/* LAW REFS */
+.law-refs { background: var(–white); border-radius: 12px; padding: 16px; box-shadow: 0 2px 10px rgba(15,30,60,.07); margin-bottom: 18px; }
+.law-refs h3 { font-size: .78rem; font-weight: 800; color: var(–blue); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 11px; }
+.law-ref-item { display: flex; align-items: flex-start; gap: 9px; margin-bottom: 8px; font-size: .79rem; }
+.law-ref-item:last-child { margin-bottom: 0; }
+.lr-tag { background: #dbeafe; color: var(–blue); font-size: .65rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+
+/* NOTICE */
+.notice { background: #fff8e8; border: 1.5px solid var(–accent); border-radius: 9px; padding: 12px 14px; font-size: .76rem; color: #7a5c00; margin-bottom: 16px; display: flex; gap: 8px; }
+
+/* EMPTY PLACEHOLDER */
+.empty-calc { text-align: center; padding: 60px 20px; color: var(–gray); }
+.empty-calc .e-ico { font-size: 48px; margin-bottom: 12px; }
+
+/* RESPONSIVE */
+@media(max-width: 768px) {
+.sidebar { display: none; }
+.main { padding: 13px; }
+.compare-strip { grid-template-columns: 1fr 1fr; }
+}
+@media(max-width: 480px) {
+.compare-strip { grid-template-columns: 1fr; }
+.model-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="brand-icon">🏛️</div>
+    <div class="brand-text">
+      <h1>Công Cụ Tính Thuế Mô Hình Kinh Doanh</h1>
+      <p>Theo Luật Thuế TNDN 2025 · Luật Thuế TNCN 2025 · Nghị quyết 198/2025/QH15</p>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <a href="vanban-thue.html" class="btn btn-ghost btn-sm">📋 Văn bản thuế</a>
+  </div>
+</div>
+
+<div class="app-body">
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sb-section">
+      <div class="sb-label">Chức năng</div>
+      <div class="nav-item active" onclick="showPage('pageTinh',this)">
+        <span class="ni-ico">🧮</span> Tính thuế
+      </div>
+      <div class="nav-item" onclick="showPage('pageCompare',this)">
+        <span class="ni-ico">⚖️</span> So sánh mô hình
+      </div>
+      <div class="nav-item" onclick="showPage('pageLaw',this)">
+        <span class="ni-ico">📖</span> Căn cứ pháp lý
+      </div>
+    </div>
+    <div class="sb-divider"></div>
+    <div class="sb-section">
+      <div class="sb-label">Mô hình nhanh</div>
+      <div class="nav-item" onclick="quickSelect('hkd')"><span class="ni-ico">🏠</span> Hộ kinh doanh</div>
+      <div class="nav-item" onclick="quickSelect('tnhh1')"><span class="ni-ico">🏢</span> TNHH 1TV</div>
+      <div class="nav-item" onclick="quickSelect('tnhh2')"><span class="ni-ico">🏢</span> TNHH 2+TV</div>
+      <div class="nav-item" onclick="quickSelect('ctcp')"><span class="ni-ico">📈</span> Cổ phần</div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+
+  <div class="main">
+
+```
+<!-- ===== PAGE: TÍNH THUẾ ===== -->
+<div class="page active" id="pageTinh">
+  <div class="section-title">🧮 Tính thuế theo mô hình kinh doanh</div>
+  <div class="section-sub">Nhập thông tin để tính thuế phải nộp và lợi nhuận sau thuế theo luật 2026</div>
+
+  <!-- Chọn mô hình -->
+  <div class="model-grid">
+    <div class="model-card" id="card-hkd" onclick="selectModel('hkd')">
+      <div class="mc-ico">🏠</div>
+      <div class="mc-name">Hộ kinh doanh</div>
+      <div class="mc-desc">Cá nhân / hộ gia đình, không có tư cách pháp nhân</div>
+      <div class="mc-badge badge-hkd">GTGT + TNCN theo %DT</div>
+    </div>
+    <div class="model-card" id="card-tnhh1" onclick="selectModel('tnhh1')">
+      <div class="mc-ico">🏢</div>
+      <div class="mc-name">Cty TNHH 1 TV</div>
+      <div class="mc-desc">1 chủ sở hữu, có tư cách pháp nhân, trách nhiệm hữu hạn</div>
+      <div class="mc-badge badge-tnhh1">TNDN + GTGT khấu trừ</div>
+    </div>
+    <div class="model-card" id="card-tnhh2" onclick="selectModel('tnhh2')">
+      <div class="mc-ico">🤝</div>
+      <div class="mc-name">Cty TNHH 2+ TV</div>
+      <div class="mc-desc">2–50 thành viên, có tư cách pháp nhân</div>
+      <div class="mc-badge badge-tnhh2">TNDN + GTGT khấu trừ</div>
+    </div>
+    <div class="model-card" id="card-ctcp" onclick="selectModel('ctcp')">
+      <div class="mc-ico">📈</div>
+      <div class="mc-name">Cty Cổ phần</div>
+      <div class="mc-desc">Từ 3 cổ đông, có thể niêm yết, phát hành cổ phiếu</div>
+      <div class="mc-badge badge-ctcp">TNDN + GTGT + thuế cổ tức</div>
+    </div>
+  </div>
+
+  <!-- FORM nhập liệu -->
+  <div id="formArea" style="display:none">
+
+    <!-- Thông tin chung -->
+    <div class="form-card">
+      <h3>📊 Thông tin kinh doanh</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="fl">Ngành nghề kinh doanh</label>
+          <select class="fs" id="fNganh" onchange="recalc()">
+            <option value="thuongmai">Thương mại / bán buôn, bán lẻ</option>
+            <option value="dichvu">Dịch vụ (sửa chữa, tư vấn...)</option>
+            <option value="anUong">Nhà hàng / ăn uống</option>
+            <option value="sanXuat">Sản xuất / gia công / chế biến</option>
+            <option value="vanTai">Vận tải hàng hóa / hành khách</option>
+            <option value="xayDung">Xây dựng</option>
+            <option value="choThue">Cho thuê tài sản</option>
+            <option value="lamDep">Làm đẹp / cắt tóc / giặt là</option>
+            <option value="khac">Khác</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="fl">Doanh thu năm <small>(triệu đồng)</small></label>
+          <div class="fi-currency">
+            <input class="fi" type="number" id="fDoanhThu" placeholder="1000" min="0" oninput="recalc()">
+            <span class="unit">Tr.đ</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="fl">Chi phí hoạt động năm <small>(triệu đồng)</small></label>
+          <div class="fi-currency">
+            <input class="fi" type="number" id="fChiPhi" placeholder="700" min="0" oninput="recalc()">
+            <span class="unit">Tr.đ</span>
+          </div>
+        </div>
+        <div class="form-group" id="grpVon" style="display:none">
+          <label class="fl">Vốn điều lệ <small>(triệu đồng)</small></label>
+          <div class="fi-currency">
+            <input class="fi" type="number" id="fVon" placeholder="500" min="0" oninput="recalc()">
+            <span class="unit">Tr.đ</span>
+          </div>
+        </div>
+        <div class="form-group" id="grpNV">
+          <label class="fl">Số nhân viên</label>
+          <input class="fi" type="number" id="fNhanVien" placeholder="5" min="0" oninput="recalc()">
+        </div>
+        <div class="form-group" id="grpLuong">
+          <label class="fl">Lương bình quân NV <small>(triệu/tháng)</small></label>
+          <div class="fi-currency">
+            <input class="fi" type="number" id="fLuong" placeholder="7" min="0" oninput="recalc()">
+            <span class="unit">Tr.đ</span>
+          </div>
+        </div>
+        <div class="form-group" id="grpCoTuc" style="display:none">
+          <label class="fl">Tỷ lệ chia cổ tức <small>(%/năm)</small></label>
+          <div class="fi-currency">
+            <input class="fi" type="number" id="fCoTuc" placeholder="20" min="0" max="100" oninput="recalc()">
+            <span class="unit">%</span>
+          </div>
+        </div>
+        <div class="form-group" id="grpNamHD">
+          <label class="fl">Số năm hoạt động</label>
+          <select class="fs" id="fNamHD" onchange="recalc()">
+            <option value="0">Mới thành lập (năm 1)</option>
+            <option value="1">Năm 2</option>
+            <option value="2">Năm 3</option>
+            <option value="3" selected>Năm 4+</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kết quả -->
+    <div id="resultArea"></div>
+  </div>
+
+  <div class="empty-calc" id="emptyCalc">
+    <div class="e-ico">👆</div>
+    <p>Chọn một mô hình kinh doanh ở trên để bắt đầu tính thuế</p>
+  </div>
+</div>
+
+<!-- ===== PAGE: SO SÁNH ===== -->
+<div class="page" id="pageCompare">
+  <div class="section-title">⚖️ So sánh gánh nặng thuế giữa các mô hình</div>
+  <div class="section-sub">Nhập thông số chung để so sánh đồng thời 4 mô hình</div>
+
+  <div class="form-card">
+    <h3>📊 Thông số so sánh</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="fl">Ngành nghề</label>
+        <select class="fs" id="cNganh" onchange="runCompare()">
+          <option value="thuongmai">Thương mại / bán lẻ</option>
+          <option value="dichvu">Dịch vụ</option>
+          <option value="anUong">Nhà hàng / ăn uống</option>
+          <option value="sanXuat">Sản xuất / gia công</option>
+          <option value="vanTai">Vận tải</option>
+          <option value="choThue">Cho thuê tài sản</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="fl">Doanh thu năm <small>(triệu đồng)</small></label>
+        <div class="fi-currency">
+          <input class="fi" type="number" id="cDoanhThu" value="2000" oninput="runCompare()">
+          <span class="unit">Tr.đ</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="fl">Chi phí năm <small>(triệu đồng)</small></label>
+        <div class="fi-currency">
+          <input class="fi" type="number" id="cChiPhi" value="1400" oninput="runCompare()">
+          <span class="unit">Tr.đ</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="fl">Số nhân viên</label>
+        <input class="fi" type="number" id="cNhanVien" value="5" oninput="runCompare()">
+      </div>
+    </div>
+  </div>
+
+  <div id="compareResult"></div>
+</div>
+
+<!-- ===== PAGE: CĂN CỨ PHÁP LÝ ===== -->
+<div class="page" id="pageLaw">
+  <div class="section-title">📖 Căn cứ pháp lý</div>
+  <div class="section-sub">Các văn bản pháp luật làm cơ sở tính thuế trong công cụ này</div>
+
+  <div class="notice">⚠️ Thông tin tính toán trong công cụ này dựa trên luật có hiệu lực từ 01/01/2026. Tham khảo ý kiến chuyên gia trước khi ra quyết định kinh doanh.</div>
+
+  <div class="law-refs" style="margin-bottom:14px">
+    <h3>🏠 Hộ kinh doanh cá thể</h3>
+    <div class="law-ref-item"><span class="lr-tag">Nghị quyết 198/2025/QH15</span><span>Bãi bỏ phương pháp thuế khoán từ 01/01/2026. Ngưỡng miễn thuế GTGT & TNCN nâng lên 500 triệu đồng/năm.</span></div>
+    <div class="law-ref-item"><span class="lr-tag">Luật Thuế GTGT 2024</span><span>Điều 12 — Tỷ lệ % tính thuế GTGT trực tiếp trên doanh thu theo ngành nghề.</span></div>
+    <div class="law-ref-item"><span class="lr-tag">Luật Thuế TNCN 2025</span><span>Điều 7 — Tỷ lệ % tính thuế TNCN trực tiếp trên doanh thu theo ngành nghề.</span></div>
+    <div class="law-ref-item"><span class="lr-tag">TT 40/2021/TT-BTC</span><span>Phụ lục I — Bảng tỷ lệ GTGT & TNCN chi tiết theo từng ngành nghề (vẫn còn hiệu lực tham chiếu).</span></div>
+  </div>
+
+  <div class="law-refs" style="margin-bottom:14px">
+    <h3>🏢 Công ty TNHH & Cổ phần</h3>
+    <div class="law-ref-item"><span class="lr-tag">Luật Thuế TNDN 2025</span><span>Điều 10 — Thuế suất phân tầng: 15% (DT ≤3 tỷ), 17% (DT 3–50 tỷ), 20% (DT >50 tỷ). Hiệu lực từ 01/10/2025.</span></div>
+    <div class="law-ref-item"><span class="lr-tag">Nghị định 320/2025/NĐ-CP</span><span>Điều 11 — Hướng dẫn xác định doanh thu làm căn cứ áp thuế suất ưu đãi.</span></div>
+    <div class="law-ref-item"><span class="lr-tag">Nghị quyết 198/2025/QH15</span><span>Điều 10 — Miễn thuế TNDN 3 năm đầu cho doanh nghiệp nhỏ và vừa mới thành lập.</span></div>
+    <div class="law-ref-item"><span class="lr-tag">Luật Thuế GTGT 2024</span><span>Điều 11 — Phương pháp khấu trừ áp dụng cho doanh nghiệp. Thuế suất phổ thông 10% (một số hàng hoá 5% hoặc 0%).</span></div>
+    <div class="law-ref-item"><span class="lr-tag">Luật Thuế TNCN 2025</span><span>Cổ tức nhận từ công ty cổ phần chịu thuế TNCN 5% (thu nhập từ đầu tư vốn).</span></div>
+  </div>
+
+  <div class="law-refs">
+    <h3>📌 Điểm mới 2026 quan trọng</h3>
+    <div class="law-ref-item"><span class="lr-tag">Bỏ lệ phí môn bài</span><span>Từ 01/01/2026, bãi bỏ lệ phí môn bài đối với cả hộ kinh doanh lẫn doanh nghiệp.</span></div>
+    <div class="law-ref-item"><span class="lr-tag">Ngưỡng miễn thuế HKD</span><span>Nâng từ 100 triệu lên 500 triệu đồng/năm — giảm gánh nặng cho khoảng 620.000 hộ kinh doanh nhỏ.</span></div>
+    <div class="law-ref-item"><span class="lr-tag">Thuế TNDN 15%</span><span>Doanh nghiệp mới thành lập với DT ≤3 tỷ/năm được miễn 3 năm đầu, sau đó áp 15%.</span></div>
+    <div class="law-ref-item"><span class="lr-tag">Hóa đơn điện tử bắt buộc</span><span>Từ 01/01/2026, HKD phải sử dụng hóa đơn điện tử khi phát sinh giao dịch.</span></div>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<script>
+// ===== DỮ LIỆU NGÀNH NGHỀ =====
+var NGANH = {
+  thuongmai: { ten: 'Thuong mai / ban le',    gtgt_hkd: 1,   tncn_hkd: 0.5, gtgt_dn: 10 },
+  dichvu:    { ten: 'Dich vu tu van',         gtgt_hkd: 5,   tncn_hkd: 2,   gtgt_dn: 10 },
+  anUong:    { ten: 'Nha hang / an uong',     gtgt_hkd: 3,   tncn_hkd: 1.5, gtgt_dn: 10 },
+  sanXuat:   { ten: 'San xuat / gia cong',    gtgt_hkd: 3,   tncn_hkd: 1.5, gtgt_dn: 10 },
+  vanTai:    { ten: 'Van tai hang hoa',       gtgt_hkd: 3,   tncn_hkd: 1.5, gtgt_dn: 10 },
+  xayDung:   { ten: 'Xay dung',               gtgt_hkd: 2,   tncn_hkd: 2,   gtgt_dn: 10 },
+  choThue:   { ten: 'Cho thue tai san',       gtgt_hkd: 5,   tncn_hkd: 5,   gtgt_dn: 10 },
+  lamDep:    { ten: 'Lam dep / cat toc',      gtgt_hkd: 5,   tncn_hkd: 2,   gtgt_dn: 10 },
+  khac:      { ten: 'Khac',                   gtgt_hkd: 2,   tncn_hkd: 1,   gtgt_dn: 10 },
+};
+
+// Thuế suất TNDN theo doanh thu (Luật TNDN 2025)
+function getTNDNRate(dt_ty) {
+  if (dt_ty <= 3)  return 15;
+  if (dt_ty <= 50) return 17;
+  return 20;
+}
+
+function fm(n) {
+  if (!n || isNaN(n)) return '0';
+  return Math.round(n).toLocaleString('vi-VN');
+}
+
+function colorCode(c) {
+  if (c === 'red')    return 'var(--red)';
+  if (c === 'green')  return 'var(--green)';
+  if (c === 'orange') return 'var(--orange)';
+  if (c === 'purple') return 'var(--purple)';
+  return 'inherit';
+}
+
+var currentModel = null;
+
+// ===== NAVIGATION =====
+function showPage(id, el) {
+  var pages = document.querySelectorAll('.page');
+  for (var i = 0; i < pages.length; i++) pages[i].classList.remove('active');
+  document.getElementById(id).classList.add('active');
+  var navs = document.querySelectorAll('.nav-item');
+  for (var i = 0; i < navs.length; i++) navs[i].classList.remove('active');
+  if (el) el.classList.add('active');
+  if (id === 'pageCompare') runCompare();
+}
+
+function selectModel(m) {
+  currentModel = m;
+  var cards = document.querySelectorAll('.model-card');
+  for (var i = 0; i < cards.length; i++) cards[i].classList.remove('selected');
+  document.getElementById('card-' + m).classList.add('selected');
+  document.getElementById('formArea').style.display = '';
+  document.getElementById('emptyCalc').style.display = 'none';
+  var isHKD  = (m === 'hkd');
+  var isCtcp = (m === 'ctcp');
+  document.getElementById('grpVon').style.display   = isHKD  ? 'none' : '';
+  document.getElementById('grpCoTuc').style.display  = isCtcp ? ''     : 'none';
+  document.getElementById('grpNamHD').style.display  = isHKD  ? 'none' : '';
+  recalc();
+}
+
+function quickSelect(m) {
+  var active = document.querySelector('.nav-item.active');
+  showPage('pageTinh', active);
+  var navs = document.querySelectorAll('.nav-item');
+  for (var i = 0; i < navs.length; i++) navs[i].classList.remove('active');
+  var first = document.querySelector('.nav-item');
+  if (first) first.classList.add('active');
+  selectModel(m);
+}
+
+// ===== TÍNH THUẾ =====
+function gv(id) {
+  var el = document.getElementById(id);
+  return el ? el.value : '';
+}
+
+function recalc() {
+  if (!currentModel) return;
+  var nganhKey = gv('fNganh') || 'thuongmai';
+  var nganh    = NGANH[nganhKey] || NGANH.thuongmai;
+  var dt       = parseFloat(gv('fDoanhThu'))  || 0;
+  var cp       = parseFloat(gv('fChiPhi'))    || 0;
+  var nv       = parseInt(gv('fNhanVien'))    || 0;
+  var luong    = parseFloat(gv('fLuong'))     || 0;
+  var coTuc    = parseFloat(gv('fCoTuc'))     || 0;
+  var namHD    = parseInt(gv('fNamHD'))       || 3;
+  var dt_ty    = dt / 1000;
+  var rows     = [];
+  var tongThue = 0;
+  var html     = '';
+
+  if (currentModel === 'hkd') {
+    var NGUONG = 500;
+    if (dt <= NGUONG) {
+      document.getElementById('resultArea').innerHTML = buildMienThue(dt, NGUONG);
+      return;
+    }
+    var dtTinhThue = dt - NGUONG;
+    var thueGTGT   = dtTinhThue * nganh.gtgt_hkd / 100;
+    var thueTNCN   = dtTinhThue * nganh.tncn_hkd / 100;
+    tongThue = thueGTGT + thueTNCN;
+
+    rows.push({ label: 'Doanh thu mien thue', law: 'NQ 198/2025/QH15', amount: fm(NGUONG),      note: 'Nguong mien 500 tr/nam tu 01/01/2026', color: 'green'  });
+    rows.push({ label: 'Doanh thu tinh thue', law: '',                  amount: fm(dtTinhThue),  note: 'Phan vuot nguong 500 trieu',           color: ''       });
+    rows.push({ label: 'Thue GTGT (' + nganh.gtgt_hkd + '% x DT)',    law: 'Luat GTGT 2024, D12', amount: fm(thueGTGT), note: 'Ty le nganh ' + nganh.ten, color: 'orange' });
+    rows.push({ label: 'Thue TNCN (' + nganh.tncn_hkd + '% x DT)',    law: 'Luat TNCN 2025, D7',  amount: fm(thueTNCN), note: 'Ty le nganh ' + nganh.ten, color: 'red'    });
+
+    var luongNV = nv * luong * 12;
+    if (luongNV > 0) rows.push({ label: 'Chi luong ' + nv + ' NV', law: '', amount: fm(luongNV), note: 'Da tinh trong chi phi', color: '' });
+
+    var luYs = [
+      'Tu 2026: bo thue khoan, chuyen sang <strong>tu ke khai – tu tinh – tu nop</strong>.',
+      'Nguong mien thue nang len <strong>500 trieu dong/nam</strong> (NQ 198/2025/QH15).',
+      'Bat buoc dung <strong>hoa don dien tu</strong> tu 01/01/2026.',
+      '<strong>Bo le phi mon bai</strong> tu 01/01/2026.',
+      'Neu xac dinh duoc chi phi: nop TNCN 15% tren <strong>lai thuc</strong> thay vi % doanh thu.',
+    ];
+    var refs = ['Nghi quyet 198/2025/QH15', 'Luat Thue GTGT 2024', 'Luat Thue TNCN 2025', 'TT 40/2021/TT-BTC (Phu luc I)'];
+    document.getElementById('resultArea').innerHTML = buildResult('Ho kinh doanh ca the', dt, cp, tongThue, dt - cp - tongThue, rows, luYs, refs);
+
+  } else {
+    var rate       = getTNDNRate(dt_ty);
+    var loiNhuan   = dt - cp;
+    var loiNhuanP  = loiNhuan > 0 ? loiNhuan : 0;
+    var mienTNDN   = (namHD < 3) && (dt_ty <= 50);
+    var thueTNDN   = mienTNDN ? 0 : loiNhuanP * rate / 100;
+    var gtgt_rate  = nganh.gtgt_dn;
+    var gtgtDauRa  = dt * gtgt_rate / (100 + gtgt_rate);
+    var gtgtDauVao = cp * gtgt_rate / (100 + gtgt_rate);
+    var thueGTGT_dn = gtgtDauRa > gtgtDauVao ? gtgtDauRa - gtgtDauVao : 0;
+    var loiNhuanST  = loiNhuanP - thueTNDN;
+    var cotucTra    = (currentModel === 'ctcp') ? loiNhuanST * coTuc / 100 : 0;
+    var thueCotuc   = (currentModel === 'ctcp') ? cotucTra * 0.05 : 0;
+    tongThue = thueTNDN + thueGTGT_dn + thueCotuc;
+
+    var dtLabel = dt_ty <= 3 ? 'DT <=3 ty' : (dt_ty <= 50 ? 'DT 3-50 ty' : 'DT >50 ty');
+    var tnLabel = mienTNDN ? ('Thue TNDN (MIEN ' + (3 - namHD) + ' nam con lai)') : ('Thue TNDN (' + rate + '%)');
+    var tnNote  = mienTNDN ? 'Mien 3 nam dau – DN nho va vua moi thanh lap' : ('Thue suat ' + rate + '% (' + dtLabel + ')');
+
+    rows.push({ label: 'Doanh thu',           law: '',               amount: fm(dt),          note: '',                                 color: ''       });
+    rows.push({ label: 'Chi phi duoc tru',    law: 'Luat TNDN 2025', amount: fm(cp),          note: 'Chi phi hop ly, hop le',           color: ''       });
+    rows.push({ label: 'Loi nhuan truoc thue',law: '',               amount: fm(loiNhuan),    note: 'Doanh thu – Chi phi',              color: loiNhuan >= 0 ? 'green' : 'red' });
+    rows.push({ label: tnLabel,               law: 'Luat TNDN 2025, D10 + NQ 198', amount: fm(thueTNDN),   note: tnNote, color: 'red' });
+    rows.push({ label: 'Thue GTGT (phuong phap khau tru)', law: 'Luat GTGT 2024, D11', amount: fm(thueGTGT_dn), note: 'GTGT dau ra – GTGT dau vao (uoc tinh)', color: 'orange' });
+
+    if (currentModel === 'ctcp' && coTuc > 0) {
+      rows.push({ label: 'Thue TNCN co tuc (5% x ' + fm(cotucTra) + 'tr)', law: 'Luat TNCN 2025', amount: fm(thueCotuc), note: 'Chia co tuc ' + coTuc + '% LN sau thue', color: 'purple' });
+    }
+
+    var tenMap = { tnhh1: 'Cty TNHH 1 Thanh Vien', tnhh2: 'Cty TNHH 2+ Thanh Vien', ctcp: 'Cong ty Co Phan' };
+    var luYs = [
+      'Thue suat TNDN <strong>' + (mienTNDN ? 'MIEN 3 nam dau' : rate + '%') + '</strong> (Luat TNDN 2025, hieu luc tu 01/10/2025).',
+      'Thue GTGT phuong phap <strong>khau tru</strong> – duoc khau tru GTGT dau vao.',
+      '<strong>Bo le phi mon bai</strong> tu 01/01/2026 (NQ 198/2025/QH15).',
+    ];
+    if (currentModel === 'ctcp') luYs.push('Co tuc phat cho co dong chiu thue TNCN <strong>5%</strong>.');
+    if (mienTNDN) luYs.push('Mien thue TNDN 3 nam dau theo Nghi quyet 198/2025/QH15.');
+    var refs = ['Luat Thue TNDN 2025 (Luat 67/2025/QH15)', 'Nghi dinh 320/2025/ND-CP', 'Luat Thue GTGT 2024', 'Nghi quyet 198/2025/QH15'];
+    document.getElementById('resultArea').innerHTML = buildResult(tenMap[currentModel], dt, cp, tongThue, loiNhuanST - thueCotuc, rows, luYs, refs);
+  }
+}
+
+function buildMienThue(dt, nguong) {
+  return '<div class="advice-box" style="background:linear-gradient(135deg,#1a4a2a,#1a7a4a)">'
+    + '<h3>Mien toan bo thue GTGT va TNCN</h3>'
+    + '<div class="advice-item"><span class="advice-ico">📌</span><span>Doanh thu <strong>' + fm(dt) + ' trieu dong</strong> — duoi nguong chiu thue <strong>' + fm(nguong) + ' trieu dong/nam</strong></span></div>'
+    + '<div class="advice-item"><span class="advice-ico">⚖️</span><span>Can cu: <strong>Nghi quyet 198/2025/QH15</strong> – Nguong mien thue nang tu 100 trieu len 500 trieu tu 01/01/2026.</span></div>'
+    + '<div class="advice-item"><span class="advice-ico">💡</span><span>Khong phai nop GTGT va TNCN, nhung phai <strong>dang ky kinh doanh</strong> va dung <strong>hoa don dien tu</strong>.</span></div>'
+    + '</div>';
+}
+
+function buildResult(model, dt, cp, tongThue, lnst, rows, luYs, refs) {
+  var rate = dt > 0 ? (tongThue / dt * 100).toFixed(1) : 0;
+  var lnClass = lnst >= 0 ? 'green' : 'red';
+  var tsln = dt > 0 ? (lnst / dt * 100).toFixed(1) : 0;
+
+  var h = '';
+  h += '<div class="results-grid">';
+  h += '<div class="res-card blue"><div class="res-label">Doanh thu</div><div class="res-value">' + fm(dt) + ' <span style="font-size:.75rem;font-weight:400">tr.d</span></div></div>';
+  h += '<div class="res-card orange"><div class="res-label">Tong thue phai nop</div><div class="res-value">' + fm(tongThue) + ' <span style="font-size:.75rem;font-weight:400">tr.d</span></div><div class="res-sub">≈ ' + rate + '% doanh thu</div></div>';
+  h += '<div class="res-card ' + lnClass + '"><div class="res-label">Loi nhuan sau thue</div><div class="res-value">' + fm(lnst) + ' <span style="font-size:.75rem;font-weight:400">tr.d</span></div></div>';
+  h += '<div class="res-card"><div class="res-label">Ty suat loi nhuan</div><div class="res-value">' + tsln + '<span style="font-size:.75rem;font-weight:400">%</span></div></div>';
+  h += '</div>';
+
+  h += '<div class="breakdown">';
+  h += '<div class="breakdown-header"><span>Chi tiet tinh thue — ' + model + '</span><span style="font-size:.72rem;opacity:.7">Theo luat thue hieu luc 2026</span></div>';
+  h += '<table class="bt"><thead><tr><th>Khoan muc</th><th>Can cu phap ly</th><th style="text-align:right">So tien (tr.d)</th><th>Ghi chu</th></tr></thead><tbody>';
+  for (var i = 0; i < rows.length; i++) {
+    var r = rows[i];
+    var c = colorCode(r.color);
+    h += '<tr><td class="td-label" style="color:' + c + '">' + r.label + '</td><td class="td-law">' + r.law + '</td><td class="td-amount" style="color:' + c + '">' + r.amount + '</td><td class="td-note">' + r.note + '</td></tr>';
+  }
+  h += '<tr style="background:#fafbff"><td class="td-label" colspan="2"><strong>TONG THUE PHAI NOP</strong></td><td class="td-amount total">' + fm(tongThue) + '</td><td class="td-note">trieu dong/nam</td></tr>';
+  h += '</tbody></table></div>';
+
+  h += '<div class="advice-box"><h3>Luu y quan trong cho ' + model + '</h3>';
+  for (var i = 0; i < luYs.length; i++) {
+    h += '<div class="advice-item"><span class="advice-ico">📌</span><span>' + luYs[i] + '</span></div>';
+  }
+  h += '</div>';
+
+  h += '<div class="law-refs"><h3>Van ban phap ly ap dung</h3>';
+  for (var i = 0; i < refs.length; i++) {
+    h += '<div class="law-ref-item"><span class="lr-tag">📄</span><span>' + refs[i] + '</span></div>';
+  }
+  h += '<div style="margin-top:10px;font-size:.72rem;color:var(--gray)">Day la uoc tinh. Tham khao ke toan truoc khi ke khai chinh thuc.</div>';
+  h += '</div>';
+  return h;
+}
+
+// ===== SO SÁNH =====
+function runCompare() {
+  var nganhKey = gv('cNganh') || 'thuongmai';
+  var nganh    = NGANH[nganhKey] || NGANH.thuongmai;
+  var dt       = parseFloat(gv('cDoanhThu')) || 0;
+  var cp       = parseFloat(gv('cChiPhi'))   || 0;
+  var dt_ty    = dt / 1000;
+  var lnTruoc  = dt - cp > 0 ? dt - cp : 0;
+
+  var hkd_mien = dt <= 500;
+  var dtHKD    = hkd_mien ? 0 : (dt - 500) * (nganh.gtgt_hkd + nganh.tncn_hkd) / 100;
+  var hkd_lnst = dt - cp - dtHKD;
+
+  function calcDN(pctCoTuc) {
+    var r    = getTNDNRate(dt_ty);
+    var tndn = lnTruoc * r / 100;
+    var gtgt = dt * nganh.gtgt_dn / (100 + nganh.gtgt_dn) - cp * nganh.gtgt_dn / (100 + nganh.gtgt_dn);
+    if (gtgt < 0) gtgt = 0;
+    var lnST  = lnTruoc - tndn;
+    var ctuc  = lnST * pctCoTuc / 100 * 0.05;
+    return { thue: tndn + gtgt + ctuc, lnst: lnST - ctuc, rate: r };
+  }
+
+  var tnhh1 = calcDN(0);
+  var tnhh2 = calcDN(0);
+  var ctcp  = calcDN(20);
+
+  var all = [
+    { ten: 'Ho KD',     ico: '🏠', thue: dtHKD,      lnst: hkd_lnst,   extra: hkd_mien ? 'Mien thue' : ((nganh.gtgt_hkd + nganh.tncn_hkd) + '% DT') },
+    { ten: 'TNHH 1TV',  ico: '🏢', thue: tnhh1.thue, lnst: tnhh1.lnst, extra: 'TNDN ' + tnhh1.rate + '%' },
+    { ten: 'TNHH 2+TV', ico: '🤝', thue: tnhh2.thue, lnst: tnhh2.lnst, extra: 'TNDN ' + tnhh2.rate + '%' },
+    { ten: 'Co phan',   ico: '📈', thue: ctcp.thue,  lnst: ctcp.lnst,  extra: 'TNDN ' + ctcp.rate + '% + 5% co tuc' },
+  ];
+
+  var bestIdx = 0;
+  for (var i = 1; i < all.length; i++) {
+    if (all[i].lnst > all[bestIdx].lnst) bestIdx = i;
+  }
+  var maxThueIdx = 0;
+  for (var i = 1; i < all.length; i++) {
+    if (all[i].thue > all[maxThueIdx].thue) maxThueIdx = i;
+  }
+
+  var h = '<div class="compare-strip">';
+  for (var i = 0; i < all.length; i++) {
+    var a = all[i];
+    var bestCls = (i === bestIdx) ? ' best' : '';
+    h += '<div class="cmp-col' + bestCls + '">';
+    h += '<div class="cmp-ico">' + a.ico + '</div>';
+    h += '<div class="cmp-title">' + a.ten + '</div>';
+    h += '<div class="cmp-rate" style="margin-bottom:6px">' + a.extra + '</div>';
+    h += '<div class="res-label">Thue phai nop</div>';
+    h += '<div class="cmp-tax">' + fm(a.thue) + ' tr</div>';
+    h += '<div style="height:8px"></div>';
+    h += '<div class="res-label">Loi nhuan sau thue</div>';
+    h += '<div class="cmp-profit">' + fm(a.lnst) + ' tr</div>';
+    if (i === bestIdx) h += '<div class="best-label">✅ Toi uu nhat</div>';
+    h += '</div>';
+  }
+  h += '</div>';
+
+  h += '<div class="advice-box">';
+  h += '<h3>Phan tich &amp; Khuyen nghi</h3>';
+  h += '<div class="advice-item"><span class="advice-ico">✅</span><span>Voi doanh thu <strong>' + fm(dt) + ' trieu/nam</strong>, mo hinh <strong>' + all[bestIdx].ten + '</strong> cho loi nhuan sau thue cao nhat: <strong>' + fm(all[bestIdx].lnst) + ' trieu dong</strong>.</span></div>';
+  h += '<div class="advice-item"><span class="advice-ico">⚠️</span><span>Mo hinh <strong>' + all[maxThueIdx].ten + '</strong> co ganh nang thue cao nhat: <strong>' + fm(all[maxThueIdx].thue) + ' trieu dong</strong>/nam.</span></div>';
+  h += '<div class="advice-item"><span class="advice-ico">💡</span><span>Ngoai thue, can xem xet: <strong>chi phi thanh lap, so sach ke toan, rui ro phap ly, kha nang huy dong von</strong>.</span></div>';
+  h += '<div class="advice-item"><span class="advice-ico">📖</span><span>Can cu: Luat Thue TNDN 2025, Luat GTGT 2024, NQ 198/2025/QH15 – hieu luc tu 01/01/2026.</span></div>';
+  h += '</div>';
+
+  document.getElementById('compareResult').innerHTML = h;
+}
+
+window.onload = function() { runCompare(); };
+</script>
+
+</script>
+</body>
+</html>
