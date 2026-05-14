@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Tính Thuế Mô Hình</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Tính Thuế">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+:root {
+  --navy:#0f1e3c;--blue:#1a3a6b;--accent:#c8a84b;--acc2:#e8c96a;
+  --red:#c0392b;--green:#1a7a4a;--orange:#c67c1a;--purple:#6c3483;
+  --gray:#8a95a3;--light:#f0f3f9;--white:#ffffff;--border:#dce3ef;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Arial,sans-serif;background:var(--light);color:var(--navy);min-height:100vh;}
+.header{background:linear-gradient(135deg,var(--navy),var(--blue));padding:14px 16px;display:flex;align-items:center;gap:10px;}
+.header-icon{width:34px;height:34px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.header-text h1{font-size:.92rem;font-weight:800;color:#fff;}
+.header-text p{font-size:.62rem;color:rgba(255,255,255,.5);}
+.main{padding:16px;}
+.section-title{font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:4px;}
+.section-sub{font-size:.75rem;color:var(--gray);margin-bottom:16px;}
+.model-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
+.model-card{background:var(--white);border-radius:12px;padding:14px;border:2px solid var(--border);cursor:pointer;text-align:center;transition:all .18s;}
+.model-card.selected{border-color:var(--accent);background:#fffbf0;}
+.mc-ico{font-size:28px;margin-bottom:6px;}
+.mc-name{font-size:.85rem;font-weight:700;color:var(--navy);}
+.mc-desc{font-size:.68rem;color:var(--gray);margin-top:3px;line-height:1.4;}
+.mc-badge{display:inline-block;margin-top:7px;font-size:.62rem;font-weight:700;padding:2px 8px;border-radius:20px;}
+.badge-hkd{background:#d4f0e3;color:#1a7a4a;}
+.badge-tnhh1{background:#dbeafe;color:#1a3a6b;}
+.badge-tnhh2{background:#ede9fe;color:#6c3483;}
+.badge-ctcp{background:#fef3d8;color:#c67c1a;}
+.form-card{background:var(--white);border-radius:12px;padding:16px;box-shadow:0 2px 10px rgba(15,30,60,.07);margin-bottom:14px;}
+.form-card h3{font-size:.78rem;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;}
+.form-group{margin-bottom:11px;}
+label.fl{display:block;font-size:.68rem;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;}
+.fi,.fs{width:100%;padding:9px 11px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:.84rem;color:var(--navy);background:var(--light);}
+.fi:focus,.fs:focus{outline:none;border-color:var(--blue);background:#fff;}
+.fi-row{display:flex;gap:8px;}
+.fi-row .fi{flex:1;}
+.fi-row .unit{display:flex;align-items:center;font-size:.72rem;font-weight:700;color:var(--gray);white-space:nowrap;}
+.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.res-card{background:var(--white);border-radius:10px;padding:12px 14px;box-shadow:0 2px 8px rgba(15,30,60,.07);border-top:4px solid var(--accent);}
+.res-card.green{border-color:var(--green);}
+.res-card.red{border-color:var(--red);}
+.res-card.blue{border-color:var(--blue);}
+.res-card.orange{border-color:var(--orange);}
+.res-label{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:4px;}
+.res-value{font-size:1.2rem;font-weight:800;color:var(--navy);line-height:1.1;}
+.res-sub{font-size:.68rem;color:var(--gray);margin-top:2px;}
+.breakdown{background:var(--white);border-radius:10px;box-shadow:0 2px 8px rgba(15,30,60,.07);overflow:hidden;margin-bottom:14px;}
+.bd-header{background:linear-gradient(90deg,var(--navy),var(--blue));color:#fff;padding:11px 14px;font-size:.8rem;font-weight:700;}
+table.bt{width:100%;border-collapse:collapse;}
+table.bt td{padding:9px 12px;font-size:.78rem;border-bottom:1px solid var(--border);vertical-align:top;}
+table.bt tr:last-child td{border-bottom:none;}
+.td-label{font-weight:600;}
+.td-law{font-size:.67rem;color:var(--blue);}
+.td-amt{font-weight:700;text-align:right;white-space:nowrap;}
+.td-note{font-size:.67rem;color:var(--gray);}
+.advice-box{background:linear-gradient(135deg,#0f1e3c,#1a3a6b);color:#fff;border-radius:10px;padding:16px;margin-bottom:14px;}
+.advice-box h3{font-size:.82rem;font-weight:800;margin-bottom:10px;color:var(--acc2);}
+.advice-item{display:flex;gap:8px;margin-bottom:8px;font-size:.78rem;line-height:1.5;}
+.advice-item:last-child{margin-bottom:0;}
+.law-refs{background:var(--white);border-radius:10px;padding:14px;box-shadow:0 2px 8px rgba(15,30,60,.07);margin-bottom:14px;}
+.law-refs h3{font-size:.72rem;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+.lr-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:7px;font-size:.76rem;}
+.lr-item:last-child{margin-bottom:0;}
+.lr-tag{background:#dbeafe;color:var(--blue);font-size:.62rem;font-weight:800;padding:2px 7px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:1px;}
+.empty-calc{text-align:center;padding:40px 20px;color:var(--gray);}
+.empty-calc .e-ico{font-size:40px;margin-bottom:10px;}
+.notice{background:#fff8e8;border:1.5px solid var(--accent);border-radius:8px;padding:10px 12px;font-size:.72rem;color:#7a5c00;margin-bottom:14px;}
+.tab-bar{display:flex;background:var(--white);border-radius:10px;box-shadow:0 2px 8px rgba(15,30,60,.07);margin-bottom:16px;overflow:hidden;}
+.tab-btn{flex:1;padding:11px 4px;border:none;background:transparent;font-family:inherit;font-size:.72rem;font-weight:600;color:var(--gray);cursor:pointer;border-bottom:3px solid transparent;transition:all .15s;}
+.tab-btn.active{color:var(--navy);border-bottom-color:var(--accent);background:#fffbf0;}
+.page{display:none;}
+.page.active{display:block;}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.cmp-col{background:var(--white);border-radius:10px;padding:12px;box-shadow:0 2px 8px rgba(15,30,60,.07);text-align:center;}
+.cmp-col.best{border:2px solid var(--green);background:#f0faf5;}
+.cmp-ico{font-size:22px;margin-bottom:4px;}
+.cmp-name{font-size:.78rem;font-weight:800;margin-bottom:6px;}
+.cmp-tax{font-size:1rem;font-weight:800;color:var(--red);}
+.cmp-profit{font-size:.88rem;font-weight:700;color:var(--green);}
+.best-label{display:inline-block;background:var(--green);color:#fff;font-size:.6rem;font-weight:700;padding:2px 7px;border-radius:20px;margin-top:5px;}
+.mien-box{background:linear-gradient(135deg,#1a4a2a,#1a7a4a);color:#fff;border-radius:10px;padding:16px;margin-bottom:14px;}
+.mien-box h3{font-size:.82rem;font-weight:800;margin-bottom:10px;color:#a8f0c8;}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-icon">🏛️</div>
+  <div class="header-text">
+    <h1>Công Cụ Tính Thuế Mô Hình Kinh Doanh</h1>
+    <p>Theo Luật Thuế TNDN 2025 · Luật GTGT 2024 · NQ 198/2025/QH15</p>
+  </div>
+</div>
+<div class="main">
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showTab('pageTinh',this)">🧮 Tính thuế</button>
+    <button class="tab-btn" onclick="showTab('pageCompare',this)">⚖️ So sánh</button>
+    <button class="tab-btn" onclick="showTab('pageLaw',this)">📖 Pháp lý</button>
+  </div>
+
+  <!-- TÍNH THUẾ -->
+
+  <div class="page active" id="pageTinh">
+    <div class="section-title">🧮 Tính thuế theo mô hình</div>
+    <div class="section-sub">Chọn mô hình kinh doanh để tính thuế phải nộp 2026</div>
+    <div class="model-grid">
+      <div class="model-card" id="card-hkd" onclick="selectModel('hkd')">
+        <div class="mc-ico">🏠</div>
+        <div class="mc-name">Hộ kinh doanh</div>
+        <div class="mc-desc">Cá nhân / hộ gia đình</div>
+        <div class="mc-badge badge-hkd">GTGT + TNCN %DT</div>
+      </div>
+      <div class="model-card" id="card-tnhh1" onclick="selectModel('tnhh1')">
+        <div class="mc-ico">🏢</div>
+        <div class="mc-name">TNHH 1 TV</div>
+        <div class="mc-desc">1 chủ sở hữu, pháp nhân</div>
+        <div class="mc-badge badge-tnhh1">TNDN + GTGT khấu trừ</div>
+      </div>
+      <div class="model-card" id="card-tnhh2" onclick="selectModel('tnhh2')">
+        <div class="mc-ico">🤝</div>
+        <div class="mc-name">TNHH 2+ TV</div>
+        <div class="mc-desc">2–50 thành viên</div>
+        <div class="mc-badge badge-tnhh2">TNDN + GTGT khấu trừ</div>
+      </div>
+      <div class="model-card" id="card-ctcp" onclick="selectModel('ctcp')">
+        <div class="mc-ico">📈</div>
+        <div class="mc-name">Công ty Cổ Phần</div>
+        <div class="mc-desc">Từ 3 cổ đông</div>
+        <div class="mc-badge badge-ctcp">TNDN + GTGT + cổ tức</div>
+      </div>
+    </div>
+    <div id="formArea" style="display:none">
+      <div class="form-card">
+        <h3>📊 Thông tin kinh doanh</h3>
+        <div class="form-group">
+          <label class="fl">Ngành nghề</label>
+          <select class="fs" id="fNganh" onchange="recalc()">
+            <option value="thuongmai">Thương mại / bán lẻ</option>
+            <option value="dichvu">Dịch vụ</option>
+            <option value="anUong">Nhà hàng / ăn uống</option>
+            <option value="sanXuat">Sản xuất / gia công</option>
+            <option value="vanTai">Vận tải</option>
+            <option value="xayDung">Xây dựng</option>
+            <option value="choThue">Cho thuê tài sản</option>
+            <option value="lamDep">Làm đẹp / cắt tóc</option>
+            <option value="khac">Khác</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="fl">Doanh thu năm (triệu đồng)</label>
+          <div class="fi-row"><input class="fi" type="number" id="fDoanhThu" placeholder="1000" oninput="recalc()"><span class="unit">Tr.đ</span></div>
+        </div>
+        <div class="form-group">
+          <label class="fl">Chi phí hoạt động năm (triệu đồng)</label>
+          <div class="fi-row"><input class="fi" type="number" id="fChiPhi" placeholder="700" oninput="recalc()"><span class="unit">Tr.đ</span></div>
+        </div>
+        <div class="form-group">
+          <label class="fl">Số nhân viên</label>
+          <div class="fi-row"><input class="fi" type="number" id="fNhanVien" placeholder="5" oninput="recalc()"><span class="unit">NV</span></div>
+        </div>
+        <div class="form-group">
+          <label class="fl">Lương bình quân NV (triệu/tháng)</label>
+          <div class="fi-row"><input class="fi" type="number" id="fLuong" placeholder="7" oninput="recalc()"><span class="unit">Tr.đ</span></div>
+        </div>
+        <div class="form-group" id="grpVon" style="display:none">
+          <label class="fl">Vốn điều lệ (triệu đồng)</label>
+          <div class="fi-row"><input class="fi" type="number" id="fVon" placeholder="500" oninput="recalc()"><span class="unit">Tr.đ</span></div>
+        </div>
+        <div class="form-group" id="grpCoTuc" style="display:none">
+          <label class="fl">Tỷ lệ chia cổ tức (%/năm)</label>
+          <div class="fi-row"><input class="fi" type="number" id="fCoTuc" placeholder="20" oninput="recalc()"><span class="unit">%</span></div>
+        </div>
+        <div class="form-group" id="grpNamHD" style="display:none">
+          <label class="fl">Số năm hoạt động</label>
+          <select class="fs" id="fNamHD" onchange="recalc()">
+            <option value="0">Mới thành lập (năm 1)</option>
+            <option value="1">Năm 2</option>
+            <option value="2">Năm 3</option>
+            <option value="3" selected>Năm 4+</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-card">
+        <h3>🏦 Vay ngân hàng &amp; Chi phí khác</h3>
+        <div class="form-group">
+          <label class="fl">Số tiền vay ngân hàng (triệu đồng)</label>
+          <div class="fi-row"><input class="fi" type="number" id="fVay" placeholder="500" oninput="recalc()"><span class="unit">Tr.đ</span></div>
+        </div>
+        <div class="form-group">
+          <label class="fl">Lãi suất vay (%/năm)</label>
+          <div class="fi-row"><input class="fi" type="number" id="fLaiSuat" placeholder="9" oninput="recalc()"><span class="unit">%/năm</span></div>
+        </div>
+        <div class="form-group">
+          <label class="fl">Hoặc nhập thẳng lãi phải trả/năm (triệu)</label>
+          <div class="fi-row"><input class="fi" type="number" id="fLaiThang" placeholder="45" oninput="recalc()"><span class="unit">Tr.đ</span></div>
+        </div>
+        <div class="form-group">
+          <label class="fl">Chi phí khác/năm (triệu đồng)</label>
+          <div class="fi-row"><input class="fi" type="number" id="fChiPhiKhac" placeholder="0" oninput="recalc()"><span class="unit">Tr.đ</span></div>
+        </div>
+      </div>
+      <div id="resultArea"></div>
+    </div>
+    <div class="empty-calc" id="emptyCalc">
+      <div class="e-ico">👆</div>
+      <p>Chọn một mô hình ở trên để bắt đầu tính thuế</p>
+    </div>
+  </div>
+
+  <!-- SO SÁNH -->
+
+  <div class="page" id="pageCompare">
+    <div class="section-title">⚖️ So sánh 4 mô hình</div>
+    <div class="section-sub">Nhập thông số chung để so sánh đồng thời</div>
+    <div class="form-card">
+      <h3>📊 Thông số so sánh</h3>
+      <div class="form-group">
+        <label class="fl">Ngành nghề</label>
+        <select class="fs" id="cNganh" onchange="runCompare()">
+          <option value="thuongmai">Thương mại / bán lẻ</option>
+          <option value="dichvu">Dịch vụ</option>
+          <option value="anUong">Nhà hàng / ăn uống</option>
+          <option value="sanXuat">Sản xuất / gia công</option>
+          <option value="vanTai">Vận tải</option>
+          <option value="choThue">Cho thuê tài sản</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="fl">Doanh thu năm (triệu)</label>
+        <div class="fi-row"><input class="fi" type="number" id="cDoanhThu" value="2000" oninput="runCompare()"><span class="unit">Tr.đ</span></div>
+      </div>
+      <div class="form-group">
+        <label class="fl">Chi phí năm (triệu)</label>
+        <div class="fi-row"><input class="fi" type="number" id="cChiPhi" value="1400" oninput="runCompare()"><span class="unit">Tr.đ</span></div>
+      </div>
+      <div class="form-group">
+        <label class="fl">Lãi vay ngân hàng/năm (triệu)</label>
+        <div class="fi-row"><input class="fi" type="number" id="cLaiVay" value="0" oninput="runCompare()"><span class="unit">Tr.đ</span></div>
+      </div>
+    </div>
+    <div id="compareResult"></div>
+  </div>
+
+  <!-- PHÁP LÝ -->
+
+  <div class="page" id="pageLaw">
+    <div class="section-title">📖 Căn cứ pháp lý</div>
+    <div class="section-sub">Văn bản luật làm cơ sở tính thuế trong công cụ này</div>
+    <div class="notice">⚠️ Thông tin tính toán dựa trên luật hiệu lực từ 01/01/2026. Tham khảo chuyên gia trước khi quyết định.</div>
+    <div class="law-refs">
+      <h3>Hộ kinh doanh cá thể</h3>
+      <div class="lr-item"><span class="lr-tag">NQ 198/2025/QH15</span><span>Bãi bỏ thuế khoán từ 01/01/2026. Ngưỡng miễn thuế nâng lên 500 triệu/năm.</span></div>
+      <div class="lr-item"><span class="lr-tag">Luật GTGT 2024</span><span>Điều 12 — Tỷ lệ GTGT trực tiếp trên doanh thu theo ngành nghề.</span></div>
+      <div class="lr-item"><span class="lr-tag">Luật TNCN 2025</span><span>Điều 7 — Tỷ lệ TNCN trực tiếp trên doanh thu theo ngành nghề.</span></div>
+      <div class="lr-item"><span class="lr-tag">TT 40/2021</span><span>Phụ lục I — Bảng tỷ lệ GTGT và TNCN chi tiết theo ngành nghề.</span></div>
+    </div>
+    <div class="law-refs">
+      <h3>Công ty TNHH và Cổ phần</h3>
+      <div class="lr-item"><span class="lr-tag">Luật TNDN 2025</span><span>Điều 10 — Thuế suất: 15% (DT ≤3 tỷ), 17% (3–50 tỷ), 20% (>50 tỷ). Hiệu lực 01/10/2025.</span></div>
+      <div class="lr-item"><span class="lr-tag">NQ 198/2025/QH15</span><span>Miễn thuế TNDN 3 năm đầu cho doanh nghiệp nhỏ và vừa mới thành lập.</span></div>
+      <div class="lr-item"><span class="lr-tag">Luật GTGT 2024</span><span>Phương pháp khấu trừ — được khấu trừ GTGT đầu vào. Thuế suất 10%.</span></div>
+      <div class="lr-item"><span class="lr-tag">Luật TNCN 2025</span><span>Cổ tức chịu thuế TNCN 5% (thu nhập từ đầu tư vốn).</span></div>
+    </div>
+    <div class="law-refs">
+      <h3>Điểm mới 2026</h3>
+      <div class="lr-item"><span class="lr-tag">Bỏ môn bài</span><span>Từ 01/01/2026 bãi bỏ lệ phí môn bài cả HKD lẫn doanh nghiệp.</span></div>
+      <div class="lr-item"><span class="lr-tag">Ngưỡng 500tr</span><span>HKD có DT ≤500 triệu/năm được miễn toàn bộ thuế GTGT và TNCN.</span></div>
+      <div class="lr-item"><span class="lr-tag">Lãi vay NH</span><span>Lãi vay ngân hàng là chi phí hợp lý được trừ khi tính thuế TNDN (doanh nghiệp).</span></div>
+      <div class="lr-item"><span class="lr-tag">BHXH</span><span>Doanh nghiệp phải nộp BHXH 17.5% trên quỹ lương (phần chủ sử dụng đóng).</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+var NGANH = {
+  thuongmai:{ten:'Thương mại',gtgt_hkd:1,tncn_hkd:0.5,gtgt_dn:10},
+  dichvu:   {ten:'Dịch vụ',   gtgt_hkd:5,tncn_hkd:2,  gtgt_dn:10},
+  anUong:   {ten:'Ăn uống',   gtgt_hkd:3,tncn_hkd:1.5,gtgt_dn:10},
+  sanXuat:  {ten:'Sản xuất',  gtgt_hkd:3,tncn_hkd:1.5,gtgt_dn:10},
+  vanTai:   {ten:'Vận tải',   gtgt_hkd:3,tncn_hkd:1.5,gtgt_dn:10},
+  xayDung:  {ten:'Xây dựng',  gtgt_hkd:2,tncn_hkd:2,  gtgt_dn:10},
+  choThue:  {ten:'Cho thuê',  gtgt_hkd:5,tncn_hkd:5,  gtgt_dn:10},
+  lamDep:   {ten:'Làm đẹp',   gtgt_hkd:5,tncn_hkd:2,  gtgt_dn:10},
+  khac:     {ten:'Khác',      gtgt_hkd:2,tncn_hkd:1,  gtgt_dn:10},
+};
+var currentModel = null;
+function fm(n){if(!n||isNaN(n))return'0';return Math.round(n).toLocaleString('vi-VN');}
+function fmp(n){return n?n.toFixed(1):'0';}
+function gv(id){var el=document.getElementById(id);return el?el.value:'';}
+function getTNDNRate(t){return t<=3?15:t<=50?17:20;}
+function colorCode(c){return c==='red'?'var(--red)':c==='green'?'var(--green)':c==='orange'?'var(--orange)':c==='purple'?'var(--purple)':'inherit';}
+
+function showTab(id,el){
+  var pages=document.querySelectorAll('.page');
+  for(var i=0;i<pages.length;i++) pages[i].classList.remove('active');
+  document.getElementById(id).classList.add('active');
+  var tabs=document.querySelectorAll('.tab-btn');
+  for(var i=0;i<tabs.length;i++) tabs[i].classList.remove('active');
+  if(el) el.classList.add('active');
+  if(id==='pageCompare') runCompare();
+}
+
+function selectModel(m){
+  currentModel=m;
+  var cards=document.querySelectorAll('.model-card');
+  for(var i=0;i<cards.length;i++) cards[i].classList.remove('selected');
+  document.getElementById('card-'+m).classList.add('selected');
+  document.getElementById('formArea').style.display='';
+  document.getElementById('emptyCalc').style.display='none';
+  var isHKD=(m==='hkd');
+  var isCtcp=(m==='ctcp');
+  document.getElementById('grpVon').style.display=isHKD?'none':'';
+  document.getElementById('grpCoTuc').style.display=isCtcp?'':'none';
+  document.getElementById('grpNamHD').style.display=isHKD?'none':'';
+  recalc();
+}
+
+function getLaiVay(){
+  var vay=parseFloat(gv('fVay'))||0;
+  var ls=parseFloat(gv('fLaiSuat'))||0;
+  var laiThang=parseFloat(gv('fLaiThang'))||0;
+  if(laiThang>0) return laiThang;
+  if(vay>0&&ls>0) return vay*ls/100;
+  return 0;
+}
+
+function getBHXH(){
+  var nv=parseInt(gv('fNhanVien'))||0;
+  var luong=parseFloat(gv('fLuong'))||0;
+  return nv*luong*12*0.175;
+}
+
+function recalc(){
+  if(!currentModel) return;
+  var nganh=NGANH[gv('fNganh')]||NGANH.thuongmai;
+  var dt=parseFloat(gv('fDoanhThu'))||0;
+  var cp=parseFloat(gv('fChiPhi'))||0;
+  var nv=parseInt(gv('fNhanVien'))||0;
+  var luong=parseFloat(gv('fLuong'))||0;
+  var coTuc=parseFloat(gv('fCoTuc'))||0;
+  var namHD=parseInt(gv('fNamHD'))||3;
+  var chiPhiKhac=parseFloat(gv('fChiPhiKhac'))||0;
+  var laiVay=getLaiVay();
+  var bhxh=getBHXH();
+  var dt_ty=dt/1000;
+  var rows=[];
+  var tongThue=0;
+
+  if(currentModel==='hkd'){
+    var NGUONG=500;
+    if(dt<=NGUONG){
+      document.getElementById('resultArea').innerHTML=buildMien(dt,NGUONG,laiVay,bhxh,chiPhiKhac,cp);
+      return;
+    }
+    var dtTT=dt-NGUONG;
+    var thueGTGT=dtTT*nganh.gtgt_hkd/100;
+    var thueTNCN=dtTT*nganh.tncn_hkd/100;
+    tongThue=thueGTGT+thueTNCN;
+    var tongCP=cp+laiVay+bhxh+chiPhiKhac;
+    var lnst=dt-tongCP-tongThue;
+    rows.push({label:'Doanh thu miễn thuế',law:'NQ 198/2025',amt:fm(NGUONG),note:'500tr/năm miễn GTGT+TNCN',color:'green'});
+    rows.push({label:'Doanh thu tính thuế',law:'',amt:fm(dtTT),note:'Phần vượt ngưỡng 500tr',color:''});
+    rows.push({label:'Thuế GTGT ('+nganh.gtgt_hkd+'%)',law:'Luật GTGT 2024 Đ12',amt:fm(thueGTGT),note:'Ngành '+nganh.ten,color:'orange'});
+    rows.push({label:'Thuế TNCN ('+nganh.tncn_hkd+'%)',law:'Luật TNCN 2025 Đ7',amt:fm(thueTNCN),note:'Ngành '+nganh.ten,color:'red'});
+    if(laiVay>0) rows.push({label:'Lãi vay ngân hàng',law:'',amt:fm(laiVay),note:'Chi phí tài chính/năm (HKD không được trừ thuế)',color:''});
+    if(bhxh>0) rows.push({label:'BHXH chủ SD (17.5%)',law:'',amt:fm(bhxh),note:nv+' NV × '+luong+'tr × 12 × 17.5%',color:''});
+    if(chiPhiKhac>0) rows.push({label:'Chi phí khác',law:'',amt:fm(chiPhiKhac),note:'Chi phí bổ sung',color:''});
+    var luYs=[
+      'Từ 2026 bỏ thuế khoán, chuyển sang tự kê khai — tự nộp.',
+      'Ngưỡng miễn thuế 500tr/năm (NQ 198/2025/QH15).',
+      'Lãi vay NH KHÔNG được trừ khi tính thuế HKD (khác doanh nghiệp).',
+      'BHXH tự nguyện cho HKD, không bắt buộc.',
+      'Bỏ lệ phí môn bài từ 01/01/2026.',
+    ];
+    document.getElementById('resultArea').innerHTML=buildResult('Hộ kinh doanh',dt,tongCP,tongThue,lnst,rows,luYs);
+
+  } else {
+    var rate=getTNDNRate(dt_ty);
+    var mienTNDN=(namHD<3)&&(dt_ty<=50);
+    var tongCPDuocTru=cp+laiVay+bhxh+chiPhiKhac;
+    var loiNhuan=dt-tongCPDuocTru;
+    var loiNhuanP=loiNhuan>0?loiNhuan:0;
+    var thueTNDN=mienTNDN?0:loiNhuanP*rate/100;
+    var gtgtDauRa=dt*nganh.gtgt_dn/(100+nganh.gtgt_dn);
+    var gtgtDauVao=tongCPDuocTru*nganh.gtgt_dn/(100+nganh.gtgt_dn);
+    var thueGTGT=gtgtDauRa>gtgtDauVao?gtgtDauRa-gtgtDauVao:0;
+    var loiNhuanST=loiNhuanP-thueTNDN;
+    var cotucTra=(currentModel==='ctcp')?loiNhuanST*coTuc/100:0;
+    var thueCotuc=(currentModel==='ctcp')?cotucTra*0.05:0;
+    tongThue=thueTNDN+thueGTGT+thueCotuc;
+    var lnst=loiNhuanST-thueCotuc;
+    var tnLabel=mienTNDN?'Thuế TNDN (MIỄN '+(3-namHD)+' năm)':'Thuế TNDN ('+rate+'%)';
+    var dtLabel=dt_ty<=3?'DT ≤3 tỷ':dt_ty<=50?'DT 3–50 tỷ':'DT >50 tỷ';
+    rows.push({label:'Doanh thu',law:'',amt:fm(dt),note:'',color:''});
+    rows.push({label:'Chi phí hoạt động',law:'Luật TNDN 2025',amt:fm(cp),note:'Chi phí hợp lý',color:''});
+    if(laiVay>0) rows.push({label:'Lãi vay ngân hàng',law:'Luật TNDN 2025',amt:fm(laiVay),note:'Được trừ thuế TNDN',color:''});
+    if(bhxh>0) rows.push({label:'BHXH chủ SD (17.5%)',law:'',amt:fm(bhxh),note:nv+' NV × '+luong+'tr × 12 × 17.5%',color:''});
+    if(chiPhiKhac>0) rows.push({label:'Chi phí khác',law:'',amt:fm(chiPhiKhac),note:'',color:''});
+    rows.push({label:'Lợi nhuận trước thuế',law:'',amt:fm(loiNhuan),note:'DT — Tổng chi phí',color:loiNhuan>=0?'green':'red'});
+    rows.push({label:tnLabel,law:'Luật TNDN 2025 Đ10',amt:fm(thueTNDN),note:mienTNDN?'Miễn 3 năm DN nhỏ vừa':('Thuế suất '+rate+'% — '+dtLabel),color:'red'});
+    rows.push({label:'Thuế GTGT (khấu trừ)',law:'Luật GTGT 2024 Đ11',amt:fm(thueGTGT),note:'GTGT đầu ra — GTGT đầu vào',color:'orange'});
+    if(currentModel==='ctcp'&&coTuc>0) rows.push({label:'Thuế TNCN cổ tức (5%)',law:'Luật TNCN 2025',amt:fm(thueCotuc),note:'Chia cổ tức '+coTuc+'% LN sau thuế',color:'purple'});
+    var tenMap={tnhh1:'Cty TNHH 1 Thành Viên',tnhh2:'Cty TNHH 2+ Thành Viên',ctcp:'Công ty Cổ Phần'};
+    var luYs=['Thuế TNDN '+(mienTNDN?'MIỄN 3 năm đầu':rate+'%')+' (Luật TNDN 2025 hiệu lực 01/10/2025).','Lãi vay NH được trừ khi tính thuế TNDN (khác HKD).','BHXH chủ SD 17.5% trên quỹ lương — bắt buộc với DN.','Thuế GTGT phương pháp khấu trừ — được khấu trừ GTGT đầu vào.','Bỏ lệ phí môn bài từ 01/01/2026.'];
+    if(currentModel==='ctcp') luYs.push('Cổ tức phát cho cổ đông chịu thuế TNCN 5%.');
+    if(mienTNDN) luYs.push('Miễn thuế TNDN 3 năm đầu theo NQ 198/2025/QH15.');
+    document.getElementById('resultArea').innerHTML=buildResult(tenMap[currentModel],dt,tongCPDuocTru,tongThue,lnst,rows,luYs);
+  }
+}
+
+function buildMien(dt,nguong,laiVay,bhxh,cpKhac,cp){
+  var tongCP=cp+laiVay+bhxh+cpKhac;
+  var lnst=dt-tongCP;
+  var h='<div class="mien-box">';
+  h+='<h3>✅ Miễn toàn bộ GTGT và TNCN</h3>';
+  h+='<div class="advice-item"><span>📌</span><span>Doanh thu <strong>'+fm(dt)+'tr</strong> dưới ngưỡng chịu thuế <strong>'+fm(nguong)+'tr/năm</strong></span></div>';
+  h+='<div class="advice-item"><span>⚖️</span><span>Căn cứ: NQ 198/2025/QH15 — Ngưỡng miễn thuế nâng từ 100tr lên 500tr từ 01/01/2026.</span></div>';
+  h+='<div class="advice-item"><span>💡</span><span>Vẫn phải đăng ký kinh doanh và dùng hóa đơn điện tử từ 2026.</span></div>';
+  h+='</div>';
+  h+='<div class="res-grid">';
+  h+='<div class="res-card blue"><div class="res-label">Doanh thu</div><div class="res-value">'+fm(dt)+'<span style="font-size:.7rem"> tr</span></div></div>';
+  h+='<div class="res-card green"><div class="res-label">Thuế phải nộp</div><div class="res-value">0<span style="font-size:.7rem"> tr</span></div><div class="res-sub">Dưới ngưỡng miễn</div></div>';
+  h+='<div class="res-card orange"><div class="res-label">Tổng chi phí</div><div class="res-value">'+fm(tongCP)+'<span style="font-size:.7rem"> tr</span></div></div>';
+  h+='<div class="res-card '+(lnst>=0?'green':'red')+'"><div class="res-label">Lợi nhuận</div><div class="res-value">'+fm(lnst)+'<span style="font-size:.7rem"> tr</span></div></div>';
+  h+='</div>';
+  return h;
+}
+
+function buildResult(model,dt,tongCP,tongThue,lnst,rows,luYs){
+  var rate=dt>0?fmp(tongThue/dt*100):'0';
+  var tsln=dt>0?fmp(lnst/dt*100):'0';
+  var h='<div class="res-grid">';
+  h+='<div class="res-card blue"><div class="res-label">Doanh thu</div><div class="res-value">'+fm(dt)+'<span style="font-size:.7rem"> tr</span></div></div>';
+  h+='<div class="res-card orange"><div class="res-label">Tổng thuế nộp</div><div class="res-value">'+fm(tongThue)+'<span style="font-size:.7rem"> tr</span></div><div class="res-sub">~'+rate+'% DT</div></div>';
+  h+='<div class="res-card '+(lnst>=0?'green':'red')+'"><div class="res-label">LN sau thuế</div><div class="res-value">'+fm(lnst)+'<span style="font-size:.7rem"> tr</span></div></div>';
+  h+='<div class="res-card"><div class="res-label">Tỷ suất LN</div><div class="res-value">'+tsln+'<span style="font-size:.7rem">%</span></div></div>';
+  h+='</div>';
+  h+='<div class="breakdown"><div class="bd-header">Chi tiết tính thuế — '+model+'</div>';
+  h+='<table class="bt"><tbody>';
+  for(var i=0;i<rows.length;i++){
+    var r=rows[i];var c=colorCode(r.color);
+    h+='<tr><td class="td-label" style="color:'+c+'">'+r.label+'</td><td class="td-law">'+r.law+'</td><td class="td-amt" style="color:'+c+'">'+r.amt+'</td><td class="td-note">'+r.note+'</td></tr>';
+  }
+  h+='<tr style="background:#fafbff"><td colspan="2"><strong>TỔNG THUẾ PHẢI NỘP</strong></td><td class="td-amt" style="color:var(--red);font-size:1rem">'+fm(tongThue)+'</td><td class="td-note">triệu/năm</td></tr>';
+  h+='</tbody></table></div>';
+  h+='<div class="advice-box"><h3>💡 Lưu ý cho '+model+'</h3>';
+  for(var i=0;i<luYs.length;i++) h+='<div class="advice-item"><span>📌</span><span>'+luYs[i]+'</span></div>';
+  h+='</div>';
+  h+='<div class="notice">⚠️ Đây là ước tính. Tham khảo kế toán trước khi kê khai chính thức.</div>';
+  return h;
+}
+
+function runCompare(){
+  var nganh=NGANH[gv('cNganh')]||NGANH.thuongmai;
+  var dt=parseFloat(gv('cDoanhThu'))||0;
+  var cp=parseFloat(gv('cChiPhi'))||0;
+  var laiVay=parseFloat(gv('cLaiVay'))||0;
+  var dt_ty=dt/1000;
+  var tongCP=cp+laiVay;
+  var lnTruoc=tongCP<dt?dt-tongCP:0;
+  var hkd_mien=dt<=500;
+  var dtHKD=hkd_mien?0:(dt-500)*(nganh.gtgt_hkd+nganh.tncn_hkd)/100;
+  var hkd_lnst=dt-tongCP-dtHKD;
+  function calcDN(pct){
+    var r=getTNDNRate(dt_ty);
+    var tndn=lnTruoc*r/100;
+    var gtgt=dt*nganh.gtgt_dn/(100+nganh.gtgt_dn)-tongCP*nganh.gtgt_dn/(100+nganh.gtgt_dn);
+    if(gtgt<0) gtgt=0;
+    var lnST=lnTruoc-tndn;
+    var ctuc=lnST*pct/100*0.05;
+    return{thue:tndn+gtgt+ctuc,lnst:lnST-ctuc,rate:r};
+  }
+  var tnhh1=calcDN(0);var tnhh2=calcDN(0);var ctcp=calcDN(20);
+  var all=[
+    {ten:'Hộ KD',ico:'🏠',thue:dtHKD,lnst:hkd_lnst,extra:hkd_mien?'Miễn thuế':(nganh.gtgt_hkd+nganh.tncn_hkd)+'% DT'},
+    {ten:'TNHH 1TV',ico:'🏢',thue:tnhh1.thue,lnst:tnhh1.lnst,extra:'TNDN '+tnhh1.rate+'%'},
+    {ten:'TNHH 2+TV',ico:'🤝',thue:tnhh2.thue,lnst:tnhh2.lnst,extra:'TNDN '+tnhh2.rate+'%'},
+    {ten:'Cổ Phần',ico:'📈',thue:ctcp.thue,lnst:ctcp.lnst,extra:'TNDN '+ctcp.rate+'%+5% CT'},
+  ];
+  var bi=0;for(var i=1;i<all.length;i++){if(all[i].lnst>all[bi].lnst) bi=i;}
+  var mi=0;for(var i=1;i<all.length;i++){if(all[i].thue>all[mi].thue) mi=i;}
+  var h='<div class="compare-grid">';
+  for(var i=0;i<all.length;i++){
+    var a=all[i];var bc=i===bi?' best':'';
+    h+='<div class="cmp-col'+bc+'">';
+    h+='<div class="cmp-ico">'+a.ico+'</div>';
+    h+='<div class="cmp-name">'+a.ten+'</div>';
+    h+='<div style="font-size:.65rem;color:var(--gray);margin-bottom:6px">'+a.extra+'</div>';
+    h+='<div class="res-label">Thuế/năm</div><div class="cmp-tax">'+fm(a.thue)+'tr</div>';
+    h+='<div class="res-label" style="margin-top:6px">LN sau thuế</div><div class="cmp-profit">'+fm(a.lnst)+'tr</div>';
+    if(i===bi) h+='<div class="best-label">✅ Tối ưu nhất</div>';
+    h+='</div>';
+  }
+  h+='</div>';
+  h+='<div class="advice-box"><h3>📊 Phân tích & Khuyến nghị</h3>';
+  h+='<div class="advice-item"><span>✅</span><span>Với DT <strong>'+fm(dt)+'tr/năm</strong>, mô hình <strong>'+all[bi].ten+'</strong> cho lợi nhuận sau thuế cao nhất: <strong>'+fm(all[bi].lnst)+'tr</strong>.</span></div>';
+  h+='<div class="advice-item"><span>⚠️</span><span>Mô hình <strong>'+all[mi].ten+'</strong> có gánh nặng thuế cao nhất: <strong>'+fm(all[mi].thue)+'tr/năm</strong>.</span></div>';
+  h+='<div class="advice-item"><span>💡</span><span>Ngoài thuế cần xem: chi phí thành lập, kế toán, rủi ro pháp lý, khả năng huy động vốn.</span></div>';
+  h+='<div class="advice-item"><span>📌</span><span>Lãi vay NH được trừ thuế TNDN (doanh nghiệp) nhưng KHÔNG được trừ khi tính thuế HKD.</span></div>';
+  h+='</div>';
+  document.getElementById('compareResult').innerHTML=h;
+}
+
+window.onload=function(){runCompare();};
+</script>
+
+</body>
+</html>
