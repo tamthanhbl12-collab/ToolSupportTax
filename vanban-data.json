@@ -1,0 +1,75 @@
+{
+  "records": [
+    {
+      "id": "vb_1778825338978_z9w",
+      "soHieu": "141/2026/NĐ-CP",
+      "ten": "Nghị định sửa đổi, bổ sung một số điều của Nghị định số 68/2026/NĐ-CP quy định về chính sách thuế đối với hộ kinh doanh, cá nhân kinh doanh và Nghị định số 320/2025/NĐ-CP quy định chi tiết một số điều và biện pháp để tổ chức, hướng dẫn thi hành Luật Thuế thu nhập doanh nghiệp",
+      "loai": "Quản lý thuế HKD",
+      "ngayBH": "2026-04-29",
+      "ngayHL": "2026-01-01",
+      "noiBH": "Chính phủ",
+      "trangThai": "hieuluc",
+      "link": "https://vanban.chinhphu.vn/?pageid=27160&docid=217960",
+      "tomTat": "Nâng ngưỡng doanh thu không phải chịu thuế GTGT và TNCN của hộ kinh doanh, cá nhân kinh doanh từ 500 triệu lên 1 tỷ đồng/năm; đồng thời miễn thuế TNDN cho doanh nghiệp có tổng doanh thu năm từ 1 tỷ đồng trở xuống, áp dụng hồi tố từ 01/01/2026.",
+      "updatedAt": "2026-05-15T06:08:58.978Z",
+      "importedFrom": "auto"
+    },
+    {
+      "id": "vb_1778825338978_bnq",
+      "soHieu": "Nghị quyết Kỳ họp thứ nhất Quốc hội khóa XVI",
+      "ten": "Nghị quyết của Quốc hội khóa XVI về ban hành một số quy định thuế (thông qua ngày 12/4/2026, Kỳ họp thứ nhất Quốc hội khóa XVI)",
+      "loai": "Khác",
+      "ngayBH": "2026-04-12",
+      "ngayHL": "",
+      "noiBH": "Quốc hội",
+      "trangThai": "sapcohieuluc",
+      "link": "https://www.binhthanhtax.gov.vn/?m=202604",
+      "tomTat": "Quốc hội khóa XVI tại Kỳ họp thứ nhất (12/4/2026) đã thông qua một số nghị quyết liên quan đến chính sách thuế; chi tiết nội dung đang chờ văn bản chính thức ban hành.",
+      "updatedAt": "2026-05-15T06:08:58.978Z",
+      "importedFrom": "auto"
+    },
+    {
+      "id": "vb_1778825338978_wy5",
+      "soHieu": "68/2026/NĐ-CP",
+      "ten": "Nghị định quy định về chính sách thuế và quản lý thuế đối với hộ kinh doanh, cá nhân kinh doanh",
+      "loai": "Quản lý thuế HKD",
+      "ngayBH": "2026-03-06",
+      "ngayHL": "2026-01-01",
+      "noiBH": "Chính phủ",
+      "trangThai": "hieuluc",
+      "link": "https://thuvienphapluat.vn/van-ban/Doanh-nghiep/Nghi-dinh-68-2026-ND-CP-chinh-sach-thue-va-quan-ly-thue-doi-voi-ho-kinh-doanh-ca-nhan-kinh-doanh-685358.aspx",
+      "tomTat": "Bãi bỏ thuế khoán, chuyển sang cơ chế tự khai tự nộp theo doanh thu thực tế; hộ kinh doanh doanh thu trên 500 triệu đồng/năm phải khai và nộp thuế GTGT, TNCN; hộ doanh thu trên 1 tỷ đồng bắt buộc dùng hóa đơn điện tử.",
+      "updatedAt": "2026-05-15T06:08:58.978Z",
+      "importedFrom": "auto"
+    },
+    {
+      "id": "vb_1778825338978_p7c",
+      "soHieu": "18/2026/TT-BTC",
+      "ten": "Thông tư quy định về hồ sơ, thủ tục quản lý thuế đối với hộ kinh doanh, cá nhân kinh doanh",
+      "loai": "Quản lý thuế HKD",
+      "ngayBH": "2026-03-05",
+      "ngayHL": "2026-01-01",
+      "noiBH": "Bộ Tài chính",
+      "trangThai": "hieuluc",
+      "link": "https://xaydungchinhsach.chinhphu.vn/thong-tu-18-2026-tt-btc-quy-dinh-ve-ho-so-thu-tuc-quan-ly-thue-voi-ho-ca-nhan-kinh-doanh-119260309174321852.htm",
+      "tomTat": "Hướng dẫn chi tiết hồ sơ, biểu mẫu kê khai thuế GTGT và TNCN cho hộ kinh doanh theo Nghị định 68/2026; quy định nghĩa vụ thông báo số tài khoản ngân hàng/ví điện tử kinh doanh với cơ quan thuế trước ngày 20/4/2026.",
+      "updatedAt": "2026-05-15T06:08:58.978Z",
+      "importedFrom": "auto"
+    },
+    {
+      "id": "vb_1778825338978_76l",
+      "soHieu": "20/2026/TT-BTC",
+      "ten": "Thông tư quy định chi tiết một số điều của Luật Thuế thu nhập doanh nghiệp số 67/2025/QH15 và Nghị định số 320/2025/NĐ-CP",
+      "loai": "Thuế TNDN",
+      "ngayBH": "2026-03-20",
+      "ngayHL": "2026-03-12",
+      "noiBH": "Bộ Tài chính",
+      "trangThai": "hieuluc",
+      "link": "https://thuvienphapluat.vn/van-ban/search.aspx?keyword=20/2026/TT-BTC",
+      "tomTat": "Thay thế toàn bộ Thông tư 78/2014 và Thông tư 96/2015 về thuế TNDN; áp dụng cho kỳ tính thuế từ năm 2025; hướng dẫn chi tiết chi phí được trừ, doanh thu tính thuế và điều kiện thanh toán không dùng tiền mặt từ 5 triệu đồng trở lên.",
+      "updatedAt": "2026-05-15T06:08:58.978Z",
+      "importedFrom": "auto"
+    }
+  ],
+  "updatedAt": "2026-05-15T06:09:00.290Z"
+}
