@@ -21,7 +21,7 @@ body { -webkit-overflow-scrolling: touch; overscroll-behavior: none; }
 /* Loại bỏ delay 300ms trên iOS */
 * { touch-action: manipulation; }
 </style>
-<title>Công Cụ Thuế 2026 v2.5</title>
+<title>Công Cụ Thuế 2026 v2.6</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Thuế 2026">
@@ -229,7 +229,7 @@ a.dl:hover{text-decoration:underline;}
 <div class="hdr">
   <div class="hdr-ico">🏛️</div>
   <div>
-    <h1>Công Cụ Thuế 2026 <span style="font-size:.6rem;opacity:.6;font-weight:400">v2.5</span></h1>
+    <h1>Công Cụ Thuế 2026 <span style="font-size:.6rem;opacity:.6;font-weight:400">v2.6</span></h1>
     <p>Tính thuế · Văn bản pháp luật · Cập nhật tự động</p>
   </div>
 </div>
@@ -960,13 +960,8 @@ function loadTVInfo(){
 // ===== AUTO CHECK NEW DOCS =====
 var NGUON_QUET = [
   'https://thuvienphapluat.vn/page/tim-van-ban.aspx?keyword=thue&sort=1',
-  'https://thuvienphapluat.vn/page/tim-van-ban.aspx?keyword=ho+kinh+doanh&sort=1',
-  'https://thuvienphapluat.vn/page/tim-van-ban.aspx?keyword=thong+tu+thue&sort=1',
-  'https://thuvienphapluat.vn/page/tim-van-ban.aspx?keyword=nghi+dinh+thue&sort=1',
   'https://vbpl.vn/TW/Pages/vbpq-tim-kiem.aspx?Keyword=thue&stt=1',
-  'https://mof.gov.vn/webcenter/portal/btcvn/pages_r/l/luat-chinh-sach',
   'https://gdt.gov.vn/wps/portal/Home/TinTuc',
-  'https://gdt.gov.vn/wps/portal/Home/VanBanPhapLuat',
 ];
 
 async function checkNewDocs(manual){
@@ -975,16 +970,13 @@ async function checkNewDocs(manual){
   if(document.getElementById('chkPill').style.display!=='none')return;
   document.getElementById('chkPill').style.display='';
   document.getElementById('newBanner').style.display='none';
-  var existing=records.map(function(r){return r.soHieu;}).filter(Boolean).join(', ')||'Chưa có';
-  var lastCheck=localStorage.getItem('ct26_lastCheck')||'';
-  var since=lastCheck?'kể từ '+lastCheck:'trong 30 ngày gần đây';
-  var prompt='Bạn là chuyên gia pháp lý thuế Việt Nam. Hãy tìm kiếm văn bản pháp luật thuế Việt Nam MỚI NHẤT '+since+' từ các nguồn sau:\n'
-    +NGUON_QUET.map(function(u,i){return (i+1)+'. '+u;}).join('\n')+'\n\n'
-    +'Ưu tiên: Luật, Nghị định, Thông tư, Công văn về thuế GTGT, TNCN, TNDN, quản lý thuế HKD, hóa đơn điện tử.\n\n'
-    +'Văn bản đã có trong hệ thống (KHÔNG lấy lại): '+existing+'\n\n'
-    +'Trả về JSON mảng (không markdown, không giải thích thêm), tối đa 5 văn bản MỚI NHẤT:\n'
-    +'[{"soHieu":"số hiệu","ten":"tên đầy đủ","loai":"Thuế GTGT|Thuế TNCN|Thuế TNDN|Hóa đơn & kê khai|Quản lý thuế HKD|Phí & lệ phí|Khác","ngayBH":"YYYY-MM-DD","ngayHL":"YYYY-MM-DD hoặc rỗng","noiBH":"Quốc hội|Chính phủ|Bộ Tài chính|Tổng cục Thuế|UBND tỉnh|Khác","trangThai":"hieuluc|sapcohieuluc","link":"url gốc thuvienphapluat.vn hoặc vbpl.vn","tomTat":"tóm tắt 1-2 câu điểm mới quan trọng nhất"}]\n'
-    +'Nếu không có văn bản mới trả về []';
+  // Chỉ lấy 10 văn bản gần nhất để tránh prompt quá dài
+  var existing=records.slice(0,10).map(function(r){return r.soHieu;}).filter(Boolean).join(', ')||'Chưa có';
+  var prompt='Tìm văn bản pháp luật thuế Việt Nam mới nhất trên thuvienphapluat.vn và gdt.gov.vn.\n'
+    +'Không lấy lại: '+existing+'\n'
+    +'Trả về JSON (không markdown):\n'
+    +'[{"soHieu":"","ten":"","loai":"Thuế GTGT|Thuế TNCN|Thuế TNDN|Quản lý thuế HKD|Khác","ngayBH":"YYYY-MM-DD","ngayHL":"","noiBH":"Bộ Tài chính|Chính phủ|Quốc hội|Tổng cục Thuế|Khác","trangThai":"hieuluc|sapcohieuluc","link":"","tomTat":""}]\n'
+    +'Tối đa 5 văn bản. Nếu không có mới trả về []';
   try{
     var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':aKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:2048,tools:[{type:'web_search_20250305',name:'web_search'}],messages:[{role:'user',content:prompt}]})});
     if(!res.ok)throw new Error('API lỗi '+res.status);
