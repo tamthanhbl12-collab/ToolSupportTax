@@ -21,7 +21,7 @@ body { -webkit-overflow-scrolling: touch; overscroll-behavior: none; }
 /* Loại bỏ delay 300ms trên iOS */
 * { touch-action: manipulation; }
 </style>
-<title>Công Cụ Thuế 2026 v2.6</title>
+<title>Công Cụ Thuế 2026 v2.7</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Thuế 2026">
@@ -229,7 +229,7 @@ a.dl:hover{text-decoration:underline;}
 <div class="hdr">
   <div class="hdr-ico">🏛️</div>
   <div>
-    <h1>Công Cụ Thuế 2026 <span style="font-size:.6rem;opacity:.6;font-weight:400">v2.6</span></h1>
+    <h1>Công Cụ Thuế 2026 <span style="font-size:.6rem;opacity:.6;font-weight:400">v2.7</span></h1>
     <p>Tính thuế · Văn bản pháp luật · Cập nhật tự động</p>
   </div>
 </div>
@@ -666,6 +666,28 @@ function saveApiKey(){
   aKey=k;localStorage.setItem('ct26_akey',k);
   toast('✅ Đã lưu API Key','success');
 }
+function cleanRecord(r){
+  // Làm sạch encoding của từng trường text
+  var fields=['soHieu','ten','tomTat','loai','noiBH'];
+  fields.forEach(function(f){
+    if(r[f]) r[f]=fixEncoding(r[f]);
+  });
+  return r;
+}
+function fixEncoding(s){
+  if(!s||typeof s!=='string') return s;
+  // Nếu chuỗi chứa ký tự Latin-1 bị nhầm là UTF-8
+  try{
+    // Kiểm tra có bị double-encode không
+    var encoded=encodeURIComponent(s);
+    if(encoded.indexOf('%C3%')>=0||encoded.indexOf('%C2%')>=0||encoded.indexOf('%E1%')>=0){
+      // Thử decode như Latin-1 → UTF-8
+      var decoded=decodeURIComponent(escape(s));
+      if(decoded!==s) return decoded;
+    }
+  }catch(e){}
+  return s;
+}
 function loadLocal(){try{var d=localStorage.getItem('ct26_vb');if(d)records=JSON.parse(d);}catch(e){}}
 function saveLocal(){localStorage.setItem('ct26_vb',JSON.stringify(records));}
 
@@ -843,7 +865,7 @@ async function fetchAnalyze(){
 function saveImported(){
   var soHieu=gv('pSoHieu'),ten=gv('pTen'),loai=gv('pLoai'),ngayBH=gv('pNgayBH'),noiBH=gv('pNoiBH');
   if(!soHieu||!ten||!loai||!ngayBH||!noiBH){toast('⚠️ Kiểm tra lại trường bắt buộc','error');return;}
-  records.unshift({id:'vb_'+Date.now(),soHieu:soHieu,ten:ten,loai:loai,ngayBH:ngayBH,ngayHL:gv('pNgayHL'),noiBH:noiBH,trangThai:gv('pTrangThai'),link:gv('pLink'),tomTat:gv('pTomTat'),updatedAt:new Date().toISOString(),importedFrom:'url'});
+  records.unshift(cleanRecord({id:'vb_'+Date.now(),soHieu:soHieu,ten:ten,loai:loai,ngayBH:ngayBH,ngayHL:gv('pNgayHL'),noiBH:noiBH,trangThai:gv('pTrangThai'),link:gv('pLink'),tomTat:gv('pTomTat'),updatedAt:new Date().toISOString(),importedFrom:'url'}));
   saveLocal();renderVB();updateStats();closeImport();
   toast('✅ Đã nhập văn bản từ URL!','success');
 }
@@ -994,7 +1016,15 @@ async function checkNewDocs(manual){
     if(toAdd.length===0){
       if(manual)toast('✅ Không có văn bản mới! Hệ thống đã cập nhật.','success');
     }else{
-      var added=toAdd.map(function(d){return{id:'vb_'+Date.now()+'_'+Math.random().toString(36).slice(2,5),soHieu:d.soHieu||'',ten:d.ten||'',loai:d.loai||'Khác',ngayBH:d.ngayBH||'',ngayHL:d.ngayHL||'',noiBH:d.noiBH||'Khác',trangThai:d.trangThai||'hieuluc',link:d.link||'',tomTat:d.tomTat||'',updatedAt:new Date().toISOString(),importedFrom:'auto'};});
+      var added=toAdd.map(function(d){
+        return cleanRecord({
+          id:'vb_'+Date.now()+'_'+Math.random().toString(36).slice(2,5),
+          soHieu:d.soHieu||'',ten:d.ten||'',loai:d.loai||'Khác',
+          ngayBH:d.ngayBH||'',ngayHL:d.ngayHL||'',noiBH:d.noiBH||'Khác',
+          trangThai:d.trangThai||'hieuluc',link:d.link||'',
+          tomTat:d.tomTat||'',updatedAt:new Date().toISOString(),importedFrom:'auto'
+        });
+      });
       records.unshift.apply(records,added);
       saveLocal();renderVB();updateStats();
       // Hiện banner thông báo
