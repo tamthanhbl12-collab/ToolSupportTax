@@ -234,7 +234,7 @@ a.dl:hover{text-decoration:underline;}
   </div>
 </div>
 <div id="newBanner" style="display:none"></div>
-<div class="sync-bar">
+<div class="sync-bar" id="syncBar">
   <div class="sd" id="syncDot"></div>
   <span id="syncStatus">Chưa kết nối GitHub</span>
   <span id="lastSync" style="margin-left:auto;opacity:.6"></span>
@@ -634,6 +634,11 @@ function showPage(id,el){
 
 // ===== INIT =====
 window.onload=function(){
+  // Ẩn sync bar khi mở như app standalone
+  if(window.navigator.standalone||window.matchMedia('(display-mode:standalone)').matches){
+    var sb=document.getElementById('syncBar');
+    if(sb) sb.style.display='none';
+  }
   loadConfig();loadLocal();loadNguon();loadCoSo();loadTVInfo();
   renderVB();updateStats();runCompare();
   if(ghConfig.token&&ghConfig.repo)loadFromGH();
