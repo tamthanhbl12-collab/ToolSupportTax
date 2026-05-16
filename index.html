@@ -21,7 +21,7 @@ body { -webkit-overflow-scrolling: touch; overscroll-behavior: none; }
 /* Loại bỏ delay 300ms trên iOS */
 * { touch-action: manipulation; }
 </style>
-<title>Công Cụ Thuế 2026 v2.4</title>
+<title>Công Cụ Thuế 2026 v2.5</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Thuế 2026">
@@ -229,7 +229,7 @@ a.dl:hover{text-decoration:underline;}
 <div class="hdr">
   <div class="hdr-ico">🏛️</div>
   <div>
-    <h1>Công Cụ Thuế 2026 <span style="font-size:.6rem;opacity:.6;font-weight:400">v2.4</span></h1>
+    <h1>Công Cụ Thuế 2026 <span style="font-size:.6rem;opacity:.6;font-weight:400">v2.5</span></h1>
     <p>Tính thuế · Văn bản pháp luật · Cập nhật tự động</p>
   </div>
 </div>
@@ -746,21 +746,9 @@ function xoaVaQuetLai(){
   setTimeout(function(){checkNewDocs(true);},500);
 }
 
+function decodeText(s){
   if(!s||typeof s!=='string') return '';
-  // Kiểm tra có lỗi encoding không
-  if(s.indexOf('Ã')<0&&s.indexOf('â€')<0&&s.indexOf('Â')<0&&s.indexOf('á»')<0&&s.indexOf('á»')<0) return s;
-  // Dùng TextDecoder để decode UTF-8
-  try{
-    var arr=[];
-    for(var i=0;i<s.length;i++) arr.push(s.charCodeAt(i)&0xff);
-    var bytes=new Uint8Array(arr);
-    var result=new TextDecoder('utf-8').decode(bytes);
-    // Kiểm tra kết quả có hợp lệ không
-    if(result&&result.length>0&&result.indexOf('�')<0) return result;
-  }catch(e){}
-  // Fallback: thay thủ công
-  try{return decodeURIComponent(escape(s));}catch(e){}
-  return s;
+  try{return decodeURIComponent(escape(s));}catch(e){return s;}
 }
 function renderVB(){
   var q=gv('vbSearch').toLowerCase();
