@@ -21,7 +21,7 @@ body { -webkit-overflow-scrolling: touch; overscroll-behavior: none; }
 /* Loại bỏ delay 300ms trên iOS */
 * { touch-action: manipulation; }
 </style>
-<title>Công Cụ Thuế 2026 v2.1</title>
+<title>Công Cụ Thuế 2026 v2.2</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Thuế 2026">
@@ -229,7 +229,7 @@ a.dl:hover{text-decoration:underline;}
 <div class="hdr">
   <div class="hdr-ico">🏛️</div>
   <div>
-    <h1>Công Cụ Thuế 2026 <span style="font-size:.6rem;opacity:.6;font-weight:400">v2.1</span></h1>
+    <h1>Công Cụ Thuế 2026 <span style="font-size:.6rem;opacity:.6;font-weight:400">v2.2</span></h1>
     <p>Tính thuế · Văn bản pháp luật · Cập nhật tự động</p>
   </div>
 </div>
@@ -736,7 +736,34 @@ function deleteVB(id){
 // ===== RENDER VĂN BẢN =====
 function decodeText(s){
   if(!s) return '';
-  try{return decodeURIComponent(escape(s));}catch(e){return s;}
+  // Thử decode UTF-8 bị encode sai
+  try{
+    // Cách 1: escape/unescape
+    var r=decodeURIComponent(escape(s));
+    if(r.indexOf('Â')<0&&r.indexOf('Ã')<0) return r;
+  }catch(e){}
+  try{
+    // Cách 2: TextDecoder nếu có
+    if(typeof TextDecoder!=='undefined'){
+      var bytes=new Uint8Array(s.split('').map(function(c){return c.charCodeAt(0);}));
+      var r2=new TextDecoder('utf-8').decode(bytes);
+      if(r2.indexOf('Â')<0&&r2.indexOf('Ã')<0) return r2;
+    }
+  }catch(e){}
+  // Cách 3: thay thủ công các ký tự lỗi phổ biến
+  return s
+    .replace(/Ã /g,'à').replace(/Ã /g,'À').replace(/á»£/g,'ợ').replace(/á»¡/g,'ở')
+    .replace(/Ã¡/g,'á').replace(/Ã /g,'à').replace(/Ã¢/g,'â').replace(/Ã£/g,'ã')
+    .replace(/Ã¨/g,'è').replace(/Ã©/g,'é').replace(/Ãª/g,'ê').replace(/Ã«/g,'ë')
+    .replace(/Ã¬/g,'ì').replace(/Ã­/g,'í').replace(/Ã®/g,'î').replace(/Ã¯/g,'ï')
+    .replace(/Ã²/g,'ò').replace(/Ã³/g,'ó').replace(/Ã´/g,'ô').replace(/Ãµ/g,'õ')
+    .replace(/Ã¹/g,'ù').replace(/Ãº/g,'ú').replace(/Ã»/g,'û').replace(/Ã¼/g,'ü')
+    .replace(/Ä'/g,'đ').replace(/Ä/g,'Đ')
+    .replace(/á»/g,'ọ').replace(/á»/g,'ố').replace(/á»'/g,'ổ').replace(/á»"/g,'ỗ')
+    .replace(/á»•/g,'ộ').replace(/á»—/g,'ớ').replace(/á»™/g,'ợ')
+    .replace(/á»›/g,'ử').replace(/á»/g,'ữ').replace(/á»Ÿ/g,'ướ')
+    .replace(/â€™/g,"'").replace(/â€œ/g,'"').replace(/â€/g,'"')
+    .replace(/Â /g,' ').replace(/Â·/g,'·');
 }
 function renderVB(){
   var q=gv('vbSearch').toLowerCase();
