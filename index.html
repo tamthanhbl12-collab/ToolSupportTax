@@ -4,6 +4,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<style>
+/* Fix iOS zoom và tối ưu hiệu suất */
+input, select, textarea { font-size: 16px !important; touch-action: manipulation; }
+* { -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
+html { -webkit-overflow-scrolling: touch; }
+body { -webkit-overflow-scrolling: touch; overscroll-behavior: none; }
+/* Hardware acceleration cho tất cả animation */
+.bnav-btn, .btn, .model-card, .nav-item, .page, .mo {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
+}
+/* Smooth scroll */
+.page { -webkit-overflow-scrolling: touch; }
+/* Loại bỏ delay 300ms trên iOS */
+* { touch-action: manipulation; }
+</style>
 <title>Công Cụ Thuế 2026 v2.1</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -21,7 +38,7 @@ body{font-family:Arial,sans-serif;background:var(--light);color:var(--navy);min-
 .hdr p{font-size:.6rem;color:rgba(255,255,255,.5);}
 /* BOTTOM NAV */
 .bnav{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);display:flex;z-index:100;box-shadow:0 -2px 10px rgba(15,30,60,.1);}
-.bnav-btn{flex:1;padding:10px 4px 8px;border:none;background:transparent;font-size:.6rem;font-weight:600;color:var(--gray);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .15s;}
+.bnav-btn{flex:1;padding:10px 4px 8px;border:none;background:transparent;font-size:.6rem;font-weight:600;color:var(--gray);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;transition:color .1s;-webkit-transition:color .1s;}
 .bnav-btn .bi{font-size:20px;}
 .bnav-btn.active{color:var(--navy);border-top:2px solid var(--accent);}
 /* PAGES */
@@ -31,7 +48,7 @@ body{font-family:Arial,sans-serif;background:var(--light);color:var(--navy);min-
 .sec-sub{font-size:.72rem;color:var(--gray);margin-bottom:14px;}
 /* CARDS */
 .model-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
-.model-card{background:var(--white);border-radius:12px;padding:13px;border:2px solid var(--border);cursor:pointer;text-align:center;transition:all .18s;}
+.model-card{background:var(--white);border-radius:12px;padding:13px;border:2px solid var(--border);cursor:pointer;text-align:center;transition:border-color .1s;-webkit-transition:border-color .1s;-webkit-transform:translateZ(0);transform:translateZ(0);}
 .model-card.selected{border-color:var(--accent);background:#fffbf0;}
 .mc-ico{font-size:26px;margin-bottom:5px;}
 .mc-name{font-size:.82rem;font-weight:700;}
@@ -126,7 +143,7 @@ a.dl:hover{text-decoration:underline;}
 /* MODAL */
 .mo{display:none;position:fixed;inset:0;background:rgba(10,20,40,.5);z-index:200;align-items:center;justify-content:center;padding:14px;}
 .mo.open{display:flex;}
-.modal{background:var(--white);border-radius:14px;width:100%;max-width:540px;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 60px rgba(10,20,40,.25);animation:mUp .2s ease;}
+.modal{background:var(--white);border-radius:14px;width:100%;max-width:540px;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 60px rgba(10,20,40,.25);}
 @keyframes mUp{from{transform:translateY(18px);opacity:0}to{transform:none;opacity:1}}
 .mh{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .mh h2{font-size:.88rem;font-weight:700;}
@@ -602,12 +619,17 @@ function toast(msg,type){var t=document.getElementById('toast');t.textContent=ms
 
 // ===== NAVIGATION =====
 function showPage(id,el){
-  var ps=document.querySelectorAll('.page');for(var i=0;i<ps.length;i++)ps[i].classList.remove('active');
-  document.getElementById(id).classList.add('active');
-  var bs=document.querySelectorAll('.bnav-btn');for(var i=0;i<bs.length;i++)bs[i].classList.remove('active');
-  if(el)el.classList.add('active');
-  if(id==='pSoSanh')runCompare();
-  if(id==='pVanBan')renderVB();
+  var ps=document.querySelectorAll('.page');
+  for(var i=0;i<ps.length;i++){
+    if(ps[i].id===id) ps[i].classList.add('active');
+    else ps[i].classList.remove('active');
+  }
+  var bs=document.querySelectorAll('.bnav-btn');
+  for(var i=0;i<bs.length;i++) bs[i].classList.remove('active');
+  if(el) el.classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='pSoSanh') runCompare();
+  if(id==='pVanBan') renderVB();
 }
 
 // ===== INIT =====
