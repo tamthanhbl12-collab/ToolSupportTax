@@ -20,7 +20,7 @@ body { -webkit-overflow-scrolling: touch; overscroll-behavior: none; }
 /* Loại bỏ delay 300ms trên iOS */
 * { touch-action: manipulation; }
 </style>
-<title>Công Cụ Thuế 2026 v9.6</title>
+<title>Công Cụ Thuế 2026 v9.8</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Thuế 2026">
@@ -251,7 +251,7 @@ a.dl:hover{text-decoration:underline;}
 <div class="hdr">
   <div class="hdr-ico">🏛️</div>
   <div>
-    <h1>Công Cụ Thuế 2026 <span style="font-size:.6rem;opacity:.6;font-weight:400">v9.6</span></h1>
+    <h1>Công Cụ Thuế 2026 <span style="font-size:.6rem;opacity:.6;font-weight:400">v9.8</span></h1>
     <p>Tính thuế · Văn bản pháp luật · Cập nhật tự động</p>
   </div>
 </div>
@@ -335,6 +335,7 @@ a.dl:hover{text-decoration:underline;}
       <div class="fg" id="grpVon" style="display:none"><label class="fl">Vốn điều lệ (triệu đ)</label><div class="fi-row"><input class="fi" type="number" id="fVon" placeholder="500" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
       <div class="fg" id="grpCoTuc" style="display:none"><label class="fl">Tỷ lệ cổ tức (%/năm)</label><div class="fi-row"><input class="fi" type="number" id="fCoTuc" placeholder="20" oninput="recalc()"><span class="unit">%</span></div></div>
       <div class="fg" id="grpNamHD" style="display:none"><label class="fl">Số năm hoạt động</label><select class="fs" id="fNamHD" onchange="recalc()"><option value="0">Mới thành lập (năm 1)</option><option value="1">Năm 2</option><option value="2">Năm 3</option><option value="3" selected>Năm 4+</option></select></div>
+      <div class="fg" id="grpPhuongPhap" style="display:none"><label class="fl">Phương pháp tính TNCN (nhóm 2)</label><select class="fs" id="fPhuongPhap" onchange="recalc()"><option value="dt">Theo % DT (không xác định được CP)</option><option value="ln">Theo LN 15% (xác định được CP)</option></select></div>
     </div>
     <div class="fc">
       <h3>🏦 Vay ngân hàng &amp; Chi phí khác</h3>
@@ -3529,6 +3530,7 @@ function selectModel(m){
   document.getElementById('grpVon').style.display=isHKD?'none':'';
   document.getElementById('grpCoTuc').style.display=isCtcp?'':'none';
   document.getElementById('grpNamHD').style.display=isHKD?'none':'';
+  document.getElementById('grpPhuongPhap').style.display=isHKD?'':'none';
   recalc();
 }
 function getLaiVay(){var vay=parseFloat(gv('fVay'))||0,ls=parseFloat(gv('fLaiSuat'))||0,lt=parseFloat(gv('fLaiThang'))||0;return lt>0?lt:(vay>0&&ls>0?vay*ls/100:0);}
@@ -3539,23 +3541,91 @@ function recalc(){
   var dt=parseFloat(gv('fDoanhThu'))||0,cp=parseFloat(gv('fChiPhi'))||0;
   var nv=parseInt(gv('fNhanVien'))||0,luong=parseFloat(gv('fLuong'))||0;
   var coTuc=parseFloat(gv('fCoTuc'))||0,namHD=parseInt(gv('fNamHD'))||3;
+  var phuongPhap=gv('fPhuongPhap')||'dt';
   var cpKhac=parseFloat(gv('fChiPhiKhac'))||0,laiVay=getLaiVay(),bhxh=getBHXH();
   var dt_ty=dt/1000,rows=[],tongThue=0;
   if(currentModel==='hkd'){
-    var NG=1000; // NĐ 141: nâng ngưỡng miễn từ 500tr lên 1 tỷ
+    var NG=1000; // NĐ 141: ngưỡng miễn 1 tỷ (từ 01/01/2026)
+    var NG_TNCN=500; // Ngưỡng không chịu thuế TNCN/GTGT gốc theo Luật (500tr)
     if(dt<=NG){document.getElementById('resultArea').innerHTML=buildMien(dt,NG,laiVay,bhxh,cpKhac,cp,gv('fNganh'));return;}
-    var dtTT=dt-NG,thueG=dtTT*nganh.gtgt_hkd/100,thueT=dtTT*nganh.tncn_hkd/100;
-    tongThue=thueG+thueT;
-    var tongCP=cp+laiVay+bhxh+cpKhac,lnst=dt-tongCP-tongThue;
-    rows.push({l:'Doanh thu miễn thuế',w:'NQ 198/2025',a:fm(NG),n:'1 tỷ/năm miễn GTGT+TNCN (NĐ 141)',c:'green'});
-    rows.push({l:'Doanh thu tính thuế',w:'',a:fm(dtTT),n:'Phần vượt ngưỡng 1 tỷ (NĐ 141)',c:''});
-    rows.push({l:'Thuế GTGT ('+nganh.gtgt_hkd+'%)',w:'Luật GTGT 2024 Đ12',a:fm(thueG),n:'Ngành '+nganh.ten,c:'orange'});
-    rows.push({l:'Thuế TNCN ('+nganh.tncn_hkd+'%)',w:'Luật TNCN 2025 Đ7',a:fm(thueT),n:'Ngành '+nganh.ten,c:'red'});
-    if(laiVay>0)rows.push({l:'Lãi vay ngân hàng',w:'',a:fm(laiVay),n:'Chi phí tài chính/năm (HKD không được trừ thuế)',c:''});
-    if(bhxh>0)rows.push({l:'BHXH chủ SD (17.5%)',w:'',a:fm(bhxh),n:nv+' NV × '+luong+'tr × 12 × 17.5%',c:''});
-    if(cpKhac>0)rows.push({l:'Chi phí khác',w:'',a:fm(cpKhac),n:'Chi phí bổ sung',c:''});
-    var lys=['Từ 2026 bỏ thuế khoán, chuyển sang tự kê khai — tự nộp.','Ngưỡng miễn thuế 1 tỷ/năm (NĐ 141/2026/NĐ-CP).','HKD phải khai báo tài khoản NH/ví điện tử với cơ quan thuế — hạn 31/07/2026.','Dùng mẫu tờ khai 01/CNKD mới theo TT 18/2026/TT-BTC.','Lãi vay NH KHÔNG được trừ khi tính thuế HKD (khác doanh nghiệp).','Bỏ lệ phí môn bài từ 01/01/2026.'];
-    document.getElementById('resultArea').innerHTML=buildResult('Hộ kinh doanh',dt,tongCP,tongThue,lnst,rows,lys,gv('fNganh'));
+    // Hiện/ẩn grpPhuongPhap tùy nhóm
+    document.getElementById('grpPhuongPhap').style.display=(dt>NG&&dt<=3000)?'':'none';
+    var tongCP=cp+laiVay+bhxh+cpKhac;
+    var thueG=0,thueT=0,nhomHKD='';
+
+    if(dt<=3000){
+      // Nhóm 2: DT 1–3 tỷ — 2 phương pháp lựa chọn
+      nhomHKD='Nhóm 2 (1–3 tỷ)';
+      var dtTT=dt-NG; // phần vượt 1 tỷ
+      thueG=dtTT*nganh.gtgt_hkd/100; // GTGT luôn theo % DT vượt ngưỡng
+      
+      if(phuongPhap==='ln'){
+        // PP2: Theo lợi nhuận 15% (xác định được CP)
+        var ln2=dt-tongCP,lnP2=ln2>0?ln2:0;
+        thueT=lnP2*0.15;
+        tongThue=thueG+thueT;
+        var lnst=dt-tongCP-tongThue;
+        rows.push({l:'Doanh thu miễn thuế',w:'NĐ 141/2026',a:fm(NG),n:'1 tỷ/năm miễn GTGT+TNCN',c:'green'});
+        rows.push({l:'Doanh thu tính GTGT',w:'Luật GTGT 2024 · TT 69/2025',a:fm(dtTT),n:'Phần vượt 1 tỷ',c:''});
+        rows.push({l:'Thuế GTGT ('+nganh.gtgt_hkd+'%)',w:'TT 69/2025',a:fm(thueG),n:'Ngành '+nganh.ten,c:'orange'});
+        rows.push({l:'Lợi nhuận (DT - Tổng CP)',w:'',a:fm(ln2),n:'Căn cứ tính TNCN phương pháp LN',c:ln2>=0?'green':'red'});
+        rows.push({l:'Thuế TNCN (15% × LN)',w:'Luật TNCN 2025',a:fm(thueT),n:'15% × Lợi nhuận — HKD xác định được CP',c:'red'});
+        if(laiVay>0)rows.push({l:'Lãi vay ngân hàng',w:'',a:fm(laiVay),n:'HKD không được trừ thuế',c:''});
+        if(bhxh>0)rows.push({l:'BHXH chủ SD (17.5%)',w:'',a:fm(bhxh),n:nv+' NV × '+luong+'tr × 12 × 17.5%',c:''});
+        if(cpKhac>0)rows.push({l:'Chi phí khác',w:'',a:fm(cpKhac),n:'',c:''});
+        var lys=['Phương pháp LN: TNCN = 15% × (DT - Chi phí) — áp dụng khi xác định được chi phí đầu vào.','GTGT = '+nganh.gtgt_hkd+'% × DT vượt 1 tỷ (TT 69/2025 · Ngành '+nganh.ten+').','Lựa chọn PP này khi có đủ chứng từ chi phí hợp lệ — có thể tiết kiệm thuế hơn PP % DT nếu biên lợi nhuận thấp.','Phải lưu đầy đủ chứng từ đầu vào để bảo vệ chi phí khi CQT kiểm tra.'];
+      } else {
+        // PP1: Theo % DT (không xác định được CP)
+        thueT=dtTT*nganh.tncn_hkd/100;
+        tongThue=thueG+thueT;
+        var lnst=dt-tongCP-tongThue;
+        rows.push({l:'Doanh thu miễn thuế',w:'NĐ 141/2026',a:fm(NG),n:'1 tỷ/năm miễn GTGT+TNCN',c:'green'});
+        rows.push({l:'Doanh thu tính thuế',w:'',a:fm(dtTT),n:'Phần vượt ngưỡng 1 tỷ',c:''});
+        rows.push({l:'Thuế GTGT ('+nganh.gtgt_hkd+'%)',w:'Luật GTGT 2024 · TT 69/2025',a:fm(thueG),n:'Ngành '+nganh.ten,c:'orange'});
+        rows.push({l:'Thuế TNCN ('+nganh.tncn_hkd+'%)',w:'Luật TNCN 2025 Đ7',a:fm(thueT),n:'% DT vượt 1 tỷ · Ngành '+nganh.ten,c:'red'});
+        if(laiVay>0)rows.push({l:'Lãi vay ngân hàng',w:'',a:fm(laiVay),n:'HKD không được trừ thuế',c:''});
+        if(bhxh>0)rows.push({l:'BHXH chủ SD (17.5%)',w:'',a:fm(bhxh),n:nv+' NV × '+luong+'tr × 12 × 17.5%',c:''});
+        if(cpKhac>0)rows.push({l:'Chi phí khác',w:'',a:fm(cpKhac),n:'',c:''});
+        var lys=['Phương pháp % DT: TNCN = '+nganh.tncn_hkd+'% × DT vượt 1 tỷ — áp dụng khi không xác định được CP đầu vào.','GTGT = '+nganh.gtgt_hkd+'% × DT vượt 1 tỷ (TT 69/2025 · Ngành '+nganh.ten+').','💡 Nếu xác định được chi phí → chọn PP Lợi nhuận 15% để so sánh và tối ưu thuế.','Bắt buộc HĐĐT và mở sổ S2a-HKD. Kê khai thuế theo quý.'];
+      }
+      document.getElementById('resultArea').innerHTML=buildResult('Hộ kinh doanh — '+nhomHKD,dt,tongCP,tongThue,lnst,rows,lys,gv('fNganh'));
+
+    } else if(dt<=50000){
+      // Nhóm 3: DT 3–50 tỷ — GTGT theo % DT, TNCN 17% lợi nhuận
+      nhomHKD='Nhóm 3 (3–50 tỷ)';
+      thueG=dt*nganh.gtgt_hkd/100;
+      var ln=dt-tongCP,lnP=ln>0?ln:0;
+      thueT=lnP*0.17; // 17% lợi nhuận
+      tongThue=thueG+thueT;
+      var lnst=dt-tongCP-tongThue;
+      rows.push({l:'Doanh thu',w:'',a:fm(dt),n:'Toàn bộ DT (nhóm 3 không có ngưỡng miễn)',c:''});
+      rows.push({l:'Thuế GTGT ('+nganh.gtgt_hkd+'%)',w:'Luật GTGT 2024 · TT 69/2025',a:fm(thueG),n:'% toàn bộ DT · Ngành '+nganh.ten,c:'orange'});
+      rows.push({l:'Lợi nhuận (DT - Chi phí)',w:'',a:fm(ln),n:'Căn cứ tính TNCN',c:ln>=0?'green':'red'});
+      rows.push({l:'Thuế TNCN (17% LN)',w:'Luật TNCN 2025',a:fm(thueT),n:'17% × Lợi nhuận · Nhóm 3',c:'red'});
+      if(laiVay>0)rows.push({l:'Lãi vay ngân hàng',w:'',a:fm(laiVay),n:'HKD không được trừ thuế',c:''});
+      if(bhxh>0)rows.push({l:'BHXH chủ SD (17.5%)',w:'',a:fm(bhxh),n:nv+' NV × '+luong+'tr × 12 × 17.5%',c:''});
+      if(cpKhac>0)rows.push({l:'Chi phí khác',w:'',a:fm(cpKhac),n:'',c:''});
+      var lys=['Nhóm 3 (3–50 tỷ): GTGT theo % toàn bộ DT, TNCN 17% lợi nhuận.','Bắt buộc HĐĐT, sổ S2b-S2e và S3a-HKD.','Kê khai thuế theo quý.','Lưu trữ chứng từ đầu vào để tính chi phí hợp lý.','Lãi vay NH KHÔNG được trừ khi tính thuế HKD.'];
+      document.getElementById('resultArea').innerHTML=buildResult('Hộ kinh doanh — '+nhomHKD,dt,tongCP,tongThue,lnst,rows,lys,gv('fNganh'));
+
+    } else {
+      // Nhóm 4: DT > 50 tỷ — GTGT theo % DT, TNCN 20% lợi nhuận
+      nhomHKD='Nhóm 4 (>50 tỷ)';
+      thueG=dt*nganh.gtgt_hkd/100;
+      var ln=dt-tongCP,lnP=ln>0?ln:0;
+      thueT=lnP*0.20; // 20% lợi nhuận
+      tongThue=thueG+thueT;
+      var lnst=dt-tongCP-tongThue;
+      rows.push({l:'Doanh thu',w:'',a:fm(dt),n:'Toàn bộ DT (nhóm 4)',c:''});
+      rows.push({l:'Thuế GTGT ('+nganh.gtgt_hkd+'%)',w:'Luật GTGT 2024 · TT 69/2025',a:fm(thueG),n:'% toàn bộ DT · Ngành '+nganh.ten,c:'orange'});
+      rows.push({l:'Lợi nhuận (DT - Chi phí)',w:'',a:fm(ln),n:'Căn cứ tính TNCN',c:ln>=0?'green':'red'});
+      rows.push({l:'Thuế TNCN (20% LN)',w:'Luật TNCN 2025',a:fm(thueT),n:'20% × Lợi nhuận · Nhóm 4',c:'red'});
+      if(laiVay>0)rows.push({l:'Lãi vay ngân hàng',w:'',a:fm(laiVay),n:'HKD không được trừ thuế',c:''});
+      if(bhxh>0)rows.push({l:'BHXH chủ SD (17.5%)',w:'',a:fm(bhxh),n:nv+' NV × '+luong+'tr × 12 × 17.5%',c:''});
+      if(cpKhac>0)rows.push({l:'Chi phí khác',w:'',a:fm(cpKhac),n:'',c:''});
+      var lys=['Nhóm 4 (>50 tỷ): GTGT theo % toàn bộ DT, TNCN 20% lợi nhuận.','Kê khai thuế theo tháng (hạn ngày 20 tháng sau).','Bắt buộc HĐĐT, đầy đủ hệ thống sổ sách như doanh nghiệp.','Lưu trữ chứng từ đầu vào để tính chi phí hợp lý.','Lãi vay NH KHÔNG được trừ khi tính thuế HKD.'];
+      document.getElementById('resultArea').innerHTML=buildResult('Hộ kinh doanh — '+nhomHKD,dt,tongCP,tongThue,lnst,rows,lys,gv('fNganh'));
+    }
   }else{
     var rate=getTNDNRate(dt_ty),mien=(namHD<3)&&(dt_ty<=50);
     var tongCPDT=cp+laiVay+bhxh+cpKhac,ln=dt-tongCPDT,lnP=ln>0?ln:0;
