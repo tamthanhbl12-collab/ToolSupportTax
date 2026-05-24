@@ -20,7 +20,7 @@ body { -webkit-overflow-scrolling: touch; overscroll-behavior: none; }
 /* Loại bỏ delay 300ms trên iOS */
 * { touch-action: manipulation; }
 </style>
-<title>Công Cụ Thuế 2026 v9.0</title>
+<title>Công Cụ Thuế 2026 v9.6</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Thuế 2026">
@@ -251,7 +251,7 @@ a.dl:hover{text-decoration:underline;}
 <div class="hdr">
   <div class="hdr-ico">🏛️</div>
   <div>
-    <h1>Công Cụ Thuế 2026 <span style="font-size:.6rem;opacity:.6;font-weight:400">v9.0</span></h1>
+    <h1>Công Cụ Thuế 2026 <span style="font-size:.6rem;opacity:.6;font-weight:400">v9.6</span></h1>
     <p>Tính thuế · Văn bản pháp luật · Cập nhật tự động</p>
   </div>
 </div>
@@ -284,24 +284,65 @@ a.dl:hover{text-decoration:underline;}
     <div class="model-card" id="card-ctcp" onclick="selectModel('ctcp')"><div class="mc-ico">📈</div><div class="mc-name">Công ty Cổ Phần</div><div class="mc-desc">Từ 3 cổ đông</div><div class="mc-badge b-ctcp">TNDN+GTGT+cổ tức</div></div>
   </div>
   <div id="formArea" style="display:none">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start">
     <div class="fc">
       <h3>📊 Thông tin kinh doanh</h3>
-      <div class="fg"><label class="fl">Ngành nghề</label><select class="fs" id="fNganh" onchange="onNganhChange()"><option value="thuongmai">Thương mại / bán lẻ</option><option value="dichvu">Dịch vụ</option><option value="anUong">Nhà hàng / ăn uống</option><option value="sanXuat">Sản xuất / gia công</option><option value="vanTai">Vận tải</option><option value="xayDung">Xây dựng</option><option value="choThue">Cho thuê tài sản</option><option value="lamDep">Làm đẹp / cắt tóc</option><option value="khac">Khác</option></select></div>
-      <div class="fg" id="grpLoaiHinh" style="display:none"><label class="fl">Loại hình cụ thể</label><select class="fs" id="fLoaiHinh" onchange="recalc()"><option value="">-- Chọn loại hình --</option></select></div>
-      <div class="fg"><label class="fl">Doanh thu năm (triệu đồng)</label><div class="fi-row"><input class="fi" type="number" id="fDoanhThu" placeholder="1000" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
-      <div class="fg"><label class="fl">Chi phí hoạt động năm (triệu đồng)</label><div class="fi-row"><input class="fi" type="number" id="fChiPhi" placeholder="700" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
+      <div class="fg"><label class="fl">Ngành cụ thể</label><select class="fs" id="fNganhCuThe" onchange="onNganhCuTheChange()">
+        <option value="">-- Chọn ngành --</option>
+        <optgroup label="🌾 Nông nghiệp">
+          <option value="luagao">🍚 Lúa gạo, gạo, cám, tấm</option>
+          <option value="tachan">🌾 Thức ăn chăn nuôi</option>
+          <option value="chanNuoi">🐖 Chăn nuôi (heo, gà, cá...)</option>
+          <option value="thuySan">🐟 Thủy sản, nuôi trồng</option>
+          <option value="nongsanKhac">🌿 Nông sản khác</option>
+        </optgroup>
+        <optgroup label="🛒 Thương mại">
+          <option value="tapHoa">🛒 Tạp hóa, hàng tiêu dùng</option>
+          <option value="dailyPB">📦 Đại lý phân phối</option>
+          <option value="vlXD">🧱 Vật liệu xây dựng</option>
+          <option value="thuocTY">💊 Thuốc thú y, dụng cụ chăn nuôi</option>
+          <option value="tmKhac">🏪 Thương mại khác</option>
+        </optgroup>
+        <optgroup label="🍜 Ăn uống & Dịch vụ">
+          <option value="quanAn">🍜 Quán ăn, cơm tấm, bún bò</option>
+          <option value="cafe">☕ Café, trà sữa</option>
+          <option value="nhaHang">🍽️ Nhà hàng</option>
+          <option value="ketoan">💼 Kế toán, tư vấn</option>
+          <option value="cntt">💻 CNTT, thiết kế</option>
+          <option value="dvKhac">🔧 Dịch vụ khác</option>
+        </optgroup>
+        <optgroup label="🏗️ Sản xuất & Xây dựng">
+          <option value="camVien">🏭 Sản xuất thức ăn chăn nuôi</option>
+          <option value="giaConG">👕 Gia công, sản xuất</option>
+          <option value="xayNha">🏗️ Xây dựng, sửa chữa</option>
+        </optgroup>
+        <optgroup label="🚚 Vận tải & Cho thuê">
+          <option value="xeTai">🚚 Vận tải hàng hóa</option>
+          <option value="choNha">🏠 Cho thuê nhà, mặt bằng</option>
+          <option value="khoXuong">🏭 Cho thuê kho, xưởng</option>
+        </optgroup>
+        <optgroup label="💇 Làm đẹp">
+          <option value="tiemToc">✂️ Tiệm tóc, nail, spa</option>
+        </optgroup>
+      </select></div>
+      <div class="fg" id="grpHinhThuc" style="display:none"><label class="fl">Hình thức kinh doanh</label><select class="fs" id="fHinhThuc" onchange="onHinhThucChange()"><option value="">-- Chọn hình thức --</option></select></div>
+      <div id="grpThueSuat" style="display:none;margin-bottom:10px"></div>
+      <div class="fg" id="grpLoaiHinh" style="display:none"><label class="fl">Ngành nghề (thuế suất)</label><select class="fs" id="fNganh" onchange="recalc()"><option value="thuongmai">Thương mại / bán lẻ</option><option value="dichvu">Dịch vụ</option><option value="anUong">Nhà hàng / ăn uống</option><option value="sanXuat">Sản xuất / gia công</option><option value="vanTai">Vận tải</option><option value="xayDung">Xây dựng</option><option value="choThue">Cho thuê tài sản</option><option value="lamDep">Làm đẹp / cắt tóc</option><option value="khac">Khác</option></select></div>
+      <div class="fg"><label class="fl">Doanh thu năm (triệu đ)</label><div class="fi-row"><input class="fi" type="number" id="fDoanhThu" placeholder="1000" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
+      <div class="fg"><label class="fl">Chi phí hoạt động năm (triệu đ)</label><div class="fi-row"><input class="fi" type="number" id="fChiPhi" placeholder="700" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
       <div class="fg"><label class="fl">Số nhân viên</label><div class="fi-row"><input class="fi" type="number" id="fNhanVien" placeholder="5" oninput="recalc()"><span class="unit">NV</span></div></div>
-      <div class="fg"><label class="fl">Lương bình quân NV (triệu/tháng)</label><div class="fi-row"><input class="fi" type="number" id="fLuong" placeholder="7" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
-      <div class="fg" id="grpVon" style="display:none"><label class="fl">Vốn điều lệ (triệu đồng)</label><div class="fi-row"><input class="fi" type="number" id="fVon" placeholder="500" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
-      <div class="fg" id="grpCoTuc" style="display:none"><label class="fl">Tỷ lệ chia cổ tức (%/năm)</label><div class="fi-row"><input class="fi" type="number" id="fCoTuc" placeholder="20" oninput="recalc()"><span class="unit">%</span></div></div>
+      <div class="fg"><label class="fl">Lương bình quân (triệu/tháng)</label><div class="fi-row"><input class="fi" type="number" id="fLuong" placeholder="7" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
+      <div class="fg" id="grpVon" style="display:none"><label class="fl">Vốn điều lệ (triệu đ)</label><div class="fi-row"><input class="fi" type="number" id="fVon" placeholder="500" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
+      <div class="fg" id="grpCoTuc" style="display:none"><label class="fl">Tỷ lệ cổ tức (%/năm)</label><div class="fi-row"><input class="fi" type="number" id="fCoTuc" placeholder="20" oninput="recalc()"><span class="unit">%</span></div></div>
       <div class="fg" id="grpNamHD" style="display:none"><label class="fl">Số năm hoạt động</label><select class="fs" id="fNamHD" onchange="recalc()"><option value="0">Mới thành lập (năm 1)</option><option value="1">Năm 2</option><option value="2">Năm 3</option><option value="3" selected>Năm 4+</option></select></div>
     </div>
     <div class="fc">
       <h3>🏦 Vay ngân hàng &amp; Chi phí khác</h3>
-      <div class="fg"><label class="fl">Số tiền vay ngân hàng (triệu đồng)</label><div class="fi-row"><input class="fi" type="number" id="fVay" placeholder="500" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
+      <div class="fg"><label class="fl">Số tiền vay (triệu đ)</label><div class="fi-row"><input class="fi" type="number" id="fVay" placeholder="500" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
       <div class="fg"><label class="fl">Lãi suất vay (%/năm)</label><div class="fi-row"><input class="fi" type="number" id="fLaiSuat" placeholder="9" oninput="recalc()"><span class="unit">%/năm</span></div></div>
-      <div class="fg"><label class="fl">Hoặc nhập thẳng lãi phải trả/năm (triệu)</label><div class="fi-row"><input class="fi" type="number" id="fLaiThang" placeholder="36" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
-      <div class="fg"><label class="fl">Chi phí khác/năm (triệu đồng)</label><div class="fi-row"><input class="fi" type="number" id="fChiPhiKhac" placeholder="0" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
+      <div class="fg"><label class="fl">Hoặc nhập lãi phải trả/năm</label><div class="fi-row"><input class="fi" type="number" id="fLaiThang" placeholder="36" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
+      <div class="fg"><label class="fl">Chi phí khác/năm (triệu đ)</label><div class="fi-row"><input class="fi" type="number" id="fChiPhiKhac" placeholder="0" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
+    </div>
     </div>
     <div id="resultArea"></div>
   </div>
@@ -563,23 +604,28 @@ a.dl:hover{text-decoration:underline;}
     <div id="detailNhom1" style="display:none">
     <div style="background:var(--white);border-radius:12px;padding:14px;box-shadow:0 2px 8px rgba(15,30,60,.07);margin-bottom:12px;border-left:4px solid var(--green)">
       <div style="font-size:.85rem;font-weight:800;color:var(--green);margin-bottom:10px">🟢 Nhóm 1 — Doanh thu ≤ 1 tỷ/năm (NĐ 141 — miễn toàn bộ thuế)</div>
-      <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:6px">Thuế:</div>
-      <ul style="font-size:.76rem;color:var(--navy);line-height:1.8;padding-left:16px;margin-bottom:10px">
-        <li>Miễn thuế GTGT và TNCN (DT ≤1 tỷ/năm)</li>
-        <li>Làm sổ S1a</li>
-      </ul>
-      <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:6px">Nghĩa vụ:</div>
-      <ul style="font-size:.76rem;color:var(--navy);line-height:1.8;padding-left:16px;margin-bottom:10px">
-        <li>Thông báo số tài khoản NH trước <strong>31/7/2026</strong></li>
-        <li>Thông báo doanh thu mẫu 01/TKN-CNKD — hạn <strong>31/01/2027</strong></li>
-        <li>HKD mới ra KD trong 2026: gửi thông báo <strong>2 lần</strong> (lần 1 hạn <strong>31/7/2026</strong> — 6 tháng đầu; lần 2 hạn <strong>31/01/2027</strong> — 6 tháng cuối)</li>
-        <li>Chuyển sổ S2a-HKD sang <strong>sổ S1a-HKD</strong> kể từ khi NĐ 141 có hiệu lực</li>
-        <li>Nếu DT thực tế vượt 1 tỷ trong năm: phải nộp tờ khai từ <strong>quý phát sinh vượt ngưỡng</strong></li>
-        <li>Không bắt buộc hóa đơn điện tử</li>
-        <li>Nên lưu hóa đơn đầu vào, hợp đồng, phiếu xuất hàng</li>
-        <li>Tham gia BHXH bắt buộc</li>
-        <li>Đảm bảo PCCC, ATVSTP (ngành ăn uống)</li>
-      </ul>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <div style="font-size:.76rem;font-weight:700;color:var(--green);margin-bottom:6px">💰 Thuế:</div>
+          <ul style="font-size:.74rem;color:var(--navy);line-height:1.8;padding-left:14px">
+            <li>Miễn thuế GTGT và TNCN (DT ≤1 tỷ/năm)</li>
+            <li>Sổ S1a-HKD</li>
+            <li>Chuyển từ S2a → S1a khi NĐ 141 có hiệu lực</li>
+            <li>Vượt 1 tỷ: khai từ quý phát sinh vượt</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-size:.76rem;font-weight:700;color:var(--blue);margin-bottom:6px">📋 Nghĩa vụ:</div>
+          <ul style="font-size:.74rem;color:var(--navy);line-height:1.8;padding-left:14px">
+            <li>Báo tài khoản NH hạn <strong>31/7/2026</strong></li>
+            <li>Báo DT Mẫu 01/TKN-CNKD hạn <strong>31/01/2027</strong></li>
+            <li>HKD mới 2026: báo 2 lần (31/7 + 31/01)</li>
+            <li>Không bắt buộc HĐĐT</li>
+            <li>Lưu HĐ đầu vào, hợp đồng</li>
+            <li>Tham gia BHXH bắt buộc</li>
+          </ul>
+        </div>
+      </div>
     </div>
     </div>
 
@@ -587,20 +633,26 @@ a.dl:hover{text-decoration:underline;}
     <div id="detailNhom2" style="display:none">
     <div style="background:var(--white);border-radius:12px;padding:14px;box-shadow:0 2px 8px rgba(15,30,60,.07);margin-bottom:12px;border-left:4px solid var(--accent)">
       <div style="font-size:.85rem;font-weight:800;color:var(--orange);margin-bottom:10px">🟡 Nhóm 2 — Doanh thu 1–3 tỷ/năm</div>
-      <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:6px">Thuế:</div>
-      <ul style="font-size:.76rem;color:var(--navy);line-height:1.8;padding-left:16px;margin-bottom:10px">
-        <li>Thuế GTGT: 1–5% doanh thu</li>
-        <li>Thuế TNCN: 0.5–2% DT phần vượt 1 tỷ <strong>hoặc</strong> 17% lợi nhuận</li>
-        <li>Khai thuế theo <strong>quý</strong> (cuối tháng sau khi kết thúc quý)</li>
-        <li>Dùng sổ S2a</li>
-      </ul>
-      <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:6px">Nghĩa vụ:</div>
-      <ul style="font-size:.76rem;color:var(--navy);line-height:1.8;padding-left:16px;margin-bottom:10px">
-        <li>Báo tài khoản NH hạn <strong>04/05/2026</strong></li>
-        <li><strong>Bắt buộc hóa đơn điện tử</strong></li>
-        <li>Lưu hóa đơn đầu vào, hợp đồng, phiếu xuất hàng</li>
-        <li>Tham gia BHXH bắt buộc</li>
-      </ul>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <div style="font-size:.76rem;font-weight:700;color:var(--orange);margin-bottom:6px">💰 Thuế:</div>
+          <ul style="font-size:.74rem;color:var(--navy);line-height:1.8;padding-left:14px">
+            <li>GTGT: 1–5% doanh thu</li>
+            <li>TNCN: 0.5–2% DT vượt 1 tỷ <strong>hoặc</strong> 17% lợi nhuận</li>
+            <li>Khai thuế theo <strong>quý</strong></li>
+            <li>Sổ S2a-HKD</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-size:.76rem;font-weight:700;color:var(--blue);margin-bottom:6px">📋 Nghĩa vụ:</div>
+          <ul style="font-size:.74rem;color:var(--navy);line-height:1.8;padding-left:14px">
+            <li>Báo tài khoản NH hạn <strong>04/05/2026</strong></li>
+            <li><strong>Bắt buộc HĐĐT</strong></li>
+            <li>Lưu HĐ đầu vào, hợp đồng</li>
+            <li>Tham gia BHXH bắt buộc</li>
+          </ul>
+        </div>
+      </div>
     </div>
     </div>
 
@@ -608,19 +660,25 @@ a.dl:hover{text-decoration:underline;}
     <div id="detailNhom3" style="display:none">
     <div style="background:var(--white);border-radius:12px;padding:14px;box-shadow:0 2px 8px rgba(15,30,60,.07);margin-bottom:12px;border-left:4px solid var(--blue)">
       <div style="font-size:.85rem;font-weight:800;color:var(--blue);margin-bottom:10px">🔵 Nhóm 3 — Doanh thu 3–50 tỷ/năm</div>
-      <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:6px">Thuế:</div>
-      <ul style="font-size:.76rem;color:var(--navy);line-height:1.8;padding-left:16px;margin-bottom:10px">
-        <li>Thuế GTGT: 1–5% doanh thu</li>
-        <li>Thuế TNCN: <strong>20% lợi nhuận</strong></li>
-        <li>Khai thuế theo <strong>quý</strong></li>
-        <li>Dùng sổ S2b, S2c, S2d, S2e, S3a</li>
-      </ul>
-      <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:6px">Nghĩa vụ:</div>
-      <ul style="font-size:.76rem;color:var(--navy);line-height:1.8;padding-left:16px;margin-bottom:10px">
-        <li><strong>Bắt buộc hóa đơn điện tử</strong></li>
-        <li>Phải lưu hóa đơn đầu vào để tính chi phí</li>
-        <li>Tham gia BHXH bắt buộc</li>
-      </ul>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <div style="font-size:.76rem;font-weight:700;color:var(--blue);margin-bottom:6px">💰 Thuế:</div>
+          <ul style="font-size:.74rem;color:var(--navy);line-height:1.8;padding-left:14px">
+            <li>GTGT: 1–5% doanh thu</li>
+            <li>TNCN: <strong>20% lợi nhuận</strong></li>
+            <li>Khai thuế theo <strong>quý</strong></li>
+            <li>Sổ S2b, S2c, S2d, S2e, S3a</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-size:.76rem;font-weight:700;color:var(--blue);margin-bottom:6px">📋 Nghĩa vụ:</div>
+          <ul style="font-size:.74rem;color:var(--navy);line-height:1.8;padding-left:14px">
+            <li><strong>Bắt buộc HĐĐT</strong></li>
+            <li>Lưu HĐ đầu vào tính chi phí</li>
+            <li>Tham gia BHXH bắt buộc</li>
+          </ul>
+        </div>
+      </div>
     </div>
     </div>
 
@@ -628,20 +686,26 @@ a.dl:hover{text-decoration:underline;}
     <div id="detailNhom4" style="display:none">
     <div style="background:var(--white);border-radius:12px;padding:14px;box-shadow:0 2px 8px rgba(15,30,60,.07);margin-bottom:12px;border-left:4px solid var(--purple)">
       <div style="font-size:.85rem;font-weight:800;color:var(--purple);margin-bottom:10px">🟣 Nhóm 4 — Doanh thu trên 50 tỷ/năm</div>
-      <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:6px">Thuế:</div>
-      <ul style="font-size:.76rem;color:var(--navy);line-height:1.8;padding-left:16px;margin-bottom:10px">
-        <li>Thuế GTGT: 1–5% doanh thu</li>
-        <li>Thuế TNCN: <strong>20% lợi nhuận</strong></li>
-        <li>Khai thuế theo <strong>tháng</strong> (hạn ngày 20 tháng sau)</li>
-        <li>Dùng sổ S2b, S2c, S2d, S2e, S3a</li>
-      </ul>
-      <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:6px">Nghĩa vụ:</div>
-      <ul style="font-size:.76rem;color:var(--navy);line-height:1.8;padding-left:16px;margin-bottom:10px">
-        <li>Báo tài khoản NH hạn <strong>20/04/2026</strong></li>
-        <li><strong>Bắt buộc hóa đơn điện tử</strong></li>
-        <li>Phải lưu hóa đơn đầu vào để tính chi phí</li>
-        <li>Tham gia BHXH bắt buộc</li>
-      </ul>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <div style="font-size:.76rem;font-weight:700;color:var(--purple);margin-bottom:6px">💰 Thuế:</div>
+          <ul style="font-size:.74rem;color:var(--navy);line-height:1.8;padding-left:14px">
+            <li>GTGT: 1–5% doanh thu</li>
+            <li>TNCN: <strong>20% lợi nhuận</strong></li>
+            <li>Khai thuế theo <strong>tháng</strong> (hạn ngày 20)</li>
+            <li>Sổ S2b, S2c, S2d, S2e, S3a</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-size:.76rem;font-weight:700;color:var(--blue);margin-bottom:6px">📋 Nghĩa vụ:</div>
+          <ul style="font-size:.74rem;color:var(--navy);line-height:1.8;padding-left:14px">
+            <li>Báo tài khoản NH hạn <strong>20/04/2026</strong></li>
+            <li><strong>Bắt buộc HĐĐT</strong></li>
+            <li>Lưu HĐ đầu vào tính chi phí</li>
+            <li>Tham gia BHXH bắt buộc</li>
+          </ul>
+        </div>
+      </div>
     </div>
     </div>
 
@@ -2628,18 +2692,212 @@ var NOTE_LOAI={
   matBang: 'Cho thuê mặt bằng kinh doanh — GTGT 5%, TNCN 5% DT vượt 1 tỷ.',
 };
 
-function onNganhChange(){
-  var nganh=gv('fNganh');
-  var sel=document.getElementById('fLoaiHinh');
-  var grp=document.getElementById('grpLoaiHinh');
-  var list=LOAI_HINH[nganh]||[];
-  sel.innerHTML='<option value="">-- Chọn loại hình cụ thể --</option>';
-  list.forEach(function(item){
-    sel.innerHTML+='<option value="'+item.val+'">'+item.ten+'</option>';
+// Hình thức kinh doanh theo ngành cụ thể
+var THUE_SUAT_NOTE={
+  luagao_tm:{
+    title:'🍚 Lúa gạo, gạo, cám, tấm — Mua bán thương mại',
+    canCu:'Luật 149/2025, NĐ 359/2025/NĐ-CP',
+    items:[
+      {icon:'🏢',label:'Bán cho DN/HTX (B2B)',gtgt:'Không kê khai GTGT',tncn:'0.5% DT vượt 1 tỷ',color:'var(--green)',note:'Vẫn được khấu trừ 100% GTGT đầu vào — điểm đột phá từ 2026'},
+      {icon:'👤',label:'Bán cho HKD/cá nhân',gtgt:'5% GTGT',tncn:'0.5% DT vượt 1 tỷ',color:'var(--orange)',note:'Xuất HĐĐT, ghi thuế suất 5%'},
+      {icon:'📄',label:'HKD nộp thuế trực tiếp',gtgt:'1% DT',tncn:'0.5% DT vượt 1 tỷ',color:'var(--orange)',note:'Phương pháp trực tiếp theo TT 69/2025'},
+    ],
+    warn:'⚠️ Gạo, cám đã chế biến thành sản phẩm khác → 10% GTGT. Cám thô dùng làm TACN → Không chịu thuế GTGT.'
+  },
+  luagao_b2b:{
+    title:'🍚 Lúa gạo — Bán cho DN/HTX',
+    canCu:'Luật 149/2025, NĐ 359/2025/NĐ-CP',
+    items:[
+      {icon:'✅',label:'GTGT',gtgt:'Không phải kê khai, tính nộp',tncn:'0.5% DT vượt 1 tỷ',color:'var(--green)',note:'Vẫn được khấu trừ thuế GTGT đầu vào'},
+    ],
+    warn:'📋 Ghi hóa đơn: không ghi thuế suất, không ghi tiền thuế, ghi chú "Hàng không chịu thuế GTGT". Không ghi 0%!'
+  },
+  luagao_nn:{
+    title:'🌾 Nông dân tự trồng, tự bán',
+    canCu:'Điều 5 Luật GTGT, Khoản 1 Điều 3 Luật TNCN, TT 219/2013',
+    items:[
+      {icon:'🎉',label:'Miễn toàn bộ',gtgt:'Không chịu thuế GTGT',tncn:'Không chịu thuế TNCN',color:'var(--green)',note:'Miễn khi chưa qua chế biến hoặc chỉ sơ chế thông thường (phơi, sấy, làm sạch...)'},
+    ],
+    warn:'⚠️ Chỉ miễn khi tự sản xuất – tự bán. Mua của người khác về bán lại → không được miễn!'
+  },
+  tachan_ban:{
+    title:'🌾 Thức ăn chăn nuôi — Chỉ mua bán thương mại',
+    canCu:'Điều 5 Luật GTGT 2024, Luật 149/2025, NĐ 359/2025',
+    items:[
+      {icon:'🌾',label:'Cám, thức ăn gia súc, gia cầm thành phẩm',gtgt:'0% (Không chịu thuế)',tncn:'0.5% DT vượt 1 tỷ',color:'var(--green)',note:'Không phải kê khai GTGT'},
+      {icon:'💊',label:'Thuốc thú y, vắc-xin, dụng cụ bán kèm',gtgt:'1% GTGT',tncn:'0.5% DT vượt 1 tỷ',color:'var(--orange)',note:'Phải tách riêng sổ sách!'},
+    ],
+    warn:'🚨 QUAN TRỌNG: Không tách bạch DT cám (0%) và thuốc thú y (1%) → CQT ấn định 1.5% toàn bộ DT. Thiệt hại rất lớn!'
+  },
+  tachan_nuoi:{
+    title:'🌾 Vừa bán thức ăn chăn nuôi vừa tự chăn nuôi',
+    canCu:'Điều 5 Luật GTGT 2024, Luật 149/2025',
+    items:[
+      {icon:'🏪',label:'Hoạt động 1 — Bán cám thương mại',gtgt:'0% GTGT',tncn:'0.5% DT vượt 1 tỷ',color:'var(--green)',note:'Xuất HĐĐT cho từng giao dịch bán ra'},
+      {icon:'💊',label:'Bán kèm thuốc thú y, dụng cụ',gtgt:'1% GTGT',tncn:'0.5% DT vượt 1 tỷ',color:'var(--orange)',note:'Tách riêng sổ sách'},
+      {icon:'🐖',label:'Hoạt động 2 — Bán sản phẩm chăn nuôi (heo, gà, cá chưa chế biến)',gtgt:'0% GTGT',tncn:'0.5% DT tổng',color:'var(--green)',note:'DT chăn nuôi tính chung vào HKD để xác định ngưỡng 1 tỷ'},
+    ],
+    warn:'📋 Lập phiếu xuất kho nội bộ khi dùng cám cho đàn vật nuôi. DT = DT bán cám + DT bán sản phẩm CN.'
+  },
+  chanNuoi_ban:{
+    title:'🐖 Tự chăn nuôi, bán sản phẩm chưa chế biến',
+    canCu:'Điều 5 Luật GTGT, NĐ 359/2025',
+    items:[
+      {icon:'✅',label:'Heo, gà, cá, trứng... chưa qua chế biến',gtgt:'0% (Không chịu thuế)',tncn:'0.5% DT vượt 1 tỷ',color:'var(--green)',note:'Tự nuôi tự bán — điều kiện sơ chế thông thường'},
+    ],
+    warn:'⚠️ Nếu giết mổ, chế biến thành sản phẩm → không còn được miễn GTGT.'
+  },
+  chanNuoi_cb:{
+    title:'🐖 Chăn nuôi + giết mổ, chế biến',
+    canCu:'Luật GTGT 2024, TT 69/2025',
+    items:[
+      {icon:'🏭',label:'Sản phẩm đã chế biến (giò, chả, thịt xông khói...)',gtgt:'3% DT',tncn:'1.5% DT vượt 1 tỷ',color:'var(--orange)',note:'Nhóm sản xuất, gia công'},
+    ],
+    warn:''
+  },
+  camVien_sx:{
+    title:'🏭 Sản xuất thức ăn chăn nuôi (phối trộn, ép viên)',
+    canCu:'TT 69/2025/TT-BTC',
+    items:[
+      {icon:'🏭',label:'Cám viên, thức ăn phối trộn đã qua chế biến',gtgt:'3% DT',tncn:'1.5% DT vượt 1 tỷ',color:'var(--orange)',note:'Nhóm sản xuất theo TT 69/2025'},
+      {icon:'🌿',label:'Nguyên liệu thô dùng làm TACN (chưa chế biến)',gtgt:'0% GTGT',tncn:'0.5%',color:'var(--green)',note:'Đầu vào nguyên liệu thô được miễn GTGT'},
+    ],
+    warn:'📋 Phân biệt: Cám thô = không chịu thuế. Cám viên đã phối trộn = 3% GTGT.'
+  },
+  xay_co_vl:{
+    title:'🏗️ Xây dựng có bao thầu vật liệu',
+    canCu:'TT 69/2025/TT-BTC — Nhóm 3%',
+    items:[
+      {icon:'🏗️',label:'Toàn bộ công trình (vật liệu + nhân công)',gtgt:'3% DT',tncn:'1.5% DT vượt 1 tỷ',color:'var(--orange)',note:''},
+    ],warn:''
+  },
+  xay_ko_vl:{
+    title:'🏗️ Xây dựng không bao thầu vật liệu',
+    canCu:'TT 69/2025/TT-BTC — Nhóm 5%',
+    items:[
+      {icon:'👷',label:'Chỉ nhân công, không cung cấp vật liệu',gtgt:'5% DT',tncn:'2% DT vượt 1 tỷ',color:'var(--blue)',note:''},
+    ],warn:''
+  },
+};
+
+function showThueSuatNote(htVal){
+  var box=document.getElementById('grpThueSuat');
+  if(!box) return;
+  var data=THUE_SUAT_NOTE[htVal];
+  if(!data){box.style.display='none';return;}
+  var h='<div style="background:linear-gradient(135deg,#0f1e3c,#1a3a6b);color:#fff;border-radius:10px;padding:12px;font-size:.72rem">';
+  h+='<div style="font-size:.78rem;font-weight:800;color:#e8c96a;margin-bottom:3px">'+data.title+'</div>';
+  h+='<div style="font-size:.63rem;opacity:.7;margin-bottom:10px">Căn cứ: '+data.canCu+'</div>';
+  data.items.forEach(function(item){
+    h+='<div style="background:rgba(255,255,255,.08);border-radius:7px;padding:8px;margin-bottom:6px">';
+    h+='<div style="font-weight:700;color:#a8f0c8;margin-bottom:4px">'+item.icon+' '+item.label+'</div>';
+    h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">';
+    h+='<div style="background:rgba(0,0,0,.2);border-radius:5px;padding:5px;text-align:center"><div style="font-size:.6rem;opacity:.7">GTGT</div><div style="font-size:.8rem;font-weight:800;color:'+item.color+'">'+item.gtgt+'</div></div>';
+    h+='<div style="background:rgba(0,0,0,.2);border-radius:5px;padding:5px;text-align:center"><div style="font-size:.6rem;opacity:.7">TNCN</div><div style="font-size:.8rem;font-weight:800;color:var(--red)">'+item.tncn+'</div></div>';
+    h+='</div>';
+    if(item.note) h+='<div style="font-size:.65rem;opacity:.75;margin-top:4px">→ '+item.note+'</div>';
+    h+='</div>';
   });
-  grp.style.display=list.length>0?'':'none';
+  if(data.warn) h+='<div style="background:rgba(255,100,0,.2);border-radius:7px;padding:8px;font-size:.68rem;line-height:1.6;margin-top:4px">'+data.warn+'</div>';
+  h+='</div>';
+  box.innerHTML=h;
+  box.style.display='';
+}
+
+
+var HINH_THUC={
+  luagao:[
+    {val:'luagao_tm',    ten:'Mua về bán lại (thương mại)',     nganh:'thuongmai', loai:'luagao',  note:'GTGT 1%, TNCN 0.5% DT vượt 1 tỷ'},
+    {val:'luagao_b2b',   ten:'Bán cho DN/HTX (không chịu thuế)',nganh:'thuongmai', loai:'luagao',  note:'Không kê khai GTGT, vẫn khấu trừ đầu vào'},
+    {val:'luagao_nn',    ten:'Tự trồng, tự bán (nông dân)',     nganh:'thuongmai', loai:'luagao',  note:'Miễn toàn bộ GTGT và TNCN'},
+  ],
+  tachan:[
+    {val:'tachan_ban',   ten:'Chỉ mua bán (thương mại)',        nganh:'thuongmai', loai:'tachan',  note:'GTGT 0% (không chịu), TNCN 0.5% DT vượt 1 tỷ'},
+    {val:'tachan_nuoi',  ten:'Vừa bán vừa tự chăn nuôi',       nganh:'thuongmai', loai:'tachan',  note:'Tách riêng DT bán cám và DT bán sản phẩm chăn nuôi'},
+  ],
+  chanNuoi:[
+    {val:'chanNuoi_ban', ten:'Tự nuôi, tự bán sản phẩm',       nganh:'thuongmai', loai:'chanNuoi',note:'Sản phẩm chăn nuôi chưa chế biến: GTGT 0%'},
+    {val:'chanNuoi_cb',  ten:'Chăn nuôi + chế biến (giết mổ)', nganh:'sanXuat',   loai:'chanNuoi',note:'Sản phẩm đã chế biến: GTGT 3%'},
+  ],
+  thuySan:[
+    {val:'thuySan_tu',   ten:'Tự nuôi trồng, tự bán',          nganh:'thuongmai', loai:'thuySan', note:'Miễn GTGT, TNCN 0.5%'},
+    {val:'thuySan_tm',   ten:'Mua về bán lại',                  nganh:'thuongmai', loai:'thuySan', note:'GTGT 1%, TNCN 0.5%'},
+  ],
+  nongsanKhac:[
+    {val:'nongsanKhac_tm',ten:'Mua về bán lại',                 nganh:'thuongmai', loai:'nongsanKhac', note:'GTGT 1%, TNCN 0.5%'},
+    {val:'nongsanKhac_tu',ten:'Tự sản xuất, tự bán',           nganh:'thuongmai', loai:'nongsanKhac', note:'Miễn GTGT, TNCN 0.5%'},
+  ],
+  tapHoa:    [{val:'tapHoa_ban',  ten:'Bán lẻ tại cửa hàng',     nganh:'thuongmai', loai:'tapHoa',  note:'GTGT 1%, TNCN 0.5%'}],
+  dailyPB:   [{val:'daily_ban',   ten:'Đại lý phân phối hàng hóa',nganh:'thuongmai', loai:'dailyPB', note:'GTGT 1%, TNCN 0.5%'}],
+  vlXD:      [{val:'vlxd_ban',    ten:'Bán vật liệu xây dựng',    nganh:'thuongmai', loai:'vlXD',    note:'GTGT 1%, TNCN 0.5%'}],
+  thuocTY:   [{val:'thuocty_ban', ten:'Bán thuốc thú y, dụng cụ', nganh:'thuongmai', loai:'thuocTY', note:'GTGT 1%, TNCN 0.5%. Lưu ý tách với cám'}],
+  tmKhac:    [{val:'tm_khac',     ten:'Thương mại khác',           nganh:'thuongmai', loai:'khac_tm', note:'GTGT 1%, TNCN 0.5%'}],
+  quanAn:    [{val:'quan_an',     ten:'Quán ăn bình dân',          nganh:'anUong',    loai:'quanAn',  note:'GTGT 3%, TNCN 1.5%'}],
+  cafe:      [{val:'cafe_ban',    ten:'Café, trà sữa',             nganh:'anUong',    loai:'cafe',    note:'GTGT 3%, TNCN 1.5%'}],
+  nhaHang:   [{val:'nha_hang',    ten:'Nhà hàng',                  nganh:'anUong',    loai:'nhaHang', note:'GTGT 3%, TNCN 1.5%'}],
+  ketoan:    [{val:'kt_tv',       ten:'Kế toán, tư vấn thuế',      nganh:'dichvu',    loai:'ketoan',  note:'GTGT 5%, TNCN 2%'}],
+  cntt:      [{val:'cntt_tk',     ten:'CNTT, thiết kế, phần mềm',  nganh:'dichvu',    loai:'cntt',    note:'GTGT 5%, TNCN 2%'}],
+  dvKhac:    [{val:'dv_khac',     ten:'Dịch vụ khác',              nganh:'dichvu',    loai:'dvKhac',  note:'GTGT 5%, TNCN 2%'}],
+  camVien:[
+    {val:'cam_sx',      ten:'Sản xuất (phối trộn, ép viên)',    nganh:'sanXuat',   loai:'camVien', note:'GTGT 3%, TNCN 1.5%'},
+    {val:'cam_ban',     ten:'Chỉ mua nguyên liệu về bán',       nganh:'thuongmai', loai:'tachan',  note:'GTGT 0%, TNCN 0.5%'},
+  ],
+  giaConG:   [{val:'gc_sx',       ten:'Gia công, sản xuất',        nganh:'sanXuat',   loai:'giaConG', note:'GTGT 3%, TNCN 1.5%'}],
+  xayNha:[
+    {val:'xay_co_vl',   ten:'Xây dựng bao thầu vật liệu',       nganh:'sanXuat',   loai:'xayNha',  note:'GTGT 3%, TNCN 1.5%'},
+    {val:'xay_ko_vl',   ten:'Xây dựng không bao thầu VL',       nganh:'xayDung',   loai:'xayNha',  note:'GTGT 2%, TNCN 2%'},
+  ],
+  xeTai:     [{val:'xe_tai',      ten:'Xe tải vận chuyển hàng',    nganh:'vanTai',    loai:'xeTai',   note:'GTGT 3%, TNCN 1.5%'}],
+  choNha:[
+    {val:'cho_nha',     ten:'Cho thuê nhà, phòng trọ',           nganh:'choThue',   loai:'choNha',  note:'GTGT 5%, TNCN 5%'},
+    {val:'cho_mb',      ten:'Cho thuê mặt bằng KD',              nganh:'choThue',   loai:'matBang', note:'GTGT 5%, TNCN 5%'},
+  ],
+  khoXuong:  [{val:'cho_kho',     ten:'Cho thuê kho, xưởng',       nganh:'choThue',   loai:'khoXuong',note:'GTGT 5%, TNCN 5%'}],
+  tiemToc:   [{val:'tiem_toc',    ten:'Tiệm tóc, nail, spa',       nganh:'lamDep',    loai:'tiemToc', note:'GTGT 5%, TNCN 2%'}],
+};
+
+function onNganhCuTheChange(){
+  var ngCuThe=gv('fNganhCuThe');
+  var htSel=document.getElementById('fHinhThuc');
+  var htGrp=document.getElementById('grpHinhThuc');
+  var list=HINH_THUC[ngCuThe]||[];
+  
+  htSel.innerHTML='<option value="">-- Chọn hình thức --</option>';
+  list.forEach(function(item){
+    htSel.innerHTML+='<option value="'+item.val+'">'+item.ten+' — <small>'+item.note+'</small></option>';
+  });
+  htGrp.style.display=list.length>0?'':'none';
+  
+  // Nếu chỉ có 1 hình thức → tự chọn luôn
+  if(list.length===1){
+    htSel.value=list[0].val;
+    onHinhThucChange();
+  } else {
+    document.getElementById('grpLoaiHinh').style.display='none';
+    recalc();
+  }
+}
+
+function onHinhThucChange(){
+  var ngCuThe=gv('fNganhCuThe');
+  var htVal=gv('fHinhThuc');
+  var list=HINH_THUC[ngCuThe]||[];
+  var found=null;
+  for(var i=0;i<list.length;i++){if(list[i].val===htVal){found=list[i];break;}}
+  if(found){
+    document.getElementById('fNganh').value=found.nganh;
+    var lhSel=document.getElementById('fLoaiHinh');
+    if(lhSel) lhSel.value=found.loai;
+    document.getElementById('grpLoaiHinh').style.display='none';
+    showThueSuatNote(htVal);
+  } else {
+    var box=document.getElementById('grpThueSuat');
+    if(box) box.style.display='none';
+  }
   recalc();
 }
+
+function onNganhChange(){ recalc(); }
 
 
 var NGANH={
