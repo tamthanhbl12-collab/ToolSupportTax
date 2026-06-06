@@ -20,7 +20,7 @@ body { -webkit-overflow-scrolling: touch; overscroll-behavior: none; }
 /* Loại bỏ delay 300ms trên iOS */
 * { touch-action: manipulation; }
 </style>
-<title>Công Cụ Thuế 2026 v11.0</title>
+<title>Công Cụ Thuế 2026 v11.1</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Thuế 2026">
@@ -255,7 +255,7 @@ a.dl:hover{text-decoration:underline;}
 <div class="hdr">
   <div class="hdr-ico">🏛️</div>
   <div>
-    <h1>Công Cụ Thuế 2026 <span style="font-size:.6rem;opacity:.6;font-weight:400">v11.0</span></h1>
+    <h1>Công Cụ Thuế 2026 <span style="font-size:.6rem;opacity:.6;font-weight:400">v11.1</span></h1>
     <p>Tính thuế · Văn bản pháp luật · Cập nhật tự động</p>
   </div>
 </div>
@@ -334,7 +334,8 @@ a.dl:hover{text-decoration:underline;}
       <div id="grpThueSuat" style="display:none;margin-bottom:10px"></div>
       <div class="fg" id="grpLoaiHinh" style="display:none"><label class="fl">Ngành nghề (thuế suất)</label><select class="fs" id="fNganh" onchange="recalc()"><option value="thuongmai">Thương mại / bán lẻ</option><option value="dichvu">Dịch vụ</option><option value="anUong">Nhà hàng / ăn uống</option><option value="sanXuat">Sản xuất / gia công</option><option value="vanTai">Vận tải</option><option value="xayDung">Xây dựng</option><option value="choThue">Cho thuê tài sản</option><option value="lamDep">Làm đẹp / cắt tóc</option><option value="khac">Khác</option></select></div>
       <div class="fg"><label class="fl">Doanh thu năm (triệu đ)</label><div class="fi-row"><input class="fi" type="number" id="fDoanhThu" placeholder="1000" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
-      <div class="fg"><label class="fl">Chi phí hoạt động năm (triệu đ)</label><div class="fi-row"><input class="fi" type="number" id="fChiPhi" placeholder="700" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
+      <div class="fg"><label class="fl">Giá vốn hàng bán/năm (triệu đ) <span style="font-size:.7rem;color:#888;font-weight:400">— tiền mua hàng, nguyên liệu</span></label><div class="fi-row"><input class="fi" type="number" id="fGiaVon" placeholder="700" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
+      <div class="fg"><label class="fl">Chi phí vận hành/năm (triệu đ) <span style="font-size:.7rem;color:#888;font-weight:400">— vận chuyển, bốc xếp, bao bì, điện nước...</span></label><div class="fi-row"><input class="fi" type="number" id="fChiPhi" placeholder="100" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
       <div class="fg"><label class="fl">Số nhân viên</label><div class="fi-row"><input class="fi" type="number" id="fNhanVien" placeholder="5" oninput="recalc()"><span class="unit">NV</span></div></div>
       <div class="fg"><label class="fl">Lương bình quân (triệu/tháng)</label><div class="fi-row"><input class="fi" type="number" id="fLuong" placeholder="7" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
       <div class="fg" id="grpVon" style="display:none"><label class="fl">Vốn điều lệ (triệu đ)</label><div class="fi-row"><input class="fi" type="number" id="fVon" placeholder="500" oninput="recalc()"><span class="unit">Tr.đ</span></div></div>
@@ -363,7 +364,8 @@ a.dl:hover{text-decoration:underline;}
     <h3>📊 Thông số so sánh</h3>
     <div class="fg"><label class="fl">Ngành nghề</label><select class="fs" id="cNganh" onchange="runCompare()"><option value="thuongmai">Thương mại / bán lẻ</option><option value="dichvu">Dịch vụ</option><option value="anUong">Nhà hàng / ăn uống</option><option value="sanXuat">Sản xuất / gia công</option><option value="vanTai">Vận tải</option><option value="choThue">Cho thuê tài sản</option></select></div>
     <div class="fg"><label class="fl">Doanh thu năm (triệu)</label><div class="fi-row"><input class="fi" type="number" id="cDoanhThu" value="2000" oninput="runCompare()"><span class="unit">Tr.đ</span></div></div>
-    <div class="fg"><label class="fl">Chi phí năm (triệu)</label><div class="fi-row"><input class="fi" type="number" id="cChiPhi" value="1400" oninput="runCompare()"><span class="unit">Tr.đ</span></div></div>
+    <div class="fg"><label class="fl">Giá vốn/năm (triệu) <span style="font-size:.7rem;color:#888;font-weight:400">— mua hàng, NL</span></label><div class="fi-row"><input class="fi" type="number" id="cGiaVon" value="1200" oninput="runCompare()"><span class="unit">Tr.đ</span></div></div>
+    <div class="fg"><label class="fl">Chi phí vận hành/năm (triệu)</label><div class="fi-row"><input class="fi" type="number" id="cChiPhi" value="200" oninput="runCompare()"><span class="unit">Tr.đ</span></div></div>
     <div class="fg"><label class="fl">Lãi vay ngân hàng/năm (triệu)</label><div class="fi-row"><input class="fi" type="number" id="cLaiVay" value="0" oninput="runCompare()"><span class="unit">Tr.đ</span></div></div>
   </div>
   <div id="compareResult"></div>
@@ -4360,18 +4362,18 @@ function recalc(){
   if(!currentModel)return;
   var nganh=NGANH[gv('fNganh')]||NGANH.thuongmai;
   var dt=parseFloat(gv('fDoanhThu'))||0,cp=parseFloat(gv('fChiPhi'))||0;
+  var giaVon=parseFloat(gv('fGiaVon'))||0;
   var nv=parseInt(gv('fNhanVien'))||0,luong=parseFloat(gv('fLuong'))||0;
   var coTuc=parseFloat(gv('fCoTuc'))||0,namHD=parseInt(gv('fNamHD'))||3;
   var phuongPhap=gv('fPhuongPhap')||'dt';
   var cpKhac=parseFloat(gv('fChiPhiKhac'))||0,laiVay=getLaiVay(),bhxh=getBHXH();
   var dt_ty=dt/1000,rows=[],tongThue=0;
   if(currentModel==='hkd'){
-    var NG=1000; // NĐ 141: ngưỡng miễn 1 tỷ (từ 01/01/2026)
-    var NG_TNCN=500; // Ngưỡng không chịu thuế TNCN/GTGT gốc theo Luật (500tr)
-    if(dt<=NG){document.getElementById('resultArea').innerHTML=buildMien(dt,NG,laiVay,bhxh,cpKhac,cp,gv('fNganh'));return;}
-    // Hiện/ẩn grpPhuongPhap tùy nhóm
+    var NG=1000;
+    var NG_TNCN=500;
+    if(dt<=NG){document.getElementById('resultArea').innerHTML=buildMien(dt,NG,laiVay,bhxh,cpKhac,cp+giaVon,gv('fNganh'));return;}
     document.getElementById('grpPhuongPhap').style.display=(dt>NG&&dt<=3000)?'':'none';
-    var tongCP=cp+laiVay+bhxh+cpKhac;
+    var tongCP=giaVon+cp+laiVay+bhxh+cpKhac;
     var thueG=0,thueT=0,nhomHKD='';
 
     if(dt<=3000){
@@ -4391,6 +4393,8 @@ function recalc(){
         rows.push({l:'Thuế GTGT ('+nganh.gtgt_hkd+'%)',w:'TT 69/2025',a:fm(thueG),n:'Ngành '+nganh.ten,c:'orange'});
         rows.push({l:'Lợi nhuận (DT - Tổng CP)',w:'',a:fm(ln2),n:'Căn cứ tính TNCN phương pháp LN',c:ln2>=0?'green':'red'});
         rows.push({l:'Thuế TNCN (15% × LN)',w:'Luật TNCN 2025',a:fm(thueT),n:'15% × Lợi nhuận — HKD xác định được CP',c:'red'});
+        if(giaVon>0)rows.push({l:'Giá vốn hàng bán',w:'',a:fm(giaVon),n:'Tiền mua hàng hóa, nguyên liệu',c:''});
+        if(cp>0)rows.push({l:'Chi phí vận hành',w:'',a:fm(cp),n:'Vận chuyển, bốc xếp, bao bì, điện nước...',c:''});
         if(laiVay>0)rows.push({l:'Lãi vay ngân hàng',w:'',a:fm(laiVay),n:'HKD không được trừ thuế',c:''});
         if(bhxh>0)rows.push({l:'BHXH chủ SD (17.5%)',w:'',a:fm(bhxh),n:nv+' NV × '+luong+'tr × 12 × 17.5%',c:''});
         if(cpKhac>0)rows.push({l:'Chi phí khác',w:'',a:fm(cpKhac),n:'',c:''});
@@ -4404,6 +4408,8 @@ function recalc(){
         rows.push({l:'Doanh thu tính thuế',w:'',a:fm(dtTT),n:'Phần vượt ngưỡng 1 tỷ',c:''});
         rows.push({l:'Thuế GTGT ('+nganh.gtgt_hkd+'%)',w:'Luật GTGT 2024 · TT 69/2025',a:fm(thueG),n:'Ngành '+nganh.ten,c:'orange'});
         rows.push({l:'Thuế TNCN ('+nganh.tncn_hkd+'%)',w:'Luật TNCN 2025 Đ7',a:fm(thueT),n:'% DT vượt 1 tỷ · Ngành '+nganh.ten,c:'red'});
+        if(giaVon>0)rows.push({l:'Giá vốn hàng bán',w:'',a:fm(giaVon),n:'Tiền mua hàng hóa, nguyên liệu',c:''});
+        if(cp>0)rows.push({l:'Chi phí vận hành',w:'',a:fm(cp),n:'Vận chuyển, bốc xếp, bao bì, điện nước...',c:''});
         if(laiVay>0)rows.push({l:'Lãi vay ngân hàng',w:'',a:fm(laiVay),n:'HKD không được trừ thuế',c:''});
         if(bhxh>0)rows.push({l:'BHXH chủ SD (17.5%)',w:'',a:fm(bhxh),n:nv+' NV × '+luong+'tr × 12 × 17.5%',c:''});
         if(cpKhac>0)rows.push({l:'Chi phí khác',w:'',a:fm(cpKhac),n:'',c:''});
@@ -4423,6 +4429,8 @@ function recalc(){
       rows.push({l:'Thuế GTGT ('+nganh.gtgt_hkd+'%)',w:'Luật GTGT 2024 · TT 69/2025',a:fm(thueG),n:'% toàn bộ DT · Ngành '+nganh.ten,c:'orange'});
       rows.push({l:'Lợi nhuận (DT - Chi phí)',w:'',a:fm(ln),n:'Căn cứ tính TNCN',c:ln>=0?'green':'red'});
       rows.push({l:'Thuế TNCN (17% LN)',w:'Luật TNCN 2025',a:fm(thueT),n:'17% × Lợi nhuận · Nhóm 3',c:'red'});
+      if(giaVon>0)rows.push({l:'Giá vốn hàng bán',w:'',a:fm(giaVon),n:'Tiền mua hàng hóa, nguyên liệu',c:''});
+      if(cp>0)rows.push({l:'Chi phí vận hành',w:'',a:fm(cp),n:'Vận chuyển, bốc xếp, bao bì, điện nước...',c:''});
       if(laiVay>0)rows.push({l:'Lãi vay ngân hàng',w:'',a:fm(laiVay),n:'HKD không được trừ thuế',c:''});
       if(bhxh>0)rows.push({l:'BHXH chủ SD (17.5%)',w:'',a:fm(bhxh),n:nv+' NV × '+luong+'tr × 12 × 17.5%',c:''});
       if(cpKhac>0)rows.push({l:'Chi phí khác',w:'',a:fm(cpKhac),n:'',c:''});
@@ -4442,6 +4450,8 @@ function recalc(){
       rows.push({l:'Thuế GTGT ('+nganh.gtgt_hkd+'%)',w:'Luật GTGT 2024 · TT 69/2025',a:fm(thueG),n:'% toàn bộ DT · Ngành '+nganh.ten,c:'orange'});
       rows.push({l:'Lợi nhuận (DT - Chi phí)',w:'',a:fm(ln),n:'Căn cứ tính TNCN',c:ln>=0?'green':'red'});
       rows.push({l:'Thuế TNCN (20% LN)',w:'Luật TNCN 2025',a:fm(thueT),n:'20% × Lợi nhuận · Nhóm 4',c:'red'});
+      if(giaVon>0)rows.push({l:'Giá vốn hàng bán',w:'',a:fm(giaVon),n:'Tiền mua hàng hóa, nguyên liệu',c:''});
+      if(cp>0)rows.push({l:'Chi phí vận hành',w:'',a:fm(cp),n:'Vận chuyển, bốc xếp, bao bì, điện nước...',c:''});
       if(laiVay>0)rows.push({l:'Lãi vay ngân hàng',w:'',a:fm(laiVay),n:'HKD không được trừ thuế',c:''});
       if(bhxh>0)rows.push({l:'BHXH chủ SD (17.5%)',w:'',a:fm(bhxh),n:nv+' NV × '+luong+'tr × 12 × 17.5%',c:''});
       if(cpKhac>0)rows.push({l:'Chi phí khác',w:'',a:fm(cpKhac),n:'',c:''});
@@ -4451,7 +4461,7 @@ function recalc(){
     }
   }else{
     var rate=getTNDNRate(dt_ty),mien=(namHD<3)&&(dt_ty<=50);
-    var tongCPDT=cp+laiVay+bhxh+cpKhac,ln=dt-tongCPDT,lnP=ln>0?ln:0;
+    var tongCPDT=giaVon+cp+laiVay+bhxh+cpKhac,ln=dt-tongCPDT,lnP=ln>0?ln:0;
     var thueTNDN=mien?0:lnP*rate/100;
     var gR=dt*nganh.gtgt_dn/(100+nganh.gtgt_dn),gV=tongCPDT*nganh.gtgt_dn/(100+nganh.gtgt_dn);
     var thueGT=gR>gV?gR-gV:0,lnST=lnP-thueTNDN;
@@ -4461,7 +4471,8 @@ function recalc(){
     var dtL=dt_ty<=3?'DT ≤3 tỷ':dt_ty<=50?'DT 3–50 tỷ':'DT >50 tỷ';
     var tnL=mien?'Thuế TNDN (MIỄN '+(3-namHD)+' năm)':'Thuế TNDN ('+rate+'%)';
     rows.push({l:'Doanh thu',w:'',a:fm(dt),n:'',c:''});
-    rows.push({l:'Chi phí hoạt động',w:'Luật TNDN 2025',a:fm(cp),n:'Chi phí hợp lý',c:''});
+    if(giaVon>0)rows.push({l:'Giá vốn hàng bán',w:'Luật TNDN 2025',a:fm(giaVon),n:'Tiền mua hàng hóa, nguyên liệu — được trừ',c:''});
+    if(cp>0)rows.push({l:'Chi phí vận hành',w:'Luật TNDN 2025',a:fm(cp),n:'Vận chuyển, bốc xếp, bao bì, điện nước... — được trừ',c:''});
     if(laiVay>0)rows.push({l:'Lãi vay ngân hàng',w:'Luật TNDN 2025',a:fm(laiVay),n:'Được trừ thuế TNDN',c:''});
     if(bhxh>0)rows.push({l:'BHXH chủ SD (17.5%)',w:'',a:fm(bhxh),n:nv+' NV × '+luong+'tr × 12 × 17.5%',c:''});
     if(cpKhac>0)rows.push({l:'Chi phí khác',w:'',a:fm(cpKhac),n:'',c:''});
@@ -4677,7 +4688,8 @@ function buildResult(model,dt,tCP,tT,lnst,rows,lys,nganhKey){
 function runCompare(){
   var nganh=NGANH[gv('cNganh')]||NGANH.thuongmai;
   var dt=parseFloat(gv('cDoanhThu'))||0,cp=parseFloat(gv('cChiPhi'))||0,lv=parseFloat(gv('cLaiVay'))||0;
-  var dt_ty=dt/1000,tCP=cp+lv,lnTruoc=tCP<dt?dt-tCP:0;
+  var gv2=parseFloat(gv('cGiaVon'))||0;
+  var dt_ty=dt/1000,tCP=gv2+cp+lv,lnTruoc=tCP<dt?dt-tCP:0;
   var hkdM=dt<=1000,dtHKD=hkdM?0:(dt-1000)*(nganh.gtgt_hkd+nganh.tncn_hkd)/100,hkdLN=dt-tCP-dtHKD;
   function calcDN(pct){var r=getTNDNRate(dt_ty),tndn=lnTruoc*r/100,gtgt=dt*nganh.gtgt_dn/(100+nganh.gtgt_dn)-tCP*nganh.gtgt_dn/(100+nganh.gtgt_dn);if(gtgt<0)gtgt=0;var lnST=lnTruoc-tndn,ct=lnST*pct/100*0.05;return{thue:tndn+gtgt+ct,lnst:lnST-ct,rate:r};}
   var t1=calcDN(0),t2=calcDN(0),tc=calcDN(20);
