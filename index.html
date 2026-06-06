@@ -20,7 +20,7 @@ body { -webkit-overflow-scrolling: touch; overscroll-behavior: none; }
 /* Loại bỏ delay 300ms trên iOS */
 * { touch-action: manipulation; }
 </style>
-<title>Công Cụ Thuế 2026 v10.7</title>
+<title>Công Cụ Thuế 2026 v11.0</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Thuế 2026">
@@ -205,6 +205,10 @@ a.dl:hover{text-decoration:underline;}
 .tabs-cs{display:flex;background:var(--light);border-radius:8px;padding:3px;margin-bottom:12px;}
 .tab-cs{flex:1;padding:7px;border:none;background:transparent;font-size:.7rem;font-weight:600;color:var(--gray);cursor:pointer;border-radius:6px;transition:all .15s;text-align:center;}
 .tab-cs.active{background:var(--white);color:var(--navy);box-shadow:0 1px 4px rgba(15,30,60,.1);}
+.stab-bar{display:flex;gap:5px;flex-wrap:wrap;background:#f0f2f5;padding:5px;border-radius:8px;}
+.stab{padding:6px 10px;border:none;background:transparent;font-size:.72rem;font-weight:600;color:#555;cursor:pointer;border-radius:6px;transition:all .15s;white-space:nowrap;}
+.stab.active{background:#fff;color:var(--navy);box-shadow:0 1px 4px rgba(15,30,60,.12);}
+.stab-content{display:none;}.stab-content.active{display:block;}
 .gh-tag{font-size:.6rem;background:#dbeafe;color:var(--blue);padding:2px 6px;border-radius:4px;font-weight:700;}
 /* VẤN ĐỀ THUẾ */
 .vd-rank{background:var(--white);border-radius:12px;box-shadow:0 2px 8px rgba(15,30,60,.07);overflow:hidden;margin-bottom:14px;}
@@ -251,7 +255,7 @@ a.dl:hover{text-decoration:underline;}
 <div class="hdr">
   <div class="hdr-ico">🏛️</div>
   <div>
-    <h1>Công Cụ Thuế 2026 <span style="font-size:.6rem;opacity:.6;font-weight:400">v10.7</span></h1>
+    <h1>Công Cụ Thuế 2026 <span style="font-size:.6rem;opacity:.6;font-weight:400">v11.0</span></h1>
     <p>Tính thuế · Văn bản pháp luật · Cập nhật tự động</p>
   </div>
 </div>
@@ -270,6 +274,7 @@ a.dl:hover{text-decoration:underline;}
   <button class="bnav-btn" onclick="showPage('pVanDe',this)"><span class="bi">🔥</span>Vấn đề</button>
   <button class="bnav-btn" onclick="showPage('pVanBan',this)"><span class="bi">📋</span>Văn bản</button>
   <button class="bnav-btn" onclick="showPage('pPhapLy',this)"><span class="bi">📖</span>Pháp lý</button>
+  <button class="bnav-btn" onclick="showPage('pTT133',this)"><span class="bi">📑</span>TT133</button>
   <button class="bnav-btn" onclick="showPage('pCaiDat',this)"><span class="bi">⚙️</span>Cài đặt</button>
 </nav>
 
@@ -474,6 +479,7 @@ a.dl:hover{text-decoration:underline;}
     <button class="tab-cs" onclick="showSubTab('stHoiDap',this)">❓ Hỏi đáp</button>
     <button class="tab-cs" onclick="showSubTab('stBHXH',this)">🛡️ BHXH</button>
     <button class="tab-cs" onclick="showSubTab('stCanCu',this)">⚖️ Căn cứ</button>
+    <button class="tab-cs" onclick="showSubTab('stThuTuc',this)">🛠️ Thủ tục</button>
   </div>
 
   <!-- Tab Hướng dẫn HKD -->
@@ -2604,7 +2610,605 @@ a.dl:hover{text-decoration:underline;}
     <div class="lri"><span class="ltag" style="background:#c0392b">⚠️ Lưu ý</span><span>Xác định sai nhóm hoặc sai tỷ lệ % → bị truy thu + ấn định thuế + xử phạt VPHC. Rà soát: ngành nghề KD, hợp đồng dịch vụ, cơ cấu DT, hình thức XD, cho thuê tài sản.</span></div>
   </div>
   </div><!-- end stCanCu -->
+
+  <!-- SUB-TAB: THỦ TỤC -->
+  <div id="stThuTuc" style="display:none">
+
+    <!-- 1. VƯỢT NGƯỠNG GIỮA NĂM -->
+    <div class="model-card" style="border-left:4px solid #f57c00;margin-bottom:10px">
+      <div style="font-weight:700;color:#e65100;margin-bottom:6px">⚠️ 1. Xử lý khi vượt ngưỡng 1 tỷ giữa năm</div>
+      <div style="font-size:.78rem;color:#555;margin-bottom:8px">Theo Ảnh 4 — Tài liệu Cục Thuế TP Hà Nội</div>
+      <div style="background:#fff3e0;border-radius:7px;padding:10px;font-size:.77rem;line-height:1.7;margin-bottom:8px">
+        📌 <strong>Nguyên tắc:</strong> Kể từ <strong>quý phát sinh doanh thu vượt 1 tỷ</strong>, HKD bắt buộc chuyển sang kê khai và nộp thuế như HKD có DT 1–3 tỷ.
+      </div>
+      <div style="background:#fff8e1;border-radius:7px;padding:10px;font-size:.77rem;margin-bottom:8px">
+        <div style="font-weight:700;color:#f57c00;margin-bottom:6px">📊 Ví dụ cụ thể:</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          <div style="background:#e8f5e9;padding:7px;border-radius:6px">
+            <div style="font-weight:600;color:#2e7d32;margin-bottom:3px">Tình huống</div>
+            Q1 + Q2 = 450 triệu<br>
+            Q3 tăng thêm 650 triệu<br>
+            → Tổng 3 quý = 1,1 tỷ
+          </div>
+          <div style="background:#ffebee;padding:7px;border-radius:6px">
+            <div style="font-weight:600;color:#c62828;margin-bottom:3px">Xử lý từ Q3</div>
+            Ngay Q3 phải chuyển sang<br>
+            kê khai nộp thuế GTGT + TNCN<br>
+            theo quy định nhóm 1–3 tỷ
+          </div>
+        </div>
+      </div>
+      <div style="font-size:.76rem;line-height:1.7;color:#444">
+        ✅ <strong>Kê khai bổ sung:</strong> Nộp Mẫu 01/TKN-CNKD điều chỉnh doanh thu nếu đã thông báo trước đó<br>
+        ✅ <strong>Hóa đơn:</strong> Bắt buộc đăng ký HĐĐT từ quý vượt ngưỡng<br>
+        ✅ <strong>Sổ sách:</strong> Chuyển từ S1a → S2a-HKD (hoặc S2b–S2e nếu tính theo LN)<br>
+        ✅ <strong>Thời hạn kê khai quý:</strong> Chậm nhất ngày cuối cùng tháng đầu quý sau
+      </div>
+    </div>
+
+    <!-- 2. KINH DOANH TMĐT -->
+    <div class="model-card" style="border-left:4px solid #1565c0;margin-bottom:10px">
+      <div style="font-weight:700;color:#1565c0;margin-bottom:6px">🛒 2. Kinh doanh trên nền tảng số — kê khai như thế nào?</div>
+      <div style="font-size:.78rem;color:#555;margin-bottom:8px">Theo Ảnh 7 — Tài liệu Cục Thuế TP Hà Nội</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+        <div style="background:#e3f2fd;border-radius:7px;padding:9px;font-size:.76rem">
+          <div style="font-weight:700;color:#1565c0;margin-bottom:5px">✅ Trường hợp 1 — Sàn TMĐT</div>
+          <div style="color:#555;margin-bottom:4px">Bán trên <strong>Shopee, TikTok Shop, Lazada</strong>... (có chức năng đặt hàng và thanh toán trực tuyến)</div>
+          <div style="background:#fff;padding:6px;border-radius:5px;color:#1565c0">
+            🏬 Sàn sẽ tự động:<br>
+            • <strong>Khấu trừ thuế</strong><br>
+            • <strong>Khai thuế</strong><br>
+            • <strong>Nộp thuế thay</strong> bạn
+          </div>
+        </div>
+        <div style="background:#fff3e0;border-radius:7px;padding:9px;font-size:.76rem">
+          <div style="font-weight:700;color:#e65100;margin-bottom:5px">⚠️ Trường hợp 2 — MXH</div>
+          <div style="color:#555;margin-bottom:4px">Bán qua <strong>Facebook, Zalo</strong> (tự chốt đơn, tự ship — không có thanh toán tích hợp)</div>
+          <div style="background:#fff;padding:6px;border-radius:5px;color:#c62828">
+            ❌ Sàn <strong>không nộp thay</strong><br>
+            → HKD phải <strong>tự tổng hợp</strong> DT và kê khai cùng hoạt động kinh doanh tại cửa hàng
+          </div>
+        </div>
+      </div>
+      <div style="background:#e8f5e9;border-radius:7px;padding:9px;font-size:.77rem;margin-bottom:8px">
+        <div style="font-weight:700;color:#2e7d32;margin-bottom:5px">📊 Về doanh thu xét ngưỡng 1 tỷ</div>
+        Doanh thu xét ngưỡng = <strong>TỔNG</strong> tất cả kênh: bán tại cửa hàng + tất cả sàn TMĐT + Facebook/Zalo<br>
+        ⚠️ Dù mỗi kênh dưới 1 tỷ, nhưng <strong>tổng vượt 1 tỷ</strong> vẫn thuộc diện kê khai nộp thuế
+      </div>
+      <div style="background:#fce4ec;border-radius:7px;padding:9px;font-size:.77rem;margin-bottom:8px">
+        <div style="font-weight:700;color:#c62828;margin-bottom:5px">💰 Quyền lợi hoàn thuế</div>
+        Nếu tổng DT (cả online + offline) <strong>từ 1 tỷ trở xuống</strong> → thuộc diện miễn thuế<br>
+        → HKD có quyền làm thủ tục <strong>đề nghị hoàn trả</strong> số thuế mà sàn TMĐT đã khấu trừ nộp thay
+      </div>
+      <div style="font-size:.76rem;color:#444;line-height:1.7">
+        📍 <strong>Nộp hồ sơ:</strong> HKD chỉ KD online → nộp tại CQT quản lý <strong>địa bàn nơi cư trú</strong> (tạm trú/thường trú)<br>
+        📍 HKD vừa online vừa có cửa hàng → nộp tại CQT <strong>quản lý trực tiếp trụ sở HKD</strong><br>
+        📅 <strong>Quyết toán thuế TNCN:</strong> Chậm nhất <strong>31/3 năm sau</strong> (Mẫu 02/CNKD-TNCN-QTT)
+      </div>
+    </div>
+
+    <!-- 3. CHO THUÊ BĐS -->
+    <div class="model-card" style="border-left:4px solid #6a1b9a;margin-bottom:10px">
+      <div style="font-weight:700;color:#6a1b9a;margin-bottom:6px">🏠 3. Cho thuê bất động sản — chính sách từ 05/3/2026</div>
+      <div style="font-size:.78rem;color:#555;margin-bottom:8px">Theo Ảnh 8 — TT 50/2026/TT-BTC & TT 18/2026/TT-BTC</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+        <div style="background:#f3e5f5;border-radius:7px;padding:9px;font-size:.76rem">
+          <div style="font-weight:700;color:#6a1b9a;margin-bottom:5px">📊 Mức thuế</div>
+          <div style="margin-bottom:4px">DT ≤ 1 tỷ/năm:<br><strong style="color:#2e7d32">Không phải nộp thuế GTGT và TNCN</strong></div>
+          <div>DT > 1 tỷ/năm:<br>• Thuế GTGT = DT × <strong>5%</strong><br>• Thuế TNCN = (DT − 1 tỷ) × <strong>5%</strong></div>
+        </div>
+        <div style="background:#ede7f6;border-radius:7px;padding:9px;font-size:.76rem">
+          <div style="font-weight:700;color:#6a1b9a;margin-bottom:5px">👤 Ai kê khai?</div>
+          <strong>Cá nhân cho thuê:</strong> Tự kê khai với CQT<br><br>
+          <strong>Bên thuê là tổ chức/công ty:</strong> Công ty có thể kê khai và nộp thay nếu hợp đồng thỏa thuận rõ<br><br>
+          ⚠️ Không được ủy quyền cho <strong>cá nhân khác</strong> kê khai thay
+        </div>
+      </div>
+      <div style="background:#f3e5f5;border-radius:7px;padding:9px;font-size:.77rem;margin-bottom:8px">
+        <div style="font-weight:700;color:#6a1b9a;margin-bottom:5px">📋 Hồ sơ cần chuẩn bị</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          <div>
+            <div style="font-weight:600;color:#6a1b9a;margin-bottom:3px">Cá nhân tự kê khai:</div>
+            • Tờ khai Mẫu <strong>01/BĐS</strong> (TT 50/2026)<br>
+            • Phụ lục <strong>01/BK-BĐS</strong> (TT 18/2026)
+          </div>
+          <div>
+            <div style="font-weight:600;color:#6a1b9a;margin-bottom:3px">Tổ chức kê khai thay:</div>
+            • Tờ khai <strong>01/TCKT</strong> (TT 18/2026)<br>
+            • Phụ lục <strong>02/BK-KTBDS</strong> (TT 50/2026)
+          </div>
+        </div>
+      </div>
+      <div style="font-size:.76rem;color:#444;line-height:1.7">
+        📅 <strong>Kê khai 2 lần/năm:</strong> Chậm nhất <strong>31/7</strong> (6 tháng đầu) và <strong>31/01 năm sau</strong> (6 tháng cuối)<br>
+        📅 Hoặc khai <strong>1 lần/năm:</strong> Chậm nhất <strong>31/01 năm sau</strong><br>
+        📍 <strong>Nộp hồ sơ:</strong> Tại CQT nơi có bất động sản cho thuê<br>
+        ⚠️ Dù không phải nộp thuế vẫn <strong>bắt buộc kê khai</strong><br>
+        ⚠️ Nếu có nhiều nhà cho thuê, tổng mức được trừ khi tính TNCN tối đa là <strong>1 tỷ đồng/năm</strong>
+      </div>
+    </div>
+
+    <!-- 4. TẠM HOÃN XUẤT CẢNH -->
+    <div class="model-card" style="border-left:4px solid #c62828;margin-bottom:10px">
+      <div style="font-weight:700;color:#c62828;margin-bottom:6px">✈️ 4. Tạm hoãn xuất cảnh do nợ thuế</div>
+      <div style="font-size:.78rem;color:#555;margin-bottom:8px">Theo Ảnh 9 — NĐ 49/2025/NĐ-CP ngày 28/02/2025</div>
+      <div style="background:#ffebee;border-radius:7px;padding:10px;font-size:.77rem;margin-bottom:8px">
+        <div style="font-weight:700;color:#c62828;margin-bottom:6px">🚨 Các trường hợp bị tạm hoãn xuất cảnh</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          <div style="background:#fff;padding:7px;border-radius:5px">
+            <div style="font-weight:600;color:#c62828;margin-bottom:3px">1️⃣ Cá nhân KD / chủ HKD</div>
+            Nợ thuế từ <strong>50 triệu đồng trở lên</strong> và quá thời hạn nộp trên <strong>120 ngày</strong>
+          </div>
+          <div style="background:#fff;padding:7px;border-radius:5px">
+            <div style="font-weight:600;color:#c62828;margin-bottom:3px">2️⃣ Đại diện pháp luật DN/HTX</div>
+            Nợ thuế từ <strong>500 triệu đồng trở lên</strong> và quá thời hạn nộp trên <strong>120 ngày</strong>
+          </div>
+          <div style="background:#fff;padding:7px;border-radius:5px">
+            <div style="font-weight:600;color:#c62828;margin-bottom:3px">3️⃣ Đã đăng ký địa chỉ khác</div>
+            Cá nhân KD, chủ HKD không còn hoạt động tại địa chỉ đã đăng ký nhưng có số tiền thuế nợ quá hạn
+          </div>
+          <div style="background:#fff;padding:7px;border-radius:5px">
+            <div style="font-weight:600;color:#c62828;margin-bottom:3px">4️⃣ Người nước ngoài xuất cảnh</div>
+            Người VN định cư ở nước ngoài hoặc người nước ngoài trước khi xuất cảnh có tiền thuế nợ quá hạn
+          </div>
+        </div>
+      </div>
+      <div style="background:#fff8e1;border-radius:7px;padding:9px;font-size:.77rem;margin-bottom:8px">
+        <div style="font-weight:700;color:#f57c00;margin-bottom:5px">📋 Quy trình tạm hoãn xuất cảnh</div>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+          <div style="background:#ffcc02;color:#333;border-radius:6px;padding:6px 8px;font-size:.73rem;text-align:center;flex:1;min-width:80px"><strong>Bước 1</strong><br>Xác định đối tượng áp dụng</div>
+          <div style="color:#999;font-size:1.2rem">→</div>
+          <div style="background:#ff9800;color:#fff;border-radius:6px;padding:6px 8px;font-size:.73rem;text-align:center;flex:1;min-width:80px"><strong>Bước 2</strong><br>Thông báo trước <strong>30 ngày</strong></div>
+          <div style="color:#999;font-size:1.2rem">→</div>
+          <div style="background:#c62828;color:#fff;border-radius:6px;padding:6px 8px;font-size:.73rem;text-align:center;flex:1;min-width:80px"><strong>Bước 3</strong><br>Chính thức tạm hoãn nếu chưa hoàn thành nghĩa vụ</div>
+        </div>
+      </div>
+      <div style="font-size:.76rem;color:#444;line-height:1.7;margin-bottom:6px">
+        📧 <strong>Thông báo qua:</strong> Tài khoản giao dịch điện tử hoặc địa chỉ cư trú (nếu chưa đăng ký GD điện tử)<br>
+        🔍 <strong>Tra cứu tình trạng:</strong> <a href="https://www.gdt.gov.vn/wps/portal/Home/nt/xc" target="_blank" style="color:#1565c0">gdt.gov.vn → Tra cứu tạm hoãn xuất cảnh</a>
+      </div>
+      <div style="background:#e8f5e9;border-radius:7px;padding:9px;font-size:.77rem">
+        <div style="font-weight:700;color:#2e7d32;margin-bottom:5px">✅ Làm sao để không bị ảnh hưởng?</div>
+        📱 Thường xuyên tra cứu nghĩa vụ thuế trên <strong>eTax Mobile</strong><br>
+        📋 Cập nhật đầy đủ, chính xác thông tin đăng ký kinh doanh<br>
+        ⏰ Thực hiện nghĩa vụ thuế đúng thời hạn, xử lý ngay khi nhận thông báo<br>
+        ✈️ Chủ động tra cứu trạng thái tạm hoãn <strong>trước khi ra nước ngoài</strong>
+      </div>
+    </div>
+
+    <!-- 5. ETAX MOBILE -->
+    <div class="model-card" style="border-left:4px solid #00695c;margin-bottom:10px">
+      <div style="font-weight:700;color:#00695c;margin-bottom:6px">📱 5. eTax Mobile — Trợ lý thuế số cho HKD</div>
+      <div style="font-size:.78rem;color:#555;margin-bottom:8px">Theo Ảnh 11–15 — Tài liệu Cục Thuế TP Hà Nội</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+        <div style="background:#e0f2f1;border-radius:7px;padding:9px;font-size:.76rem">
+          <div style="font-weight:700;color:#00695c;margin-bottom:5px">1️⃣ Hỗ trợ đăng ký & kê khai</div>
+          ✅ Kê khai hồ sơ đăng ký thuế<br>
+          ✅ Kê khai, lập và gửi hồ sơ trực tuyến<br>
+          ✅ Tra cứu số thuế còn phải nộp / nộp thừa<br>
+          ✅ Xác thực sinh trắc học khi đăng ký HĐĐT<br>
+          ✅ Thay đổi thông tin đăng ký HĐĐT
+        </div>
+        <div style="background:#e0f2f1;border-radius:7px;padding:9px;font-size:.76rem">
+          <div style="font-weight:700;color:#00695c;margin-bottom:5px">2️⃣ Nộp thuế trực tuyến</div>
+          ✅ Nộp thuế ngay trên điện thoại 24/7<br>
+          ✅ Kết nối an toàn với nhiều ngân hàng<br>
+          ✅ Giảm thời gian, chi phí đi lại<br>
+          ✅ Thanh toán không dùng tiền mặt<br>
+          ✅ Tích hợp VNeID — định danh điện tử
+        </div>
+      </div>
+      <div style="background:#e0f2f1;border-radius:7px;padding:9px;font-size:.76rem;margin-bottom:8px">
+        <div style="font-weight:700;color:#00695c;margin-bottom:6px">📲 Hướng dẫn cài đặt & đăng nhập</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          <div style="background:#fff;padding:7px;border-radius:5px">
+            <div style="font-weight:600;color:#00695c;margin-bottom:3px">Cách 1 — Dùng VNeID</div>
+            1. Chọn "Đăng nhập bằng tài khoản Định danh điện tử"<br>
+            2. Nhập số CCCD + mật khẩu VNeID<br>
+            3. Tích ô đồng ý → ấn "Xác nhận chia sẻ"<br>
+            4. Nhập passcode → hệ thống tự đăng nhập
+          </div>
+          <div style="background:#fff;padding:7px;border-radius:5px">
+            <div style="font-weight:600;color:#00695c;margin-bottom:3px">Cách 2 — Dùng mã số thuế</div>
+            1. Chọn "Đăng ký ngay"<br>
+            2. Nhập mã số thuế, captcha → "Tiếp tục"<br>
+            3. Điền thông tin cá nhân → "Tiếp tục"<br>
+            4. Màn hình xác nhận đăng ký thành công
+          </div>
+        </div>
+      </div>
+      <div style="background:#e0f2f1;border-radius:7px;padding:9px;font-size:.76rem;margin-bottom:8px">
+        <div style="font-weight:700;color:#00695c;margin-bottom:5px">🏦 Liên kết tài khoản ngân hàng</div>
+        1. Màn hình chính → chọn <strong>"Nhóm chức năng nộp thuế"</strong><br>
+        2. Chọn <strong>"Liên kết/Huỷ liên kết tài khoản"</strong><br>
+        3. Chọn ngân hàng đang sử dụng từ danh sách (BIDV, Vietcombank, MB, VPBank...)<br>
+        4. Nhập thông tin: số điện thoại, loại giấy tờ, số tài khoản → <strong>"Tiếp tục"</strong><br>
+        5. Kiểm tra thông tin → <strong>"Xác thực"</strong> → Nhập Smart OTP từ ngân hàng<br>
+        6. Hệ thống hiển thị <strong>"Liên kết tài khoản thành công"</strong>
+      </div>
+      <div style="background:#fff8e1;border-radius:7px;padding:8px;font-size:.76rem">
+        <div style="font-weight:600;color:#e65100;margin-bottom:4px">⚠️ Lưu ý bắt buộc</div>
+        📱 HKD phải thông báo <strong>số tài khoản ngân hàng / ví điện tử</strong> qua eTax Mobile hoặc Cổng dịch vụ công cùng lúc thông báo doanh thu hàng năm<br>
+        🔗 Tải miễn phí: <strong>App Store (iOS)</strong> và <strong>Google Play (Android)</strong> — tìm "eTax Mobile"
+      </div>
+    </div>
+
+    <!-- 6. HĐĐT SINH TRẮC HỌC -->
+    <div class="model-card" style="border-left:4px solid #1565c0;margin-bottom:8px">
+      <div style="font-weight:700;color:#1565c0;margin-bottom:6px">🔐 6. Đăng ký HĐĐT bằng sinh trắc học & xác thực điện tử</div>
+      <div style="font-size:.78rem;color:#555;margin-bottom:8px">Theo Ảnh 16–17 — Áp dụng từ 2025–2026</div>
+      <div style="background:#e3f2fd;border-radius:7px;padding:9px;font-size:.76rem;margin-bottom:8px">
+        <div style="font-weight:700;color:#1565c0;margin-bottom:5px">👥 Đối tượng áp dụng</div>
+        ✅ DN, tổ chức, HKD, cá nhân KD <strong>đăng ký sử dụng HĐĐT</strong><br>
+        ✅ DN, tổ chức, HKD, cá nhân KD <strong>thay đổi thông tin đăng ký HĐĐT</strong> do thay đổi người đại diện pháp luật<br><br>
+        <div style="font-weight:600;color:#1565c0;margin-bottom:3px">Điều kiện thực hiện:</div>
+        • Người đại diện theo pháp luật có tài khoản <strong>định danh điện tử mức 2</strong> trên VNeID<br>
+        • Thông tin tại dữ liệu đăng ký thuế của CQT <strong>khớp đúng</strong> với thông tin định danh cá nhân trên CSDL quốc gia về dân cư
+      </div>
+      <div style="background:#e3f2fd;border-radius:7px;padding:9px;font-size:.76rem;margin-bottom:8px">
+        <div style="font-weight:700;color:#1565c0;margin-bottom:6px">📲 Quy trình xác thực sinh trắc học trên eTax Mobile (7 bước)</div>
+        <div style="counter-reset:step">
+          <div style="display:flex;gap:7px;margin-bottom:5px;align-items:flex-start"><div style="background:#1565c0;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:.7rem">1</div><div>Đại diện pháp luật <strong>đăng nhập eTax Mobile</strong></div></div>
+          <div style="display:flex;gap:7px;margin-bottom:5px;align-items:flex-start"><div style="background:#1565c0;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:.7rem">2</div><div>Chọn <strong>"Hóa đơn điện tử"</strong> → chọn "Tờ khai chờ xác thực"</div></div>
+          <div style="display:flex;gap:7px;margin-bottom:5px;align-items:flex-start"><div style="background:#1565c0;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:.7rem">3</div><div>Hệ thống hiển thị màn hình tờ khai chờ xác thực → nhấn nút <strong>"Sinh trắc học"</strong></div></div>
+          <div style="display:flex;gap:7px;margin-bottom:5px;align-items:flex-start"><div style="background:#1565c0;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:.7rem">4</div><div>Ứng dụng điều hướng sang <strong>VNeID</strong></div></div>
+          <div style="display:flex;gap:7px;margin-bottom:5px;align-items:flex-start"><div style="background:#1565c0;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:.7rem">5</div><div>Thực hiện các bước <strong>xác thực gương mặt</strong> theo hướng dẫn</div></div>
+          <div style="display:flex;gap:7px;margin-bottom:5px;align-items:flex-start"><div style="background:#1565c0;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:.7rem">6</div><div>Hệ thống hiển thị <strong>"Xác thực sinh trắc học thành công"</strong> → nhấn "Gửi tờ khai"</div></div>
+          <div style="display:flex;gap:7px;align-items:flex-start"><div style="background:#2e7d32;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:.7rem">7</div><div>Tra cứu kết quả trên eTax Mobile hoặc Cổng TTHC</div></div>
+        </div>
+      </div>
+      <div style="background:#fff8e1;border-radius:7px;padding:8px;font-size:.76rem">
+        <div style="font-weight:600;color:#e65100;margin-bottom:4px">⚠️ Lưu ý quan trọng</div>
+        ❌ Người đại diện pháp luật là <strong>người nước ngoài chưa đáp ứng định danh điện tử mức 2</strong> → không thuộc đối tượng áp dụng<br>
+        ✅ Thông tin người đại diện tại dữ liệu đăng ký thuế phải <strong>khớp đúng</strong> với CSDL quốc gia dân cư mới xác thực được
+      </div>
+    </div>
+
+  </div><!-- end stThuTuc -->
+
 </div><!-- end pPhapLy -->
+
+<!-- PAGE: BCTC TT133 -->
+<div class="page" id="pTT133">
+  <div class="sec-title">📑 Báo cáo tài chính — TT133/2016/TT-BTC</div>
+  <div class="sec-sub">Hướng dẫn lập BCTC cho doanh nghiệp nhỏ và vừa theo Thông tư 133/2016/TT-BTC</div>
+
+  <!-- Sub-tabs -->
+  <div class="stab-bar" style="margin-bottom:12px">
+    <button class="stab active" onclick="showSTab('tt133_b01',this,'tt133')">📋 B01 — Bảng CĐKT</button>
+    <button class="stab" onclick="showSTab('tt133_b02',this,'tt133')">📈 B02 — KQKD</button>
+    <button class="stab" onclick="showSTab('tt133_b03',this,'tt133')">💰 B03 — LCTT</button>
+    <button class="stab" onclick="showSTab('tt133_b09',this,'tt133')">📝 B09 — Thuyết minh</button>
+    <button class="stab" onclick="showSTab('tt133_qd',this,'tt133')">⚖️ Quy định chung</button>
+  </div>
+
+  <!-- B01: Bảng cân đối kế toán -->
+  <div class="stab-content active" id="tt133_b01">
+    <div class="model-card" style="border-left:4px solid #1565c0;margin-bottom:10px">
+      <div style="font-weight:700;color:#1565c0;margin-bottom:6px">📋 B01-DNN — BẢNG CÂN ĐỐI KẾ TOÁN</div>
+      <div style="font-size:.78rem;color:#555;margin-bottom:10px">Mẫu số B01-DNN theo TT133/2016/TT-BTC · Lập tại ngày cuối kỳ kế toán</div>
+      <div style="background:#e3f2fd;border-radius:6px;padding:8px 10px;margin-bottom:10px;font-size:.78rem">
+        💡 <strong>Nguyên tắc:</strong> Số liệu lấy từ số dư cuối kỳ các tài khoản. Cột "Đầu năm" = số cuối kỳ báo cáo năm trước.
+      </div>
+    </div>
+
+    <!-- TÀI SẢN -->
+    <div class="model-card" style="border-left:4px solid #0d47a1;margin-bottom:8px">
+      <div style="font-weight:700;color:#0d47a1;margin-bottom:8px">🔵 PHẦN A — TÀI SẢN</div>
+      <table style="width:100%;border-collapse:collapse;font-size:.76rem">
+        <thead>
+          <tr style="background:#1565c0;color:#fff">
+            <th style="padding:5px 6px;text-align:left;width:45%">Chỉ tiêu</th>
+            <th style="padding:5px 4px;text-align:center;width:10%">Mã số</th>
+            <th style="padding:5px 4px;text-align:left;width:45%">Lấy từ tài khoản</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#e3f2fd;font-weight:600"><td colspan="3" style="padding:5px 6px">A. TÀI SẢN NGẮN HẠN (Mã 100)</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 6px">I. Tiền và tương đương tiền</td><td style="padding:4px;text-align:center">110</td><td style="padding:4px 6px;color:#1565c0">Số dư Nợ TK 111, 112</td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:4px 6px">II. Đầu tư tài chính ngắn hạn</td><td style="padding:4px;text-align:center">120</td><td style="padding:4px 6px;color:#1565c0">Số dư Nợ TK 121 (trừ dự phòng TK 2291)</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 6px">III. Các khoản phải thu ngắn hạn</td><td style="padding:4px;text-align:center">130</td><td style="padding:4px 6px;color:#1565c0">Số dư Nợ TK 131, 133, 136, 141, 1381, 1385, 1388 (trừ dự phòng TK 2293)</td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:4px 6px">IV. Hàng tồn kho</td><td style="padding:4px;text-align:center">140</td><td style="padding:4px 6px;color:#1565c0">Số dư Nợ TK 151, 152, 153, 154, 155, 156, 157 (trừ dự phòng TK 2294)</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 6px">V. Tài sản ngắn hạn khác</td><td style="padding:4px;text-align:center">150</td><td style="padding:4px 6px;color:#1565c0">Số dư Nợ TK 133 (thuế GTGT còn được KT), TK 1532, 1534, 242 (ngắn hạn)</td></tr>
+          <tr style="background:#dcedc8;font-weight:700"><td style="padding:5px 6px">TỔNG TÀI SẢN NGẮN HẠN</td><td style="padding:5px;text-align:center">100</td><td style="padding:5px 6px;color:#2e7d32">= 110 + 120 + 130 + 140 + 150</td></tr>
+
+          <tr style="background:#e3f2fd;font-weight:600"><td colspan="3" style="padding:5px 6px">B. TÀI SẢN DÀI HẠN (Mã 200)</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 6px">I. Tài sản cố định</td><td style="padding:4px;text-align:center">220</td><td style="padding:4px 6px;color:#1565c0">Số dư Nợ TK 211, 212, 213 (trừ hao mòn TK 214)</td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:4px 6px">II. Bất động sản đầu tư</td><td style="padding:4px;text-align:center">230</td><td style="padding:4px 6px;color:#1565c0">Số dư Nợ TK 217 (trừ hao mòn TK 2147)</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 6px">III. Đầu tư tài chính dài hạn</td><td style="padding:4px;text-align:center">250</td><td style="padding:4px 6px;color:#1565c0">Số dư Nợ TK 141 (dài hạn), 228 (trừ dự phòng TK 2292)</td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:4px 6px">IV. Tài sản dài hạn khác</td><td style="padding:4px;text-align:center">260</td><td style="padding:4px 6px;color:#1565c0">Số dư Nợ TK 242 (dài hạn), 244</td></tr>
+          <tr style="background:#dcedc8;font-weight:700"><td style="padding:5px 6px">TỔNG TÀI SẢN DÀI HẠN</td><td style="padding:5px;text-align:center">200</td><td style="padding:5px 6px;color:#2e7d32">= 220 + 230 + 250 + 260</td></tr>
+          <tr style="background:#1565c0;color:#fff;font-weight:700"><td style="padding:6px 6px">TỔNG CỘNG TÀI SẢN</td><td style="padding:6px;text-align:center">250</td><td style="padding:6px 6px">= 100 + 200</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- NGUỒN VỐN -->
+    <div class="model-card" style="border-left:4px solid #c62828;margin-bottom:8px">
+      <div style="font-weight:700;color:#c62828;margin-bottom:8px">🔴 PHẦN B — NGUỒN VỐN</div>
+      <table style="width:100%;border-collapse:collapse;font-size:.76rem">
+        <thead>
+          <tr style="background:#c62828;color:#fff">
+            <th style="padding:5px 6px;text-align:left;width:45%">Chỉ tiêu</th>
+            <th style="padding:5px 4px;text-align:center;width:10%">Mã số</th>
+            <th style="padding:5px 4px;text-align:left;width:45%">Lấy từ tài khoản</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#ffebee;font-weight:600"><td colspan="3" style="padding:5px 6px">C. NỢ PHẢI TRẢ (Mã 300)</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 6px">I. Nợ ngắn hạn</td><td style="padding:4px;text-align:center">310</td><td style="padding:4px 6px;color:#c62828">Số dư Có TK 131, 311, 315, 333, 334, 335, 336, 337, 338, 341 (ngắn hạn), 344, 347, 352, 353, 356</td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:4px 6px">II. Nợ dài hạn</td><td style="padding:4px;text-align:center">330</td><td style="padding:4px 6px;color:#c62828">Số dư Có TK 334, 338, 341 (dài hạn), 343, 347, 352, 353, 356, 357</td></tr>
+          <tr style="background:#ffcdd2;font-weight:700"><td style="padding:5px 6px">TỔNG NỢ PHẢI TRẢ</td><td style="padding:5px;text-align:center">300</td><td style="padding:5px 6px;color:#b71c1c">= 310 + 330</td></tr>
+
+          <tr style="background:#ffebee;font-weight:600"><td colspan="3" style="padding:5px 6px">D. VỐN CHỦ SỞ HỮU (Mã 400)</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 6px">I. Vốn góp của chủ sở hữu</td><td style="padding:4px;text-align:center">411</td><td style="padding:4px 6px;color:#c62828">Số dư Có TK 411</td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:4px 6px">II. Quỹ đầu tư phát triển</td><td style="padding:4px;text-align:center">418</td><td style="padding:4px 6px;color:#c62828">Số dư Có TK 418</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 6px">III. Lợi nhuận sau thuế chưa phân phối</td><td style="padding:4px;text-align:center">421</td><td style="padding:4px 6px;color:#c62828">Số dư TK 421 (Có = dương, Nợ = âm)</td></tr>
+          <tr style="background:#ffcdd2;font-weight:700"><td style="padding:5px 6px">TỔNG VỐN CHỦ SỞ HỮU</td><td style="padding:5px;text-align:center">400</td><td style="padding:5px 6px;color:#b71c1c">= 411 + 418 + 421 + ...</td></tr>
+          <tr style="background:#c62828;color:#fff;font-weight:700"><td style="padding:6px 6px">TỔNG CỘNG NGUỒN VỐN</td><td style="padding:6px;text-align:center">440</td><td style="padding:6px 6px">= 300 + 400 (phải = Tổng TS mã 250)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="model-card" style="border-left:4px solid #f57c00;background:#fff8e1">
+      <div style="font-weight:600;color:#e65100;margin-bottom:4px">⚠️ Lưu ý kiểm tra</div>
+      <div style="font-size:.78rem;line-height:1.6">
+        ✅ <strong>Tổng TS (Mã 250) = Tổng NV (Mã 440)</strong> — nếu không bằng là có lỗi bút toán<br>
+        ✅ Các khoản <strong>dự phòng</strong> (TK 229x) phải trừ trực tiếp khỏi tài sản tương ứng<br>
+        ✅ TK 133 (thuế GTGT đầu vào còn được khấu trừ) → ghi vào Mã 150, không ghi vào Mã 130<br>
+        ✅ <strong>Nguồn:</strong> TT133/2016/TT-BTC Điều 11, Phụ lục 01
+      </div>
+    </div>
+  </div><!-- end tt133_b01 -->
+
+  <!-- B02: KQKD -->
+  <div class="stab-content" id="tt133_b02">
+    <div class="model-card" style="border-left:4px solid #2e7d32;margin-bottom:10px">
+      <div style="font-weight:700;color:#2e7d32;margin-bottom:6px">📈 B02-DNN — BÁO CÁO KẾT QUẢ HOẠT ĐỘNG KINH DOANH</div>
+      <div style="font-size:.78rem;color:#555;margin-bottom:10px">Mẫu số B02-DNN theo TT133/2016/TT-BTC · Số liệu lũy kế từ đầu năm đến cuối kỳ</div>
+      <div style="background:#e8f5e9;border-radius:6px;padding:8px 10px;font-size:.78rem">
+        💡 <strong>Nguyên tắc:</strong> Số liệu là phát sinh lũy kế trong kỳ (không phải số dư). TK doanh thu (5xx) và chi phí (6xx, 8xx) đều kết chuyển về TK 911 cuối kỳ.
+      </div>
+    </div>
+
+    <div class="model-card" style="border-left:4px solid #388e3c;margin-bottom:8px">
+      <table style="width:100%;border-collapse:collapse;font-size:.76rem">
+        <thead>
+          <tr style="background:#2e7d32;color:#fff">
+            <th style="padding:5px 6px;text-align:left;width:10%">Mã</th>
+            <th style="padding:5px 6px;text-align:left;width:45%">Chỉ tiêu</th>
+            <th style="padding:5px 4px;text-align:left;width:45%">Cách tính / TK liên quan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#fff"><td style="padding:4px 4px;color:#2e7d32;font-weight:600">01</td><td style="padding:4px 6px">Doanh thu bán hàng & CCDV</td><td style="padding:4px 6px;color:#1565c0">PS Có TK 511 trong kỳ</td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:4px 4px;color:#666">02</td><td style="padding:4px 6px">Các khoản giảm trừ DT</td><td style="padding:4px 6px;color:#1565c0">PS Nợ TK 511 (chiết khấu, giảm giá, hàng trả lại)</td></tr>
+          <tr style="background:#e8f5e9;font-weight:700"><td style="padding:5px 4px;color:#2e7d32">10</td><td style="padding:5px 6px">Doanh thu thuần</td><td style="padding:5px 6px;color:#2e7d32">= Mã 01 − Mã 02</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 4px;color:#666">11</td><td style="padding:4px 6px">Giá vốn hàng bán</td><td style="padding:4px 6px;color:#1565c0">PS Nợ TK 632</td></tr>
+          <tr style="background:#e8f5e9;font-weight:700"><td style="padding:5px 4px;color:#2e7d32">20</td><td style="padding:5px 6px">Lợi nhuận gộp</td><td style="padding:5px 6px;color:#2e7d32">= Mã 10 − Mã 11</td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:4px 4px;color:#666">21</td><td style="padding:4px 6px">Doanh thu hoạt động tài chính</td><td style="padding:4px 6px;color:#1565c0">PS Có TK 515</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 4px;color:#666">22</td><td style="padding:4px 6px">Chi phí tài chính</td><td style="padding:4px 6px;color:#1565c0">PS Nợ TK 635 (trong đó lãi vay: TK 635)</td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:4px 4px;color:#666">24</td><td style="padding:4px 6px">Chi phí quản lý kinh doanh</td><td style="padding:4px 6px;color:#1565c0">PS Nợ TK 642 (TT133 gộp chi phí bán hàng + QLDN)</td></tr>
+          <tr style="background:#e8f5e9;font-weight:700"><td style="padding:5px 4px;color:#2e7d32">30</td><td style="padding:5px 6px">Lợi nhuận thuần từ HĐKD</td><td style="padding:5px 6px;color:#2e7d32">= Mã 20 + Mã 21 − Mã 22 − Mã 24</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 4px;color:#666">31</td><td style="padding:4px 6px">Thu nhập khác</td><td style="padding:4px 6px;color:#1565c0">PS Có TK 711</td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:4px 4px;color:#666">32</td><td style="padding:4px 6px">Chi phí khác</td><td style="padding:4px 6px;color:#1565c0">PS Nợ TK 811</td></tr>
+          <tr style="background:#e8f5e9;font-weight:700"><td style="padding:5px 4px;color:#2e7d32">40</td><td style="padding:5px 6px">LN khác</td><td style="padding:5px 6px;color:#2e7d32">= Mã 31 − Mã 32</td></tr>
+          <tr style="background:#c8e6c9;font-weight:700"><td style="padding:5px 4px;color:#1b5e20">50</td><td style="padding:5px 6px">Tổng LN kế toán trước thuế</td><td style="padding:5px 6px;color:#1b5e20">= Mã 30 + Mã 40</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 4px;color:#666">51</td><td style="padding:4px 6px">Chi phí thuế TNDN</td><td style="padding:4px 6px;color:#1565c0">PS Nợ TK 8211 + TK 8212</td></tr>
+          <tr style="background:#2e7d32;color:#fff;font-weight:700"><td style="padding:6px 4px">60</td><td style="padding:6px 6px">Lợi nhuận sau thuế TNDN</td><td style="padding:6px 6px">= Mã 50 − Mã 51</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="model-card" style="border-left:4px solid #f57c00;background:#fff8e1">
+      <div style="font-weight:600;color:#e65100;margin-bottom:4px">⚠️ Lưu ý TT133 vs TT200</div>
+      <div style="font-size:.78rem;line-height:1.6">
+        ✅ TT133 <strong>gộp</strong> chi phí bán hàng + QLDN vào <strong>một TK 642</strong> (không tách TK 641 như TT200)<br>
+        ✅ TT133 <strong>không có</strong> mã chỉ tiêu "Chi phí bán hàng" riêng — chỉ có "Chi phí quản lý kinh doanh" mã 24<br>
+        ✅ Lợi nhuận sau thuế (Mã 60) = kết chuyển vào TK 421 cuối kỳ<br>
+        ✅ <strong>Nguồn:</strong> TT133/2016/TT-BTC Điều 12, Phụ lục 02
+      </div>
+    </div>
+  </div><!-- end tt133_b02 -->
+
+  <!-- B03: LCTT -->
+  <div class="stab-content" id="tt133_b03">
+    <div class="model-card" style="border-left:4px solid #6a1b9a;margin-bottom:10px">
+      <div style="font-weight:700;color:#6a1b9a;margin-bottom:6px">💰 B03-DNN — BÁO CÁO LƯU CHUYỂN TIỀN TỆ</div>
+      <div style="font-size:.78rem;color:#555;margin-bottom:10px">Mẫu số B03-DNN theo TT133/2016/TT-BTC · Phương pháp gián tiếp (thông dụng nhất)</div>
+      <div style="background:#f3e5f5;border-radius:6px;padding:8px 10px;font-size:.78rem">
+        💡 <strong>Phương pháp gián tiếp:</strong> Bắt đầu từ lợi nhuận trước thuế, điều chỉnh các khoản phi tiền mặt để ra dòng tiền thực tế.
+      </div>
+    </div>
+
+    <div class="model-card" style="border-left:4px solid #7b1fa2;margin-bottom:8px">
+      <div style="font-weight:700;color:#6a1b9a;margin-bottom:8px">I. Lưu chuyển tiền từ hoạt động kinh doanh</div>
+      <table style="width:100%;border-collapse:collapse;font-size:.76rem">
+        <thead><tr style="background:#6a1b9a;color:#fff"><th style="padding:5px 6px;text-align:left;width:10%">Mã</th><th style="padding:5px 6px;text-align:left;width:50%">Chỉ tiêu</th><th style="padding:5px 4px;text-align:left">Hướng dẫn</th></tr></thead>
+        <tbody>
+          <tr style="background:#f3e5f5;font-weight:600"><td style="padding:4px 4px">01</td><td style="padding:4px 6px">LN trước thuế</td><td style="padding:4px 6px;color:#6a1b9a">Lấy từ B02 Mã 50</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 4px">02</td><td style="padding:4px 6px">Khấu hao TSCĐ & BĐSĐT</td><td style="padding:4px 6px;color:#1565c0">PS Nợ TK 214 trong kỳ (+)</td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:4px 4px">03</td><td style="padding:4px 6px">Dự phòng</td><td style="padding:4px 6px;color:#1565c0">Tăng dự phòng (+), Giảm dự phòng (−)</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 4px">04</td><td style="padding:4px 6px">Lãi/lỗ chênh lệch tỷ giá</td><td style="padding:4px 6px;color:#1565c0">Lỗ tỷ giá (+), Lãi tỷ giá (−)</td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:4px 4px">05</td><td style="padding:4px 6px">Lãi/lỗ từ đầu tư</td><td style="padding:4px 6px;color:#1565c0">Lỗ (+), Lãi (−) — chuyển sang mục II</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 4px">06</td><td style="padding:4px 6px">Chi phí lãi vay</td><td style="padding:4px 6px;color:#1565c0">PS Nợ TK 635 (lãi vay) (+)</td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:4px 4px">08</td><td style="padding:4px 6px">Tăng/giảm khoản phải thu</td><td style="padding:4px 6px;color:#1565c0">Tăng (−), Giảm (+)</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 4px">09</td><td style="padding:4px 6px">Tăng/giảm hàng tồn kho</td><td style="padding:4px 6px;color:#1565c0">Tăng (−), Giảm (+)</td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:4px 4px">10</td><td style="padding:4px 6px">Tăng/giảm khoản phải trả</td><td style="padding:4px 6px;color:#1565c0">Tăng (+), Giảm (−)</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 4px">11</td><td style="padding:4px 6px">Tăng/giảm chi phí trả trước</td><td style="padding:4px 6px;color:#1565c0">Tăng (−), Giảm (+)</td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:4px 4px">13</td><td style="padding:4px 6px">Thuế TNDN đã nộp</td><td style="padding:4px 6px;color:#c62828">Tiền thực nộp thuế TNDN (−)</td></tr>
+          <tr style="background:#e1bee7;font-weight:700"><td style="padding:5px 4px;color:#4a148c">20</td><td style="padding:5px 6px">Lưu chuyển tiền thuần từ HĐKD</td><td style="padding:5px 6px;color:#4a148c">= Tổng Mã 01 đến 17</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="model-card" style="border-left:4px solid #7b1fa2;margin-bottom:8px">
+      <div style="font-weight:700;color:#6a1b9a;margin-bottom:8px">II & III. Hoạt động đầu tư & tài chính</div>
+      <table style="width:100%;border-collapse:collapse;font-size:.76rem">
+        <thead><tr style="background:#6a1b9a;color:#fff"><th style="padding:5px 6px;text-align:left;width:10%">Mã</th><th style="padding:5px 6px;text-align:left;width:50%">Chỉ tiêu</th><th style="padding:5px 4px;text-align:left">Hướng dẫn</th></tr></thead>
+        <tbody>
+          <tr style="background:#f3e5f5;font-weight:600"><td colspan="3" style="padding:5px 6px">II. Hoạt động đầu tư</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 4px">21</td><td style="padding:4px 6px">Mua sắm, xây dựng TSCĐ</td><td style="padding:4px 6px;color:#c62828">Tiền chi mua TSCĐ (−)</td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:4px 4px">22</td><td style="padding:4px 6px">Thu từ thanh lý, nhượng bán TSCĐ</td><td style="padding:4px 6px;color:#2e7d32">Tiền thu (+)</td></tr>
+          <tr style="background:#e1bee7;font-weight:700"><td style="padding:5px 4px;color:#4a148c">30</td><td style="padding:5px 6px">LC tiền thuần từ HĐ đầu tư</td><td style="padding:5px 6px;color:#4a148c">= Tổng mục II</td></tr>
+          <tr style="background:#f3e5f5;font-weight:600"><td colspan="3" style="padding:5px 6px">III. Hoạt động tài chính</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 4px">31</td><td style="padding:4px 6px">Tiền vay nhận được</td><td style="padding:4px 6px;color:#2e7d32">PS Có TK 341, 311 (+)</td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:4px 4px">32</td><td style="padding:4px 6px">Tiền trả nợ gốc vay</td><td style="padding:4px 6px;color:#c62828">PS Nợ TK 341, 311 (−)</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 4px">33</td><td style="padding:4px 6px">Trả lãi vay</td><td style="padding:4px 6px;color:#c62828">Tiền chi trả lãi vay (−)</td></tr>
+          <tr style="background:#f5f5f5"><td style="padding:4px 4px">34</td><td style="padding:4px 6px">Cổ tức, lợi nhuận đã trả</td><td style="padding:4px 6px;color:#c62828">Tiền chi chia lợi nhuận (−)</td></tr>
+          <tr style="background:#e1bee7;font-weight:700"><td style="padding:5px 4px;color:#4a148c">40</td><td style="padding:5px 6px">LC tiền thuần từ HĐ tài chính</td><td style="padding:5px 6px;color:#4a148c">= Tổng mục III</td></tr>
+          <tr style="background:#6a1b9a;color:#fff;font-weight:700"><td style="padding:6px 4px">50</td><td style="padding:6px 6px">Lưu chuyển tiền thuần trong kỳ</td><td style="padding:6px 6px">= Mã 20 + 30 + 40</td></tr>
+          <tr style="background:#f3e5f5"><td style="padding:4px 4px">60</td><td style="padding:4px 6px">Tiền đầu kỳ</td><td style="padding:4px 6px;color:#1565c0">Số dư đầu kỳ TK 111 + 112</td></tr>
+          <tr style="background:#e1bee7;font-weight:700"><td style="padding:5px 4px;color:#4a148c">70</td><td style="padding:5px 6px">Tiền cuối kỳ</td><td style="padding:5px 6px;color:#4a148c">= Mã 50 + 60 (phải = Mã 110 trên B01)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="model-card" style="border-left:4px solid #f57c00;background:#fff8e1">
+      <div style="font-weight:600;color:#e65100;margin-bottom:4px">⚠️ Kiểm tra chéo quan trọng</div>
+      <div style="font-size:.78rem;line-height:1.6">
+        ✅ <strong>Tiền cuối kỳ B03 (Mã 70) = Tiền & tương đương tiền B01 (Mã 110)</strong><br>
+        ✅ Lưu chuyển tiền phản ánh <strong>dòng tiền thực tế</strong>, không phải doanh thu/chi phí kế toán<br>
+        ✅ <strong>Nguồn:</strong> TT133/2016/TT-BTC Điều 13, Phụ lục 03
+      </div>
+    </div>
+  </div><!-- end tt133_b03 -->
+
+  <!-- B09: Thuyết minh -->
+  <div class="stab-content" id="tt133_b09">
+    <div class="model-card" style="border-left:4px solid #00695c;margin-bottom:10px">
+      <div style="font-weight:700;color:#00695c;margin-bottom:6px">📝 B09-DNN — THUYẾT MINH BÁO CÁO TÀI CHÍNH</div>
+      <div style="font-size:.78rem;color:#555;margin-bottom:8px">Mẫu số B09-DNN theo TT133/2016/TT-BTC · Bắt buộc lập kèm theo BCTC năm</div>
+    </div>
+
+    <div class="model-card" style="border-left:4px solid #00796b;margin-bottom:8px">
+      <div style="font-weight:600;color:#00695c;margin-bottom:8px">📋 Các mục bắt buộc trong B09-DNN</div>
+      <div style="font-size:.78rem;line-height:1.8">
+        <div style="background:#e0f2f1;padding:6px 8px;border-radius:4px;margin-bottom:5px">
+          <strong>I. Đặc điểm hoạt động của doanh nghiệp</strong><br>
+          Hình thức sở hữu, ngành nghề kinh doanh, năm tài chính, đơn vị tiền tệ sử dụng
+        </div>
+        <div style="background:#fff;padding:6px 8px;border-radius:4px;margin-bottom:5px">
+          <strong>II. Chính sách kế toán áp dụng</strong><br>
+          • Nguyên tắc ghi nhận doanh thu, chi phí<br>
+          • Phương pháp khấu hao TSCĐ (đường thẳng/sản lượng/số dư giảm dần)<br>
+          • Phương pháp tính giá xuất kho HTK (bình quân gia quyền/FIFO/thực tế đích danh)<br>
+          • Tỷ giá ngoại tệ sử dụng (nếu có)
+        </div>
+        <div style="background:#e0f2f1;padding:6px 8px;border-radius:4px;margin-bottom:5px">
+          <strong>III. Thông tin bổ sung cho các khoản mục trong BCTC</strong><br>
+          • Chi tiết TSCĐ (nguyên giá, hao mòn, giá trị còn lại)<br>
+          • Chi tiết hàng tồn kho theo nhóm<br>
+          • Chi tiết các khoản phải thu, phải trả lớn<br>
+          • Chi tiết vay và nợ thuê tài chính<br>
+          • Chi tiết vốn chủ sở hữu
+        </div>
+        <div style="background:#fff;padding:6px 8px;border-radius:4px;margin-bottom:5px">
+          <strong>IV. Những thông tin khác</strong><br>
+          • Sự kiện sau ngày kết thúc kỳ kế toán<br>
+          • Giao dịch với các bên liên quan<br>
+          • Thông tin về rủi ro tài chính (nếu trọng yếu)
+        </div>
+      </div>
+    </div>
+
+    <div class="model-card" style="border-left:4px solid #00796b;margin-bottom:8px">
+      <div style="font-weight:600;color:#00695c;margin-bottom:6px">📅 Thời hạn nộp BCTC</div>
+      <table style="width:100%;border-collapse:collapse;font-size:.77rem">
+        <thead><tr style="background:#00695c;color:#fff"><th style="padding:5px 8px;text-align:left">Loại DN</th><th style="padding:5px 8px;text-align:left">Thời hạn nộp</th><th style="padding:5px 8px;text-align:left">Nộp cho</th></tr></thead>
+        <tbody>
+          <tr style="background:#e0f2f1"><td style="padding:4px 8px">DN tư nhân, công ty hợp danh</td><td style="padding:4px 8px;color:#c62828;font-weight:600">30 ngày sau kết thúc năm tài chính</td><td style="padding:4px 8px">Cơ quan thuế, đăng ký KD</td></tr>
+          <tr style="background:#fff"><td style="padding:4px 8px">DN Nhà nước, DN niêm yết</td><td style="padding:4px 8px;color:#c62828;font-weight:600">90 ngày sau kết thúc năm tài chính</td><td style="padding:4px 8px">Bộ Tài chính, Ủy ban CK, Sở GDCK</td></tr>
+          <tr style="background:#e0f2f1"><td style="padding:4px 8px">Các DN khác (TNHH, CP tư nhân)</td><td style="padding:4px 8px;color:#c62828;font-weight:600">90 ngày sau kết thúc năm tài chính</td><td style="padding:4px 8px">Cơ quan thuế, cơ quan thống kê</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="model-card" style="border-left:4px solid #f57c00;background:#fff8e1">
+      <div style="font-weight:600;color:#e65100;margin-bottom:4px">⚠️ Lưu ý nộp BCTC điện tử</div>
+      <div style="font-size:.78rem;line-height:1.6">
+        ✅ Từ năm 2022: BCTC nộp điện tử qua <strong>eTax Mobile</strong> hoặc <strong>cổng TTĐT của TCT</strong><br>
+        ✅ DN phải nộp BCTC đính kèm <strong>tờ khai quyết toán thuế TNDN (03/TNDN)</strong> cùng thời hạn<br>
+        ✅ Phạt vi phạm nộp chậm: 2–25 triệu đồng tùy mức độ (NĐ 125/2020/NĐ-CP)<br>
+        ✅ <strong>Nguồn:</strong> TT133/2016/TT-BTC Điều 29; Luật Kế toán 88/2015/QH13
+      </div>
+    </div>
+  </div><!-- end tt133_b09 -->
+
+  <!-- Quy định chung -->
+  <div class="stab-content" id="tt133_qd">
+    <div class="model-card" style="border-left:4px solid #37474f;margin-bottom:10px">
+      <div style="font-weight:700;color:#37474f;margin-bottom:6px">⚖️ QUY ĐỊNH CHUNG — TT133/2016/TT-BTC</div>
+      <div style="font-size:.78rem;color:#555">Thông tư 133/2016/TT-BTC ngày 26/8/2016, có hiệu lực từ 01/01/2017, áp dụng cho DN nhỏ và vừa (trừ DN là công ty đại chúng, tổ chức tín dụng, bảo hiểm)</div>
+    </div>
+
+    <div class="model-card" style="border-left:4px solid #455a64;margin-bottom:8px">
+      <div style="font-weight:600;color:#37474f;margin-bottom:8px">🏢 Đối tượng áp dụng TT133</div>
+      <div style="font-size:.78rem;line-height:1.7">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="background:#e8f5e9;padding:8px;border-radius:6px">
+            <div style="font-weight:600;color:#2e7d32;margin-bottom:4px">✅ Được áp dụng TT133</div>
+            DN nhỏ và vừa theo tiêu chí Luật Hỗ trợ DNNVV<br>
+            (vốn điều lệ ≤ 100 tỷ hoặc lao động ≤ 300 người)
+          </div>
+          <div style="background:#ffebee;padding:8px;border-radius:6px">
+            <div style="font-weight:600;color:#c62828;margin-bottom:4px">❌ Phải dùng TT200</div>
+            DN là công ty đại chúng<br>
+            Tổ chức tín dụng, bảo hiểm<br>
+            DN có vốn NN chiếm đa số
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="model-card" style="border-left:4px solid #455a64;margin-bottom:8px">
+      <div style="font-weight:600;color:#37474f;margin-bottom:8px">📂 Hệ thống tài khoản theo TT133</div>
+      <div style="font-size:.78rem">
+        <div style="background:#f5f5f5;padding:8px;border-radius:6px;margin-bottom:6px">
+          <strong>Điểm khác biệt chính TT133 vs TT200:</strong>
+        </div>
+        <table style="width:100%;border-collapse:collapse">
+          <thead><tr style="background:#37474f;color:#fff"><th style="padding:4px 6px;text-align:left">Nội dung</th><th style="padding:4px 6px;text-align:center">TT133</th><th style="padding:4px 6px;text-align:center">TT200</th></tr></thead>
+          <tbody>
+            <tr style="background:#fff"><td style="padding:4px 6px">Chi phí bán hàng</td><td style="padding:4px 6px;text-align:center;color:#c62828">Gộp vào TK 642</td><td style="padding:4px 6px;text-align:center;color:#2e7d32">TK 641 riêng</td></tr>
+            <tr style="background:#f5f5f5"><td style="padding:4px 6px">Đầu tư tài chính ngắn hạn</td><td style="padding:4px 6px;text-align:center;color:#c62828">TK 121</td><td style="padding:4px 6px;text-align:center;color:#2e7d32">TK 121, 128</td></tr>
+            <tr style="background:#fff"><td style="padding:4px 6px">Dự phòng giảm giá HTK</td><td style="padding:4px 6px;text-align:center">TK 2294</td><td style="padding:4px 6px;text-align:center">TK 2294</td></tr>
+            <tr style="background:#f5f5f5"><td style="padding:4px 6px">Hao mòn TSCĐ</td><td style="padding:4px 6px;text-align:center">TK 214</td><td style="padding:4px 6px;text-align:center">TK 214</td></tr>
+            <tr style="background:#fff"><td style="padding:4px 6px">Thuế TNDN hoãn lại</td><td style="padding:4px 6px;text-align:center;color:#c62828">Không áp dụng</td><td style="padding:4px 6px;text-align:center;color:#2e7d32">TK 347, 243</td></tr>
+            <tr style="background:#f5f5f5"><td style="padding:4px 6px">Số mẫu BCTC</td><td style="padding:4px 6px;text-align:center;color:#c62828">4 mẫu (B01→B09)</td><td style="padding:4px 6px;text-align:center;color:#2e7d32">5 mẫu</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="model-card" style="border-left:4px solid #455a64;margin-bottom:8px">
+      <div style="font-weight:600;color:#37474f;margin-bottom:8px">📋 Quy trình lập BCTC cuối năm</div>
+      <div style="font-size:.78rem;line-height:1.8">
+        <div style="counter-reset:step-counter">
+          <div style="display:flex;gap:8px;margin-bottom:6px;align-items:flex-start"><div style="background:#37474f;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:.75rem">1</div><div><strong>Kiểm tra số dư:</strong> Đối chiếu số dư các TK trên sổ cái với Bảng CĐPS</div></div>
+          <div style="display:flex;gap:8px;margin-bottom:6px;align-items:flex-start"><div style="background:#37474f;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:.75rem">2</div><div><strong>Điều chỉnh cuối kỳ:</strong> Trích dự phòng, phân bổ chi phí trả trước, tính khấu hao</div></div>
+          <div style="display:flex;gap:8px;margin-bottom:6px;align-items:flex-start"><div style="background:#37474f;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:.75rem">3</div><div><strong>Kết chuyển DT & CP:</strong> Kết chuyển TK 511, 632, 642, 635, 711, 811 về TK 911</div></div>
+          <div style="display:flex;gap:8px;margin-bottom:6px;align-items:flex-start"><div style="background:#37474f;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:.75rem">4</div><div><strong>Xác định thuế TNDN:</strong> Tính thuế TNDN phải nộp, ghi TK 8211 / TK 3334</div></div>
+          <div style="display:flex;gap:8px;margin-bottom:6px;align-items:flex-start"><div style="background:#37474f;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:.75rem">5</div><div><strong>Kết chuyển LN:</strong> TK 911 → TK 421 (LN chưa phân phối)</div></div>
+          <div style="display:flex;gap:8px;margin-bottom:6px;align-items:flex-start"><div style="background:#37474f;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:.75rem">6</div><div><strong>Lập BCTC:</strong> B02 → B01 → B03 → B09 (lập theo thứ tự này)</div></div>
+          <div style="display:flex;gap:8px;align-items:flex-start"><div style="background:#c62828;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:.75rem">7</div><div><strong>Nộp BCTC + QTT TNDN:</strong> Tờ khai 03/TNDN kèm BCTC, nộp trước 90 ngày sau kết thúc năm</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="model-card" style="border-left:4px solid #f57c00;background:#fff8e1">
+      <div style="font-weight:600;color:#e65100;margin-bottom:4px">📌 Căn cứ pháp lý</div>
+      <div style="font-size:.78rem;line-height:1.8">
+        📄 <strong>TT133/2016/TT-BTC</strong> ngày 26/8/2016 — Chế độ kế toán DN nhỏ và vừa<br>
+        📄 <strong>Luật Kế toán 88/2015/QH13</strong> — Luật kế toán hiện hành<br>
+        📄 <strong>NĐ 174/2016/NĐ-CP</strong> — Hướng dẫn Luật Kế toán<br>
+        📄 <strong>TT200/2014/TT-BTC</strong> — Chế độ kế toán DN lớn (tham chiếu)<br>
+        📄 <strong>NĐ 125/2020/NĐ-CP</strong> — Xử phạt vi phạm về kế toán, thuế
+      </div>
+    </div>
+  </div><!-- end tt133_qd -->
+
+</div><!-- end pTT133 -->
 
 <!-- PAGE: CÀI ĐẶT -->
 <div class="page" id="pCaiDat">
@@ -3242,6 +3846,22 @@ function showHDTab(id,el){
   if(id==='hdHoiDap') renderFAQ();
 }
 
+function showSTab(id,el,prefix){
+  var contents=document.querySelectorAll('[id^="'+prefix+'_"]');
+  for(var i=0;i<contents.length;i++){
+    contents[i].classList.remove('active');
+    contents[i].style.display='none';
+  }
+  var target=document.getElementById(id);
+  if(target){target.classList.add('active');target.style.display='block';}
+  var bar=el.closest('.stab-bar');
+  if(bar){
+    var btns=bar.querySelectorAll('.stab');
+    for(var i=0;i<btns.length;i++) btns[i].classList.remove('active');
+  }
+  if(el) el.classList.add('active');
+}
+
 function showSubTab(id,el){
   var tabs=['stHuongDan','stNhieuNguon','stHoiDap','stBHXH','stCanCu'];
   tabs.forEach(function(t){
@@ -3808,6 +4428,7 @@ function recalc(){
       if(cpKhac>0)rows.push({l:'Chi phí khác',w:'',a:fm(cpKhac),n:'',c:''});
       var lys=['Nhóm 3 (3–50 tỷ): GTGT theo % toàn bộ DT, TNCN 17% lợi nhuận.','Bắt buộc HĐĐT, sổ S2b-S2e và S3a-HKD.','Kê khai thuế theo quý.','Lưu trữ chứng từ đầu vào để tính chi phí hợp lý.','Lãi vay NH KHÔNG được trừ khi tính thuế HKD.'];
       document.getElementById('resultArea').innerHTML=buildResult('Hộ kinh doanh — '+nhomHKD,dt,tongCP,tongThue,lnst,rows,lys,gv('fNganh'));
+      document.getElementById('resultArea').innerHTML+=buildBannerVuot3Ty(dt);
 
     } else {
       // Nhóm 4: DT > 50 tỷ — GTGT theo % DT, TNCN 20% lợi nhuận
@@ -3826,6 +4447,7 @@ function recalc(){
       if(cpKhac>0)rows.push({l:'Chi phí khác',w:'',a:fm(cpKhac),n:'',c:''});
       var lys=['Nhóm 4 (>50 tỷ): GTGT theo % toàn bộ DT, TNCN 20% lợi nhuận.','Kê khai thuế theo tháng (hạn ngày 20 tháng sau).','Bắt buộc HĐĐT, đầy đủ hệ thống sổ sách như doanh nghiệp.','Lưu trữ chứng từ đầu vào để tính chi phí hợp lý.','Lãi vay NH KHÔNG được trừ khi tính thuế HKD.'];
       document.getElementById('resultArea').innerHTML=buildResult('Hộ kinh doanh — '+nhomHKD,dt,tongCP,tongThue,lnst,rows,lys,gv('fNganh'));
+      document.getElementById('resultArea').innerHTML+=buildBannerVuot3Ty(dt);
     }
   }else{
     var rate=getTNDNRate(dt_ty),mien=(namHD<3)&&(dt_ty<=50);
@@ -3996,6 +4618,41 @@ function buildVidu(nganhKey,modelType,dtThuc,cpThuc,tongThueThuc,lnstThuc){
   h+='</div>';
   return h;
 }
+function buildBannerVuot3Ty(dt){
+  var dt_ty=(dt/1000).toFixed(1);
+  return '<div style="margin-top:12px;background:linear-gradient(135deg,#fff8e1,#fff3cd);border:1.5px solid #f9a825;border-radius:10px;padding:14px 14px 12px;position:relative;overflow:hidden">'
+    +'<div style="position:absolute;top:0;left:0;width:4px;height:100%;background:#f9a825;border-radius:4px 0 0 4px"></div>'
+    +'<div style="display:flex;align-items:flex-start;gap:10px">'
+    +'<div style="font-size:1.4rem;line-height:1;flex-shrink:0">⚠️</div>'
+    +'<div style="flex:1">'
+    +'<div style="font-weight:700;color:#e65100;font-size:.85rem;margin-bottom:6px">Doanh thu '+dt_ty+' tỷ — Nên xem xét lại mô hình kinh doanh</div>'
+    +'<div style="font-size:.77rem;color:#5d4037;line-height:1.65;margin-bottom:8px">'
+    +'Hộ kinh doanh có doanh thu vượt <strong>3 tỷ/năm trong 2 năm liền kề</strong> thường bất lợi hơn so với mô hình doanh nghiệp, vì:'
+    +'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">'
+    +'<div style="background:#ffebee;border-radius:6px;padding:7px 9px;font-size:.74rem;color:#c62828">'
+    +'<div style="font-weight:600;margin-bottom:3px">❌ Bất lợi khi giữ Hộ KD</div>'
+    +'Không khấu trừ được chi phí đầu vào linh hoạt<br>'
+    +'Lãi vay NH không được trừ thuế<br>'
+    +'Hóa đơn GTGT đầu ra bị hạn chế<br>'
+    +'Khó mở rộng quy mô, gọi vốn'
+    +'</div>'
+    +'<div style="background:#e8f5e9;border-radius:6px;padding:7px 9px;font-size:.74rem;color:#2e7d32">'
+    +'<div style="font-weight:600;margin-bottom:3px">✅ Lợi thế khi lên Công ty</div>'
+    +'Được trừ chi phí hợp lý hợp lệ đầy đủ<br>'
+    +'Lãi vay được tính vào chi phí<br>'
+    +'Xuất HĐGTGT không giới hạn<br>'
+    +'Dễ mở rộng, hợp tác, gọi vốn'
+    +'</div>'
+    +'</div>'
+    +'<div style="background:#fff9c4;border-radius:6px;padding:7px 10px;font-size:.75rem;color:#5d4037;border:1px solid #f9a825">'
+    +'📌 <strong>Lưu ý:</strong> Luật <strong>không bắt buộc</strong> chuyển đổi mô hình khi vượt 3 tỷ. Đây là khuyến nghị về hiệu quả quản trị tài chính — nên tham khảo kế toán/tư vấn thuế trước khi quyết định.'
+    +'</div>'
+    +'</div>'
+    +'</div>'
+    +'</div>';
+}
+
 function buildResult(model,dt,tCP,tT,lnst,rows,lys,nganhKey){
   var rate=dt>0?fp(tT/dt*100):'0',tsln=dt>0?fp(lnst/dt*100):'0';
   var h='<div class="rg">';
