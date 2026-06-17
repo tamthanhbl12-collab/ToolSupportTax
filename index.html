@@ -20,7 +20,7 @@ body { -webkit-overflow-scrolling: touch; overscroll-behavior: none; }
 /* Loại bỏ delay 300ms trên iOS */
 * { touch-action: manipulation; }
 </style>
-<title>Công Cụ Thuế 2026 v11.2</title>
+<title>Công Cụ Thuế 2026 v11.3</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Thuế 2026">
@@ -255,7 +255,7 @@ a.dl:hover{text-decoration:underline;}
 <div class="hdr">
   <div class="hdr-ico">🏛️</div>
   <div>
-    <h1>Công Cụ Thuế 2026 <span style="font-size:.6rem;opacity:.6;font-weight:400">v11.2</span></h1>
+    <h1>Công Cụ Thuế 2026 <span style="font-size:.6rem;opacity:.6;font-weight:400">v11.3</span></h1>
     <p>Tính thuế · Văn bản pháp luật · Cập nhật tự động</p>
   </div>
 </div>
@@ -3405,6 +3405,19 @@ a.dl:hover{text-decoration:underline;}
     <div class="fg"><label class="fl">API Key (cho tính năng quét văn bản mới)</label><input class="fi" type="password" id="sApiKey" placeholder="sk-ant-api03-..."></div>
     <div class="notice" style="margin-top:8px">Key lưu trong máy bạn, không gửi đi đâu khác. Lấy tại console.anthropic.com → API Keys.</div>
     <button class="btn btn-gold" onclick="saveApiKey()" style="width:100%;margin-top:8px">💾 Lưu API Key</button>
+
+    <div style="margin-top:14px;padding:12px;background:#fff8e1;border-radius:8px;border-left:4px solid #f9a825">
+      <div style="font-weight:700;color:#e65100;margin-bottom:6px;font-size:.82rem">⏰ Lịch quét tự động</div>
+      <div style="font-size:.74rem;color:#555;line-height:1.7;margin-bottom:8px">
+        Để tiết kiệm API key, hệ thống chỉ tự động quét VB mới <strong>30 ngày/lần</strong>.<br>
+        Lần quét gần nhất: <strong id="lastScanInfo" style="color:#1565c0">Chưa quét</strong>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn btn-light btn-sm" onclick="resetScanHistory()" style="flex:1">🔄 Đặt lại lịch quét</button>
+        <button class="btn btn-light btn-sm" onclick="disableAutoScan()" style="flex:1">🚫 Tắt quét tự động</button>
+      </div>
+      <div style="font-size:.7rem;color:#888;margin-top:6px">💡 Bạn vẫn có thể bấm <strong>"🔔 Quét ngay"</strong> ở trên để quét thủ công bất cứ lúc nào.</div>
+    </div>
   </div>
 </div>
 
@@ -4051,8 +4064,53 @@ window.onload=function(){
   loadConfig();loadLocal();loadNguon();loadCoSo();loadTVInfo();loadVanDe();
   renderVB();updateStats();runCompare();renderFAQ();
   if(ghConfig.token&&ghConfig.repo)loadFromGH();
-  if(aKey)setTimeout(function(){checkNewDocs(false);},2500);
+  if(aKey){
+    // Auto check VB mới chỉ 30 ngày 1 lần để tiết kiệm API, hoặc đã tắt
+    var autoScanOff=localStorage.getItem('ct26_autoScanOff')==='1';
+    var lastScan=parseInt(localStorage.getItem('ct26_lastScan')||'0');
+    var now=Date.now();
+    var THIRTY_DAYS=30*24*60*60*1000;
+    if(!autoScanOff && now-lastScan>THIRTY_DAYS){
+      setTimeout(function(){
+        checkNewDocs(false);
+        localStorage.setItem('ct26_lastScan',String(now));
+        updateLastScanInfo();
+      },2500);
+    }
+    updateLastScanInfo();
+  }
 };
+
+function updateLastScanInfo(){
+  var el=document.getElementById('lastScanInfo');
+  if(!el)return;
+  var off=localStorage.getItem('ct26_autoScanOff')==='1';
+  if(off){el.innerHTML='<span style="color:#c62828">🚫 Đã tắt quét tự động</span>';return;}
+  var ts=parseInt(localStorage.getItem('ct26_lastScan')||'0');
+  if(!ts){el.textContent='Chưa quét';return;}
+  var d=new Date(ts);
+  var nextDate=new Date(ts+30*24*60*60*1000);
+  el.innerHTML=d.toLocaleDateString('vi-VN')+' '+d.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'})+' <span style="color:#888">· Lần kế tiếp: '+nextDate.toLocaleDateString('vi-VN')+'</span>';
+}
+
+function resetScanHistory(){
+  localStorage.removeItem('ct26_lastScan');
+  localStorage.removeItem('ct26_autoScanOff');
+  updateLastScanInfo();
+  toast('✅ Đã đặt lại lịch quét. Lần mở app sau sẽ quét VB mới.','success');
+}
+
+function disableAutoScan(){
+  var off=localStorage.getItem('ct26_autoScanOff')==='1';
+  if(off){
+    localStorage.removeItem('ct26_autoScanOff');
+    toast('✅ Đã bật lại quét tự động (30 ngày/lần)','success');
+  }else{
+    localStorage.setItem('ct26_autoScanOff','1');
+    toast('🚫 Đã tắt quét tự động. Dùng nút "Quét ngay" khi cần.','success');
+  }
+  updateLastScanInfo();
+}
 
 // ===== CONFIG =====
 function loadConfig(){
